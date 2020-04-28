@@ -71,12 +71,13 @@ const RegisterForm = () => {
   const handleSubmit = (email, firstName, lastName, password) => {
     console.log("run");
     let body = JSON.stringify({
-      user: {
-        email: email,
-        first_name: firstName,
-        last_name: lastName,
-        password: password
-      }
+      username: "hehexDhe",
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      password: password,
+      dob: "1899-01-01",
+      gender: ""
     });
     fetch("http://127.0.0.1:8000/users/", {
       method: "POST",
@@ -99,20 +100,21 @@ const RegisterForm = () => {
         lastName: "",
         email: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        dob: "",
+        gender: ""
       }}
       validationSchema={RegistrationSchema}
       onSubmit={(values, actions) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-
-          //this.addNewUser(user.name, user.profile_pic);
-          //});
-          actions.setSubmitting(false);
-        }, 1000);
+        handleSubmit(
+          values.email,
+          values.firstName,
+          values.lastName,
+          values.password
+        );
       }}
       render={props => (
-        <form onSubmit={handleSubmit} className={classes.root}>
+        <form onSubmit={props.handleSubmit} className={classes.root}>
           <Box width={1} display="flex" justifyContent="space-between">
             {/* First Name Input */}
             <TextField
