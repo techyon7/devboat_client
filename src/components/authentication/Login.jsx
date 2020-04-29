@@ -23,11 +23,8 @@ export default function Login() {
   const [state, setState] = React.useState("");
   // React States
   const [email, setEmail] = React.useState("");
-  //const [password, setPassword] = React.useState("");
-  const [values, setValues] = React.useState({
-    password: "",
-    showPassword: false
-  });
+  const [password, setPassword] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
   // Event Handlers
 
   //
@@ -44,12 +41,13 @@ export default function Login() {
   // const handleMouseDownPassword = event => {
   //   event.preventDefault();
   // };
-  const handleLogin = password => {
+  const handleLogin = () => {
     console.log("run");
     let body = JSON.stringify({
       email: email,
       password: password
     });
+      console.log(body);
     fetch("http://127.0.0.1:8000/api/v1/auth/login/", {
       method: "POST",
       headers: {
@@ -65,19 +63,11 @@ export default function Login() {
         console.log(user.name);
       });
   };
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
 
-  //
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  //
   const handleMouseDownPassword = event => {
     event.preventDefault();
   };
+
   // JSX Markup
   return (
     <div className={classes.root}>
@@ -103,9 +93,9 @@ export default function Login() {
         {/* Password Input Field */}
         <Input
           id="login-password"
-          type={values.showPassword ? "text" : "password"}
-          value={values.password}
-          onChange={handleChange("password")}
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={e => setPassword(e.target.value)}
           endAdornment={
             /* Password Visibility Icon Container*/
 
@@ -113,10 +103,10 @@ export default function Login() {
               {/* Toggle Password Visibility Icon */}
               <IconButton
                 aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
+                onClick={() => setShowPassword(!showPassword)}
                 onMouseDown={handleMouseDownPassword}
               >
-                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                {showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </InputAdornment>
           }
@@ -135,7 +125,7 @@ export default function Login() {
       <Box width={1} align="center">
         {/* Sign in button */}
         <Button
-          onClick={handleLogin(values.password)}
+          onClick={handleLogin}
           variant="contained"
           className={clsx(classes.margin, "btn btn-success")}
         >
