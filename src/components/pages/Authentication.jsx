@@ -20,7 +20,7 @@ from '@material-ui/core'
 
 // Authentication Component
 
-export default function Authentication() {
+export default function Authentication({ children }) {
 	// React hooks
 		const classes = useStyles();
 
@@ -45,7 +45,7 @@ export default function Authentication() {
 						<Container maxWidth="sm">
 							{/* Add margin between button ground and form */}
 							<Box mb={5}>
-								<Route path="/(login|register|)"
+								<Route path="/(|login|register)"
 								render={({ match }) => (
 									<React.Fragment>
 										{match.isExact ? <AuthButtonGroup /> : null}
@@ -54,13 +54,7 @@ export default function Authentication() {
 								/>
 							</Box>
 
-							<Route path="/(login|)" exact component={Login} />
-							<Route path="/register" component={Register} />
-							<Route path="/confirm-email" component={VerifyEmail} />
-							<Route path="/forgot" component={Forgot} />
-							<Route path="/reset-sent" component={ResetSent} />
-							<Route path="/change-password" component={ChangePassword} />
-
+							{children}
 
 						</Container>
 

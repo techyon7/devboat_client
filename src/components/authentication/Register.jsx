@@ -26,10 +26,6 @@ const RegisterForm = () => {
     showPasswordConfirmation: false
   });
 
-  // Error
-  // const [ errors, setErrors ] = React.useState({});
-  //
-  // // Values
   const [values, setValues] = React.useState({
     username: "",
     firstName: "",
@@ -38,12 +34,10 @@ const RegisterForm = () => {
     password: "",
     confirmPassword: ""
   });
-  //
+
   // // Event Handlers
   const handleChange = event => {
     const { name, value } = event.target;
-    //const err = validate(value);
-    //console.log(err);
     setValues(currentValues => ({
       ...currentValues,
       [name]: value
