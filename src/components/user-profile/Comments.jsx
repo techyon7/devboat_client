@@ -14,7 +14,6 @@ import {
 	Typography,
 	IconButton,
 } from '@material-ui/core';
-import ReportIcon from '@material-ui/icons/Report';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ReplyIcon from '@material-ui/icons/Reply';
 

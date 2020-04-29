@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { POST } from '../../actions/api';
 
 const RegisterForm = () => {
   // React Hooks
@@ -26,32 +27,13 @@ const RegisterForm = () => {
     showPasswordConfirmation: false
   });
 
-  const [values, setValues] = React.useState({
-    username: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-  });
-
   // // Event Handlers
-  const handleChange = event => {
-    const { name, value } = event.target;
-    setValues(currentValues => ({
-      ...currentValues,
-      [name]: value
-    }));
-    //setErrors(err);
-  };
-
   // Change the state on toggle visibility button click to show/hide password
   const handleClickShowPassword = () => {
     setState({ ...state, showPassword: !state.showPassword });
   };
 
   // Change the state on toggle visibility button click to show/hide password confirmation
-
   const handleClickShowPasswordConfirmation = () => {
     setState({
       ...state,
@@ -62,8 +44,8 @@ const RegisterForm = () => {
   const handleMouseDownPassword = event => {
     event.preventDefault();
   };
-  const handleSubmit = (email, firstName, lastName, password) => {
-    console.log("run");
+
+  const handleSubmit = async (email, firstName, lastName, password) => {
     let body = JSON.stringify({
       username: "hehexDhe",
       email: email,
@@ -73,19 +55,11 @@ const RegisterForm = () => {
       dob: "1899-01-01",
       gender: ""
     });
-    fetch("http://127.0.0.1:8000/users/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: body
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(user => {
-        console.log(user.name);
-      });
+
+    const response = await POST('/auth/register', body);
+    const result = await response.json();
+
+    console.log(result);
   };
   return (
     <Formik

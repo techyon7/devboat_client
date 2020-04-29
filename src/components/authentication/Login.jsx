@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
@@ -14,54 +14,39 @@ import {
 } from "@material-ui/core";
 
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { GlobalContext } from '../../context/GlobalContext';
+import { POST } from '../../actions/api';
 
 // Login Component
-
 export default function Login() {
-  // React Hooks
   const classes = useStyles();
-  const [state, setState] = React.useState("");
+
+  // React Context
+  const { setSession } = useContext(GlobalContext);
   // React States
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
-  // Event Handlers
 
-  //
-  // const handleChange = prop => event => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
-
-  //
-  // const handleClickShowPassword = () => {
-  //   setValues({ ...values, showPassword: !values.showPassword });
-  // };
-  //
-  // //
-  // const handleMouseDownPassword = event => {
-  //   event.preventDefault();
-  // };
-  const handleLogin = () => {
-    console.log("run");
-    let body = JSON.stringify({
+  const handleLogin = async () => {
+    let body = {
       email: email,
       password: password
-    });
-      console.log(body);
-    fetch("http://127.0.0.1:8000/api/v1/auth/login/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: body
-    })
-      .then(response => {
-        console.log(response.status);
-        return response.json();
-      })
-      .then(user => {
-        console.log(user.name);
+    };
+
+    const response = await POST('/auth/login', body);
+    const result = await response.json();
+
+    // store token on success
+    if (response.status === 200) {
+      setSession({
+        token: result.token,
+        userId: result.user.id,
+        userFirstName: result.user.name,
+        userLastName: result.user.picture,
+        userImg: null
       });
+    }
   };
 
   const handleMouseDownPassword = event => {
@@ -133,47 +118,10 @@ export default function Login() {
         </Button>
       </Box>
     </div>
-    /*<div className={classes.root}>
-
-
-      <input
-        className={clsx(classes.margin, classes.textField)}
-        type="text"
-        placeholder="Email"
-        onChange={e => setEmail(e.target.value)}
-      />
-      <FormControl
-        fullWidth
-        className={clsx(classes.margin, classes.textField)}
-      >
-        <input
-          className="main-input-old"
-          type="password"
-          placeholder="Password"
-          onChange={e => setPassword(e.target.value)}
-        />
-      </FormControl>
-      <Box width={1} align="center" mt={5} mb={8}>
-
-        <Link to="/forgot" className={classes.linkLight}>
-          Forgot your password?
-        </Link>
-      </Box>
-      <Box width={1} align="center">
-        <button
-          variant="contained"
-          className={clsx(classes.margin, "btn btn-success")}
-          onClick={handleLogin}
-        >
-          <Box px={8}>Login</Box>
-        </button>
-      </Box>
-    </div>*/
   );
 }
 
 // Styles
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1

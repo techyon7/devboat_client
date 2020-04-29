@@ -14,7 +14,6 @@ import {
 	Button,
 } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import Comments from '../user-profile/Comments';
@@ -52,7 +51,7 @@ const tileData = [
 
 const ProjectDisplay = () => {
 	const classes = useStyles();
-	const [state, setState] = React.useState({
+	const [state] = React.useState({
 		projectName: 'DevBoat',
 		projectDescription: 'A social network for developers',
 		projectUrl: 'https://www.devboat.com/',
