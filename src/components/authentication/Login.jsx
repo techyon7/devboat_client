@@ -14,8 +14,8 @@ import {
 } from "@material-ui/core";
 
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import { GlobalContext } from '../../context/GlobalContext';
-import { POST } from '../../actions/api';
+import { GlobalContext } from "../../context/GlobalContext";
+import { POST } from "../../actions/api";
 
 // Login Component
 export default function Login() {
@@ -34,7 +34,7 @@ export default function Login() {
       password: password
     };
 
-    const response = await POST('/auth/login', body);
+    const response = await POST("/auth/login", body);
     const result = await response.json();
 
     // store token on success
