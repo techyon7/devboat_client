@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import { POST } from '../../actions/api';
+import { POST } from "../../actions/api";
 
 const RegisterForm = () => {
   // React Hooks
@@ -56,7 +56,7 @@ const RegisterForm = () => {
       gender: ""
     });
 
-    const response = await POST('/auth/register', body);
+    const response = await POST("/users", body);
     const result = await response.json();
 
     console.log(result);

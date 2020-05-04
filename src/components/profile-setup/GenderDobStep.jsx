@@ -32,7 +32,7 @@ const GenderDobStep = props => {
       dob: dob,
       gender: gender
     });
-
+    const response = await POST("/users", body);
     const result = await response.json();
 
     console.log(result);
