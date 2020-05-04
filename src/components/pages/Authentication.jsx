@@ -11,7 +11,6 @@ import ChangePassword from "../authentication/ChangePassword";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Container, Box, Hidden } from "@material-ui/core";
 import { GlobalContext } from "../../context/GlobalContext";
-import ProfileSetupForm from "../components/pages/ProfileSetupForm";
 
 // Authentication Component
 
