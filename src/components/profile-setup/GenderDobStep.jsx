@@ -27,7 +27,16 @@ const GenderDobStep = props => {
   const previousPage = state => {
     setState({ page: page - 1 });
   };
+  const handleSubmit = async (dob, gender) => {
+    let body = JSON.stringify({
+      dob: dob,
+      gender: gender
+    });
 
+    const result = await response.json();
+
+    console.log(result);
+  };
   // JSX Markup
   return (
     <Formik
@@ -37,6 +46,7 @@ const GenderDobStep = props => {
       validationSchema={SetupSchemaDob}
       onSubmit={values => {
         // same shape as initial values
+        handleSubmit(values.dob, values.sex);
         console.log(values);
       }}
     >
