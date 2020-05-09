@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { skillObjects } from "../../data/skillsArray.js";
@@ -19,7 +19,7 @@ const SkillsInterestsStep = props => {
   const skills = skillObjects;
   const { session } = useContext(GlobalContext);
   let disabled;
-  const handleSkillSubmit = async interest => {
+  const handleInterestSubmit = async interest => {
     let body = JSON.stringify({
       interest_name: interest,
       user_id: session.userId
@@ -30,7 +30,7 @@ const SkillsInterestsStep = props => {
 
     console.log(result);
   };
-  const handleInterestSubmit = async skills => {
+  const handleSkillSubmit = async skills => {
     let body = JSON.stringify({
       skill_name: skills,
       user_id: session.userId
@@ -49,13 +49,14 @@ const SkillsInterestsStep = props => {
       }}
       validationSchema={SetupSchemaSkills}
       onSubmit={values => {
+        console.log("submit");
         // same shape as initial values
         handleSkillSubmit(values.skills);
         handleInterestSubmit(values.interests);
         console.log(values);
       }}
       render={props => (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={props.onSubmit}>
           <Box mb={15} width={1}>
             <Typography variant="h4">Skills</Typography>
             <Typography variant="body1">

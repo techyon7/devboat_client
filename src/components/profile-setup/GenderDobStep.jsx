@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import { Formik } from "formik";
 import { makeStyles } from "@material-ui/styles";
@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { SetupSchemaDob } from "../validations/validations";
 import { GlobalContext } from "../../context/GlobalContext";
-import { POST } from "../../actions/api";
+import { PATCH } from "../../actions/api";
 
 // Main [component (sort of)] function
 
@@ -28,11 +28,15 @@ const GenderDobStep = props => {
     setState({ page: page - 1 });
   };
   const handleSubmit = async (dob, gender) => {
-    let body = JSON.stringify({
+    let body = {
       dob: dob,
       gender: gender
-    });
-    const response = await POST("/users", body);
+    };
+    const response = await PATCH(
+      `/users/${session.userId}`,
+      body,
+      session.token
+    );
     const result = await response.json();
 
     console.log(result);
@@ -47,6 +51,7 @@ const GenderDobStep = props => {
       onSubmit={values => {
         // same shape as initial values
         handleSubmit(values.dob, values.sex);
+        props.handleRedirect();
         console.log(values);
       }}
     >

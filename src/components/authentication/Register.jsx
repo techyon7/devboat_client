@@ -18,7 +18,7 @@ import {
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { POST } from "../../actions/api";
 
-const RegisterForm = () => {
+const RegisterForm = props => {
   // React Hooks
   const classes = useStyles();
   // React States
@@ -29,7 +29,7 @@ const RegisterForm = () => {
 
   // // Event Handlers
   // Change the state on toggle visibility button click to show/hide password
-  const handleClickShowPassword = () => {
+  const handleClickShowPassword = props => {
     setState({ ...state, showPassword: !state.showPassword });
   };
 
@@ -45,25 +45,34 @@ const RegisterForm = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = async (email, firstName, lastName, password) => {
-    let body = JSON.stringify({
-      username: "hehexDhe",
+  const handleSubmit = async (
+    username,
+    email,
+    firstName,
+    lastName,
+    password
+  ) => {
+    let body = {
+      username: username,
       email: email,
       first_name: firstName,
       last_name: lastName,
       password: password,
-      dob: "1899-01-01",
-      gender: ""
-    });
+      dob: "1998-11-10",
+      gender: "Male"
+    };
 
     const response = await POST("/users", body);
     const result = await response.json();
 
     console.log(result);
+    console.log(response.status);
+    return response.status;
   };
   return (
     <Formik
       initialValues={{
+        username: "",
         firstName: "",
         lastName: "",
         email: "",
@@ -74,12 +83,20 @@ const RegisterForm = () => {
       }}
       validationSchema={RegistrationSchema}
       onSubmit={(values, actions) => {
-        handleSubmit(
+        let response = handleSubmit(
+          values.username,
           values.email,
           values.firstName,
           values.lastName,
           values.password
         );
+        console.log("registered");
+        console.log(response);
+        if (response === 201) {
+          props.history.push({
+            pathname: "/verify"
+          });
+        }
       }}
       render={props => (
         <form onSubmit={props.handleSubmit} className={classes.root}>
@@ -122,6 +139,27 @@ const RegisterForm = () => {
               }
             />
           </Box>
+          {/* Username Input */}
+
+          <TextField
+            fullWidth
+            onChange={props.handleChange}
+            onBlur={props.handleBlur}
+            name="username"
+            label="Username"
+            type="username"
+            value={props.values.username}
+            className={clsx(classes.margin, classes.textField)}
+            margin="normal"
+            error={
+              props.errors.username && props.touched.username ? true : false
+            }
+            helperText={
+              props.errors.username && props.touched.username
+                ? props.errors.username
+                : null
+            }
+          />
 
           {/* Email Input */}
           <TextField
