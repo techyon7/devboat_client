@@ -63,11 +63,8 @@ const RegisterForm = props => {
     };
 
     const response = await POST("/users", body);
-    const result = await response.json();
 
-    console.log(result);
-    console.log(response.status);
-    return response.status;
+    return response;
   };
   return (
     <Formik
@@ -82,17 +79,16 @@ const RegisterForm = props => {
         gender: ""
       }}
       validationSchema={RegistrationSchema}
-      onSubmit={(values, actions) => {
-        let response = handleSubmit(
+      onSubmit={async (values, actions) => {
+        let response = await handleSubmit(
           values.username,
           values.email,
           values.firstName,
           values.lastName,
           values.password
         );
-        console.log("registered");
-        console.log(response);
-        if (response === 201) {
+        console.log(response.status)
+        if (response.status === 201) {
           props.history.push({
             pathname: "/verify"
           });
