@@ -27,8 +27,6 @@ const SkillsInterestsStep = props => {
 
     const response = await POST("/auth/Interests", body);
     const result = await response.json();
-
-    console.log(result);
   };
   const handleSkillSubmit = async skills => {
     let body = JSON.stringify({
@@ -38,8 +36,6 @@ const SkillsInterestsStep = props => {
 
     const response = await POST("/auth/Skills", body);
     const result = await response.json();
-
-    console.log(result);
   };
   return (
     <Formik
@@ -47,16 +43,15 @@ const SkillsInterestsStep = props => {
         skills: "",
         interests: ""
       }}
-      validationSchema={SetupSchemaSkills}
       onSubmit={values => {
         console.log("submit");
         // same shape as initial values
         handleSkillSubmit(values.skills);
         handleInterestSubmit(values.interests);
-        console.log(values);
+        onSubmit();
       }}
       render={props => (
-        <form onSubmit={props.onSubmit}>
+        <form onSubmit={props.handleSubmit}>
           <Box mb={15} width={1}>
             <Typography variant="h4">Skills</Typography>
             <Typography variant="body1">
