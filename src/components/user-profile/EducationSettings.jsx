@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { Formik } from "formik";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -9,6 +10,15 @@ import {
   IconButton,
   FormControlLabel,
   Checkbox
+} from "@material-ui/core";
+import {
+  Box,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Input,
+  InputAdornment,
+  Button
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
@@ -59,6 +69,15 @@ const EducationSettings = props => {
     endDate,
     currentlyStudying
   ) => {
+    const { showEducation } = state;
+    setState({
+      showEducation: !showEducation,
+      institution: "",
+      qualification: "",
+      start: "",
+      end: "",
+      currentlyStudying: true
+    });
     let body = {
       institution_name: institution,
       qualification_name: qualification,
@@ -98,7 +117,10 @@ const EducationSettings = props => {
               console.log(values);
             }}
             render={props => (
-              <form onSubmit={onSubmit} className={classes.educationForm}>
+              <form
+                onSubmit={props.handleSubmit}
+                className={classes.educationForm}
+              >
                 <TextField
                   placeholder="Institution"
                   label="Institution"
@@ -176,6 +198,16 @@ const EducationSettings = props => {
                   }
                   label="Currently Studying"
                 />
+                <Box width={1} align="center" mt={8}>
+                  {/* Sign up button */}
+                  <Button
+                    variant="contained"
+                    className={clsx(classes.margin, "btn btn-success")}
+                    type="submit"
+                  >
+                    <Box px={8}>Done</Box>
+                  </Button>
+                </Box>
               </form>
             )}
           />
@@ -191,14 +223,14 @@ const EducationSettings = props => {
       >
         <ListItemText
           id="switch-list-label"
-          primary={state.showEducation ? "Done" : "Add a qualification"}
+          primary={!state.showEducation && "Add a qualification"}
         />
         <ListItemSecondaryAction className={classes.addEducation}>
           <IconButton
             className={classes.addEducation}
             onClick={handleClickEducation}
           >
-            {state.showEducation ? <DoneIcon /> : <AddBoxOutlinedIcon />}
+            {!state.showEducation && <AddBoxOutlinedIcon />}
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
