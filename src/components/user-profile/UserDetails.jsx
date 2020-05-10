@@ -12,7 +12,6 @@ import UserInterestsList from "./UserInterestsList";
 import UserWorkList from "./UserWorkList";
 import UserEducationList from "./UserEducationList";
 import { GlobalContext } from "../../context/GlobalContext";
-import Unsplash from "unsplash-js";
 import {
   Box,
   Grid,
@@ -59,7 +58,7 @@ const UserDetails = () => {
     return () => (isSubscribed = false);
   });*/
 
-  const [state, setState] = React.useState({
+  const [state] = React.useState({
     isLoaded: true,
     connections: [],
     connectionImages: []
