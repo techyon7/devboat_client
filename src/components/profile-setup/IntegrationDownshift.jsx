@@ -103,9 +103,11 @@ export function DownshiftMultiple(props) {
     let newSelectedItem = [...selectedItem];
     if (newSelectedItem.indexOf(item) === -1) {
       newSelectedItem = [...newSelectedItem, item];
+      console.log(newSelectedItem);
     }
     setInputValue('');
     setSelectedItem(newSelectedItem);
+    props.onChange(newSelectedItem);
   }
 
   const handleDelete = item => () => {
@@ -158,7 +160,7 @@ export function DownshiftMultiple(props) {
                   onChange(event);
                 },
                 onFocus,
-                error:error,
+                error: error,
                 name: name,
                 value: value
               },
