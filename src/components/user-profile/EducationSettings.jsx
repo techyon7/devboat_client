@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import { Formik } from "formik";
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,6 +24,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import { POST } from "../../actions/api";
+import { GlobalContext } from "../../context/GlobalContext";
+
 const EducationSettings = props => {
   const classes = useStyles();
   const [state, setState] = React.useState({
@@ -35,7 +37,7 @@ const EducationSettings = props => {
     currentlyStudying: true
   });
   const { onSubmit } = props;
-
+  const { session } = useContext(GlobalContext);
   const handleClickEducation = () => {
     const { showEducation } = state;
     setState({
@@ -83,7 +85,8 @@ const EducationSettings = props => {
       qualification_name: qualification,
       start_date: startDate,
       end_date: endDate,
-      currently_studying: currentlyStudying
+      currently_studying: currentlyStudying,
+      user: session.userId
     };
 
     const response = await POST("/education", body);
