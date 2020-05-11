@@ -86,7 +86,7 @@ const WorkSettings = props => {
       user: session.userId
     };
 
-    const response = await POST("/job", body);
+    const response = await POST("/job", body, session.token);
     const result = await response.json();
 
     console.log(result);

@@ -19,28 +19,34 @@ const SkillsInterestsStep = props => {
   const [interests, setInterests] = React.useState([]);
 
   const handleSkillSubmit = async skills => {
-    let body = JSON.stringify({
+    let body = {
       skill_name: skills,
-      user_id: session.userId
-    });
+      user: session.userId
+    };
 
-    await POST("/auth/skills", body);
+    const response = await POST("/skills", body, session.token);
+    const result = await response.json();
+    console.log(result);
   };
 
   const handleInterestSubmit = async interest => {
-    let body = JSON.stringify({
+    console.log(session.token);
+    console.log(session.userId);
+    let body = {
       interest_name: interest,
-      user_id: session.userId
-    });
+      user: session.userId
+    };
 
-    await POST("/auth/interests", body);
+    const response = await POST("/interests", body, session.token);
+    const result = await response.json();
+    console.log(result);
   };
 
   const handleSubmit = async () => {
     await skills.forEach(skill => handleSkillSubmit(skill));
     await interests.forEach(interest => handleInterestSubmit(interest));
     onSubmit();
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -55,7 +61,7 @@ const SkillsInterestsStep = props => {
           label="Skills"
           name="skills"
           options={skillsList}
-          onChange={(res) => setSkills(res)}
+          onChange={res => setSkills(res)}
         />
 
         {/* Skills */}
@@ -69,7 +75,7 @@ const SkillsInterestsStep = props => {
         label="Interests"
         name="interests"
         options={skillsList}
-        onChange={(res) => setInterests(res)}
+        onChange={res => setInterests(res)}
       />
       <Box mt={15}>
         <Button

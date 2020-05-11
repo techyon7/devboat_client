@@ -89,7 +89,7 @@ const EducationSettings = props => {
       user: session.userId
     };
 
-    const response = await POST("/education", body);
+    const response = await POST("/education", body, session.token);
     const result = await response.json();
 
     console.log(result);
