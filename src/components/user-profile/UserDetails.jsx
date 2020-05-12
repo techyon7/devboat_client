@@ -59,6 +59,11 @@ const UserDetails = (props) => {
   const open = Boolean(anchorEl);
   const id = open ? "no-transition-popper" : undefined;
 
+  const userDetailsBlocks = [
+    UserSkillsList, UserInterestsList,
+    UserWorkList, UserEducationList
+  ];
+
   // JSX Markup
   return (
     <Box p={5}>
@@ -154,18 +159,13 @@ const UserDetails = (props) => {
             </Grid>
           </Grid>
         }
-        <Grid item xs={12}>
-          <UserSkillsList />
-        </Grid>
-        <Grid item xs={12}>
-          <UserInterestsList />
-        </Grid>
-        <Grid item xs={12}>
-          {user && <UserWorkList userId={user.id}/>}
-        </Grid>
-        <Grid item xs={12}>
-          {user && <UserEducationList userId={user.id}/>}
-        </Grid>
+        {user &&
+          userDetailsBlocks.map((Component) => (
+            <Grid item xs={12}>
+              <Component userId={user.id}/>
+            </Grid>
+          ))
+        }
       </Grid>
     </Box>
   );
