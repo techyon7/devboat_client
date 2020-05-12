@@ -87,6 +87,7 @@ const EducationSettings = () => {
       currently_studying: data.currently_studying,
       user: session.userId
     };
+
     if(editingId)
       await PATCH(`/education/${editingId}`, body, session.token);
     else

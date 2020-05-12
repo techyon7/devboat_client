@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import clsx from "clsx";
 import { Formik } from "formik";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,149 +13,132 @@ import {
 } from "@material-ui/core";
 import {
   Box,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  Input,
-  InputAdornment,
   Button
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import DoneIcon from "@material-ui/icons/Done";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import { POST } from "../../actions/api";
+import { POST, GET, PATCH } from "../../actions/api";
 import { GlobalContext } from "../../context/GlobalContext";
 
-const WorkSettings = props => {
+const WorkSettings = () => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    showWork: false,
-    position: "",
-    company: "",
-    start: "",
-    end: "",
-    currentlyWorking: true
-  });
-  const { onSubmit } = props;
   const { session } = useContext(GlobalContext);
-  const handleClickWork = () => {
-    const { showWork } = state;
-    setState({
-      showWork: !showWork,
-      position: "",
-      company: "",
-      start: "",
-      end: "",
-      currentlyWorking: true
-    });
-  };
 
-  const prefillInput = () => {
-    setState({
-      showWork: true,
-      position: "Founder & CEO",
-      company: "DevBoat",
-      start: "2019-05-12",
-      end: "",
-      currentlyWorking: true
-    });
-  };
-  const handleSubmit = async (
-    company,
-    position,
-    startDate,
-    endDate,
-    currentlyWorking
-  ) => {
-    const { showWork } = state;
-    setState({
-      showWork: !showWork,
-      position: "",
-      company: "",
-      start: "",
-      end: "",
-      currentlyWorking: true
-    });
-    let body = {
-      company_name: company,
-      role: position,
-      start_date: startDate,
-      end_date: endDate,
-      currently_working: currentlyWorking,
-      showcase: false,
-      user: session.userId
-    };
+  const [works, setWorks] = useState([]);
+  const [state, setState] = React.useState({
+    position: "",
+    company_name: "",
+    start: null,
+    end: null,
+    currently_working: true
+  });
+  const [showWork, setShowWork] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
-    const response = await POST("/job", body, session.token);
+  const loadWorks = useCallback(async () => {
+    const response = await GET('/job', session.token);
     const result = await response.json();
+    let works = [];
+    for (let i = 0; i < result.length; i++) {
+      if (result[i].user === session.userId) {
+        works = [...works, result[i]];
+      }
+    }
+    setWorks(works);
+  }, [session.userId, session.token]);
 
-    console.log(result);
-    return response.status;
+  useEffect(() => {
+    loadWorks();
+  }, [loadWorks]);
+
+  const handleAddWork = () => {
+    setShowWork(true);
+    setState({
+      role: "",
+      company_name: "",
+      start_date: null,
+      end_date: null,
+      currently_working: true
+    });
   };
+
+  const handleEditWork = (work) => {
+    setEditingId(work.id);
+    setShowWork(true);
+    setState({
+      institution_name: work.institution_name,
+      qualification_name: work.qualification_name,
+      start_date: work.start_date,
+      end_date: work.end_date,
+      currently_studying: work.currently_studying,
+    });
+  };
+
   const handleChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
 
+  const handleSubmit = async (data) => {
+    let body = {
+      company_name: data.company_name,
+      role: data.role,
+      start_date: data.start_date,
+      end_date: data.end_date,
+      currently_working: data.currently_working,
+      user: session.userId
+    };
+
+    if(editingId)
+      await PATCH(`/job/${editingId}`, body, session.token);
+    else
+      await POST("/job", body, session.token);
+
+    setEditingId(null);
+    setShowWork(false);
+    loadWorks();
+  };
+
   return (
     <React.Fragment>
-      {state.showWork ? (
+      {showWork ? (
         <ListItem>
           <Formik
             initialValues={{
-              position: state.position,
-              company: state.company,
-              start: state.start,
-              end: state.end,
-              currentlyWorking: state.currentlyWorking
+              role: state.role,
+              company_name: state.company_name,
+              start_date: state.start_date,
+              end_date: state.end_date,
+              currently_working: state.currently_working
             }}
-            //validationSchema={SetupSchemaSkills}
-            onSubmit={values => {
-              // same shape as initial values
-              handleSubmit(
-                values.company,
-                values.position,
-                values.start,
-                values.end,
-                values.currentlyWorking
-              );
-              console.log(values);
-            }}
+            onSubmit={values => handleSubmit(values)}
             render={props => (
-              <form onSubmit={onSubmit} className={classes.workForm}>
+              <form onSubmit={props.handleSubmit} className={classes.workForm}>
                 <TextField
                   placeholder="Position"
                   label="Position"
-                  name="position"
+                  name="role"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
-                  value={
-                    props.values !== undefined
-                      ? props.values.position
-                      : undefined
-                  }
+                  value={props.values.role}
                 />
                 <TextField
                   placeholder="Company"
                   label="Company"
-                  name="company"
+                  name="company_name"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
-                  value={
-                    props.values !== undefined
-                      ? props.values.company
-                      : undefined
-                  }
+                  value={props.values.company_name}
                 />
                 <TextField
                   error={
                     props.errors.start && props.touched.start ? true : false
                   }
-                  name="start"
+                  name="start_date"
                   label="Start Date"
                   type="date"
                   margin="normal"
                   id="start"
-                  value={props.values.start}
+                  value={props.values.start_date}
                   onChange={props.handleChange}
                   helperText={
                     props.errors.start && props.touched.start
@@ -166,17 +149,15 @@ const WorkSettings = props => {
                     shrink: true
                   }}
                 />
-                {state.currentlyWorking ? (
-                  ""
-                ) : (
+                {!state.currently_working && (
                   <TextField
                     error={props.errors.end && props.touched.end ? true : false}
-                    name="end"
+                    name="end_date"
                     label="End Date"
                     type="date"
                     margin="normal"
                     id="end"
-                    value={props.values.end}
+                    value={props.values.end_date}
                     onChange={props.handleChange}
                     helperText={
                       props.errors.end && props.touched.end
@@ -191,9 +172,9 @@ const WorkSettings = props => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={state.currentlyWorking}
-                      onChange={handleChange("currentlyWorking")}
-                      value="currentlyWorking"
+                      checked={state.currently_working}
+                      onChange={handleChange("currently_working")}
+                      value="currently_working"
                       color="primary"
                     />
                   }
@@ -216,34 +197,38 @@ const WorkSettings = props => {
       ) : (
         ""
       )}
-      <ListItem
-        button
-        component="a"
-        className={classes.addWork}
-        onClick={handleClickWork}
-      >
-        <ListItemText
-          id="switch-list-label"
-          primary={!state.showWork && "Add a work experience"}
-        />
-        <ListItemSecondaryAction className={classes.addWork}>
-          <IconButton className={classes.addWork} onClick={handleClickWork}>
-            {!state.showWork && <AddBoxOutlinedIcon />}
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
-      <ListItem>
-        <ListItemText
-          id="switch-list-label"
-          primary="Founder & CEO"
-          secondary="DevBoat"
-        />
-        <ListItemSecondaryAction>
-          <IconButton onClick={prefillInput}>
-            <EditIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
+      {!showWork && (
+        <ListItem
+          button
+          component="a"
+          className={classes.addWork}
+          onClick={handleAddWork}
+        >
+          <ListItemText
+            id="switch-list-label"
+            primary="Add a work experience"
+          />
+          <ListItemSecondaryAction className={classes.addWork}>
+            <IconButton className={classes.addWork} onClick={handleAddWork}>
+              <AddBoxOutlinedIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      )}
+      {works.map((work) => (
+        <ListItem>
+          <ListItemText
+            id="switch-list-label"
+            primary={work.role}
+            secondary={work.company_name}
+          />
+          <ListItemSecondaryAction>
+            <IconButton onClick={() => handleEditWork(work)}>
+              <EditIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      ))}
     </React.Fragment>
   );
 };
