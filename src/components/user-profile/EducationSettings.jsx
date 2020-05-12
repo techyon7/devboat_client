@@ -9,9 +9,7 @@ import {
   ListItemText,
   IconButton,
   FormControlLabel,
-  Checkbox
-} from "@material-ui/core";
-import {
+  Checkbox,
   Box,
   Button
 } from "@material-ui/core";
