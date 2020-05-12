@@ -25,7 +25,7 @@ export default function Authentication(props) {
   return (
     <Fragment>
       {session.token ? (
-        <Redirect to="/profileSetup" />
+        <Redirect to="/profile" />
       ) : (
         <div className={classes.root}>
           <Router>

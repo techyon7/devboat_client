@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import Box from '@material-ui/core/Box';
@@ -17,9 +17,12 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import InboxIcon from '@material-ui/icons/Inbox';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { GlobalContext } from '../../context/GlobalContext';
+import { POST } from '../../actions/api';
 
 const NavBar = () => {
   const classes = useStyles();
+  const { setSession } = useContext(GlobalContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -43,6 +46,19 @@ const NavBar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = async () => {
+    const response = await POST('/auth/logout');
+    if (response.status === 200) {
+      setSession({
+        token: null,
+        userId: null,
+        userName: null,
+        userImg: null,
+        communityId: null,
+      });
+    }
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -56,6 +72,7 @@ const NavBar = () => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 

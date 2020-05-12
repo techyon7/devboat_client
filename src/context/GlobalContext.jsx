@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, useEffect, createContext } from "react";
 
 export const GlobalContext = createContext();
 
@@ -10,6 +10,21 @@ export const GlobalProvider = ({ children }) => {
     userLastName: null,
     userImg: null
   });
+
+  // Set session based on localStorage when App is mounted
+  useEffect(() => {
+    const devboatSession = JSON.parse(
+      localStorage.getItem('@devboat:session')
+    );
+    if (devboatSession) {
+      setSession(devboatSession);
+    }
+  }, []);
+
+  // Store session in localStorage when session chaneges
+  useEffect(() => {
+    localStorage.setItem('@devboat:session', JSON.stringify(session));
+  }, [session]);
 
   return (
     <GlobalContext.Provider
