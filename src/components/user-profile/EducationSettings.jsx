@@ -23,7 +23,7 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import { POST } from "../../actions/api";
+import { POST, GET } from "../../actions/api";
 import { GlobalContext } from "../../context/GlobalContext";
 
 const EducationSettings = props => {
@@ -63,6 +63,11 @@ const EducationSettings = props => {
       end: "",
       currentlyStudying: true
     });
+  };
+  const getEduaction = async () => {
+    const response = await GET("/aducation", session.token);
+    const result = await response.json();
+    console.log(result);
   };
   const handleSubmit = async (
     institution,
@@ -244,7 +249,7 @@ const EducationSettings = props => {
           secondary="Foundation Course in Natural Sciences"
         />
         <ListItemSecondaryAction>
-          <IconButton onClick={prefillInput}>
+          <IconButton>
             <EditIcon />
           </IconButton>
         </ListItemSecondaryAction>

@@ -42,8 +42,8 @@ export default function Login() {
       setSession({
         token: result.token,
         userId: result.user.id,
-        userFirstName: result.user.name,
-        userLastName: result.user.picture,
+        userFirstName: result.user.first_name,
+        userLastName: result.user.last_name,
         userImg: null
       });
     }

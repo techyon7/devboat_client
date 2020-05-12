@@ -71,7 +71,7 @@ const UserDetails = () => {
   });
 
   const userDetails = {
-    fullName: session.userFirstName,
+    fullName: session.userFirstName + " " + session.userLastName,
     connectionsCount: "0",
     currentPosition: {
       title: "Founder & CEO",
