@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import UserDetails from '../user-profile/UserDetails';
 import Projects from '../user-profile/Projects';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,11 +8,23 @@ import {
 	Paper,
 } from '@material-ui/core';
 import { GlobalContext } from "../../context/GlobalContext";
+import { GET } from "../../actions/api";
 
 const UserProfile = (props) => {
 	const classes = useStyles();
 	const { session } = useContext(GlobalContext);
+
+	const [user, setUser] = useState(null);
 	const isProfileSelf = session.username === props.match.params.username;
+
+	useEffect(() => {
+    (async () => {
+      const response = await GET(`/users/${props.match.params.username}`, session.token);
+      const result = await response.json();
+      setUser(result);
+    })();
+  }, [session.token, session.communityId]);
+
 	return(
 		<div className={classes.root}>
 			{/* Fix maximum width */}
@@ -22,9 +34,12 @@ const UserProfile = (props) => {
 					{/* User Details */}
 					<Grid item xs={12} lg={3}>
 						<Paper className={classes.paper}>
-							<UserDetails
-								username={props.match.params.username}
-								isProfileSelf={isProfileSelf}/>
+							{user &&
+								<UserDetails
+									userId={user.id}
+									username={user.username}
+									isProfileSelf={isProfileSelf}/>
+							}
 						</Paper>
 					</Grid>
 					{/* Projects & Posts */}
