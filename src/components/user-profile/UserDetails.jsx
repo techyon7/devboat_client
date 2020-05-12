@@ -160,8 +160,8 @@ const UserDetails = (props) => {
           </Grid>
         }
         {user &&
-          userDetailsBlocks.map((Component) => (
-            <Grid item xs={12}>
+          userDetailsBlocks.map((Component, index) => (
+            <Grid item xs={12} key={index}>
               <Component userId={user.id}/>
             </Grid>
           ))
