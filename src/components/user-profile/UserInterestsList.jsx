@@ -96,7 +96,7 @@ const UserInterestsList = (props) => {
 
 export default UserInterestsList;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	subtitle: {
 		fontSize: "0.75rem",
 		width: "1rem",

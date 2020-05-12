@@ -47,7 +47,6 @@ const NavBar = () => {
   };
 
   const handleLogout = async () => {
-    console.log("logout");
     const response = await POST('/auth/logout');
     if (response.status === 200) {
       setSession({

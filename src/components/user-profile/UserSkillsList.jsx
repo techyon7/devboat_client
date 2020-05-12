@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import SkillsSettings from './SkillsSettings';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,145 +11,39 @@ import {
 	List,
 	ListItem,
 	ListItemText,
-	ListSubheader,
-	IconButton
+	ListSubheader
 } from '@material-ui/core';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import { GlobalContext } from "../../context/GlobalContext";
+import { GET } from '../../actions/api';
 
-const skillList = [
-	{
-		name: 'C',
-		ratings: {
-			upvotes: {
-				count: 0,
-				users: [],
-			},
-			downvotes: {
-				count: 0,
-				users: [],
-			},
-			devscore: 0,
-		},
-	},
-	{
-		name: 'JavaScript',
-		ratings: {
-			upvotes: {
-				count: 0,
-				users: [],
-			},
-			downvotes: {
-				count: 0,
-				users: [],
-			},
-			devscore: 0,
-		},
-	},
-	{
-		name: 'Ruby',
-		ratings: {
-			upvotes: {
-				count: 0,
-				users: [],
-			},
-			downvotes: {
-				count: 0,
-				users: [],
-			},
-			devscore: 0,
-		},
-	},
-	{
-		name: 'Ruby on rails',
-		ratings: {
-			upvotes: {
-				count: 0,
-				users: [],
-			},
-			downvotes: {
-				count: 0,
-				users: [],
-			},
-			devscore: 0,
-		},
-	},
-	{
-		name: 'Perl',
-		ratings: {
-			upvotes: {
-				count: 0,
-				users: [],
-			},
-			downvotes: {
-				count: 0,
-				users: [],
-			},
-			devscore: 0,
-		},
-	},
-	{
-		name: 'Assembly',
-		ratings: {
-			upvotes: {
-				count: 0,
-				users: [],
-			},
-			downvotes: {
-				count: 0,
-				users: [],
-			},
-			devscore: 0,
-		},
-	},
-	{
-		name: 'React JS',
-		ratings: {
-			upvotes: {
-				count: 0,
-				users: [],
-			},
-			downvotes: {
-				count: 0,
-				users: [],
-			},
-			devscore: 0,
-		},
-	},
-]
-
-const UserSkillsList = () => {
+const UserSkillsList = (props) => {
 	const classes = useStyles();
-	const [skills, setSkills] = React.useState([]);
-	const [open, setOpen] = React.useState(false);
+	const { session } = useContext(GlobalContext);
 
+	const [open, setOpen] = useState(false);
+	const [skills, setSkills] = useState([]);
 
-	React.useEffect(() => {
-		let isSubscribed = true;
-		let fakeSkillsAPICall = skillList;
-		if(isSubscribed) {
-			setSkills(fakeSkillsAPICall);
-		}
-		return () => isSubscribed = false;
-	}, []);
+	useEffect(() => {
+		(async () => {
+			const response = await GET('/skills', session.token);
+			const result = await response.json();
+			let skills = [];
+			for (let i = 0; i < result.length; i++) {
+				if (result[i].user === props.userId) {
+					skills = [...skills, result[i]];
+				}
+			}
+			setSkills(skills);
+		})();
+	}, [props.userId, session.token, open]);
 
 	function handleClickOpen() {
 		setOpen(true);
 	}
 
-	const handleClose = value => {
+	function handleClickClose() {
 		setOpen(false);
 	};
-
-	const upvote = (index) => {
-		let skillsCopy = [...skills];
-		let isUpdated = false;
-		skillsCopy[index].ratings.upvotes.count += 1;
-		isUpdated = true;
-		if (isUpdated) {
-			setSkills(skillsCopy);
-			isUpdated = false;
-		}
-	}
 
 	return(
 		<Box mt={8}>
@@ -168,7 +62,7 @@ const UserSkillsList = () => {
 				<Dialog
 					fullWidth
 					maxWidth="xs"
-					onClose={handleClose}
+					onClose={handleClickClose}
 					aria-labelledby="simple-dialog-title"
 					open={open}
 				>
@@ -184,21 +78,17 @@ const UserSkillsList = () => {
 			</Box>
 			<Divider className={classes.divider} />
 			<List>
-					{skills.slice(0,5).map((skill, index) => (
-						<ListItem className={classes.listItem} key={skill.name}>
-							<ListItemText
-							primary={<Typography variant="body1" color="textPrimary">{skill.name}</Typography>}
-							secondary={
-								<Box display="flex" component="span" alignItems="center" width={35} justifyContent="space-between">
-									<IconButton onClick={() => upvote(index)} className={classes.subtitle}>
-										<ThumbUpIcon className={classes.subtitleIcon} />
-									</IconButton>
-									{skill.ratings.upvotes.count}
-								</Box>
+				{skills.map((skill) => (
+					<ListItem className={classes.listItem} key={skill.name}>
+						<ListItemText
+							primary={
+								<Typography variant="body1" color="textPrimary">
+									{skill.name}
+								</Typography>
 							}
-							/>
-						</ListItem>
-					))}
+						/>
+					</ListItem>
+				))}
 			</List>
 		</Box>
 	);
@@ -206,7 +96,7 @@ const UserSkillsList = () => {
 
 export default UserSkillsList;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	subtitle: {
 		fontSize: "0.75rem",
 		width: "1rem",
@@ -230,8 +120,5 @@ const useStyles = makeStyles(theme => ({
 	},
 	editBtn: {
 		padding: "0 !important",
-	},
-	dialog: {
-		minWidth: "50rem",
-	},
+	}
 }));
