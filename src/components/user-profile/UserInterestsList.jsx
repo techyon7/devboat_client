@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import InterestsSettings from './InterestsSettings';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,86 +13,35 @@ import {
 	ListSubheader,
 	ListItemText,
 } from '@material-ui/core';
+import { GlobalContext } from "../../context/GlobalContext";
+import { GET } from '../../actions/api';
 
-const skillList = [
-	{
-		name: 'C',
-		ratings: {
-			upvotes: 0,
-			downvotes: 0,
-			devscore: 0,
-		},
-	},
-	{
-		name: 'JavaScript',
-		ratings: {
-			upvotes: 0,
-			downvotes: 0,
-			devscore: 0,
-		},
-	},
-	{
-		name: 'Ruby',
-		ratings: {
-			upvotes: 0,
-			downvotes: 0,
-			devscore: 0,
-		},
-	},
-	{
-		name: 'Ruby on rails',
-		ratings: {
-			upvotes: 0,
-			downvotes: 0,
-			devscore: 0,
-		},
-	},
-	{
-		name: 'Perl',
-		ratings: {
-			upvotes: 0,
-			downvotes: 0,
-			devscore: 0,
-		},
-	},
-	{
-		name: 'Assembly',
-		ratings: {
-			upvotes: 0,
-			downvotes: 0,
-			devscore: 0,
-		},
-	},
-	{
-		name: 'React JS',
-		ratings: {
-			upvotes: 0,
-			downvotes: 0,
-			devscore: 0,
-		},
-	},
-]
-
-const UserInterestsList = () => {
+const UserInterestsList = (props) => {
 	const classes = useStyles();
-	const [interests, setInterests] = React.useState([]);
-	const [open, setOpen] = React.useState(false);
+	const { session } = useContext(GlobalContext);
 
+	const [open, setOpen] = useState(false);
+	const [interests, setInterests] = useState([]);
 
-	React.useEffect(() => {
-		let isSubscribed = true;
-		let fakeSkillsAPICall = skillList;
-		if(isSubscribed) {
-			setInterests(fakeSkillsAPICall);
-		}
-		return () => isSubscribed = false;
-	}, []);
+	useEffect(() => {
+		(async () => {
+			const response = await GET('/interests', session.token);
+			const result = await response.json();
+			let interests = [];
+			for (let i = 0; i < result.length; i++) {
+				if (result[i].user === props.userId) {
+					interests = [...interests, result[i]];
+				}
+			}
+			setInterests(interests);
+		})();
+	}, [props.userId, session.token, open]);
 
 	function handleClickOpen() {
 		setOpen(true);
 	}
 
-	const handleClose = value => {
+	function handleClickClose() {
 		setOpen(false);
 	};
 
@@ -113,7 +62,7 @@ const UserInterestsList = () => {
 				<Dialog
 					fullWidth
 					maxWidth="xs"
-					onClose={handleClose}
+					onClose={handleClickClose}
 					aria-labelledby="simple-dialog-title"
 					open={open}
 				>
@@ -129,13 +78,17 @@ const UserInterestsList = () => {
 			</Box>
 			<Divider className={classes.divider} />
 			<List>
-					{interests.slice(0,5).map(interest => (
-						<ListItem className={classes.listItem} key={interest.name}>
-							<ListItemText
-							primary={<Typography variant="body1" color="textPrimary">{interest.name}</Typography>}
-							/>
-						</ListItem>
-					))}
+				{interests.map(interest => (
+					<ListItem className={classes.listItem} key={interest.name}>
+						<ListItemText
+							primary={
+								<Typography variant="body1" color="textPrimary">
+									{interest.name}
+								</Typography>
+							}
+						/>
+					</ListItem>
+				))}
 			</List>
 		</Box>
 	);
