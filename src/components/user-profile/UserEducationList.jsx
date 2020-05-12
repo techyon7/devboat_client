@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import EducationSettings from './EducationSettings';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,42 +14,35 @@ import {
 	ListSubheader,
 	ListItemText,
 } from '@material-ui/core';
+import { GlobalContext } from "../../context/GlobalContext";
 import { GET } from '../../actions/api';
-
-const educationList = [
-	{
-		id: 1,
-		qualification: 'Foundation Degree in Natural Sciences',
-		institution: 'Delhi Public School, Ranchi',
-		location: 'Ranchi, Jharkhand, India',
-		start: 'April, 2016',
-		end: 'May, 2018'
-	},
-];
 
 const UserEducationList = (props) => {
 	const classes = useStyles();
-	const [open, setOpen] = useState(false);
+	const { session } = useContext(GlobalContext);
 
-	// useEffect(() => {
-	// 	(async () => {
-	// 		const response = await GET('/education', session.token);
-	// 		const result = await response.json();
-	// 		let educations = [];
-	// 		for (let i = 0; i < result.length; i++) {
-	// 			if (result[i].user === session.communityId) {
-	// 				posts = [...posts, result[i]];
-	// 			}
-	// 		}
-	// 		setPosts(posts);
-	// 	})();
-	// }, [session.token, session.communityId]);
+	const [open, setOpen] = useState(false);
+	const [educations, setEducations] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			const response = await GET('/education', session.token);
+			const result = await response.json();
+			let educations = [];
+			for (let i = 0; i < result.length; i++) {
+				if (result[i].user === props.userId) {
+					educations = [...educations, result[i]];
+				}
+			}
+			setEducations(educations);
+		})();
+	}, [props.userId, session.token, open]);
 
 	function handleClickOpen() {
 		setOpen(true);
 	}
 
-	const handleClose = value => {
+	function handleClickClose() {
 		setOpen(false);
 	};
 
@@ -70,7 +63,7 @@ const UserEducationList = (props) => {
 				<Dialog
 					fullWidth
 					maxWidth="xs"
-					onClose={handleClose}
+					onClose={handleClickClose}
 					aria-labelledby="simple-dialog-title"
 					open={open}
 				>
@@ -86,40 +79,35 @@ const UserEducationList = (props) => {
 			</Box>
 			<Divider className={classes.divider} />
 			<List>
-					{educationList.slice(0,5).map((education, index) => (
-						<ListItem className={classes.listItem} key={education.id}>
-							<ListItemText
+				{educations.map((education) => (
+					<ListItem className={classes.listItem} key={education.id}>
+						<ListItemText
 							primary={
 								<Typography variant="body1" color="textPrimary">
 									<Box fontWeight="fontWeightMedium" component="span">
-										{education.institution}
+										{education.institution_name}
 									</Box>
-								</Typography>}
+								</Typography>
+							}
 							secondary={
-
 								<Box display="flex" component="span" alignItems="center" width={1} justifyContent="space-between">
 									<Grid component="span" container>
 										<Grid component="span" item xs={12}>
 											<Typography component="span" variant="subtitle1" className={classes.subtitle}>
-													{education.qualification}
+													{education.qualification_name}
 											</Typography>
 										</Grid>
 										<Grid component="span" item xs={12}>
 											<Typography component="span" variant="subtitle2" className={classes.small}>
-												{education.start} - {education.end}
-											</Typography>
-										</Grid>
-										<Grid component="span" item xs={12}>
-											<Typography component="span" variant="subtitle2" className={classes.small}>
-												{education.location}
+												{education.start_date} - {education.end_date}
 											</Typography>
 										</Grid>
 									</Grid>
 								</Box>
 							}
-							/>
-						</ListItem>
-					))}
+						/>
+					</ListItem>
+				))}
 			</List>
 		</Box>
 	);

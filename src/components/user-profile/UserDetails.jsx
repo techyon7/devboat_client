@@ -166,7 +166,7 @@ const UserDetails = (props) => {
           <UserWorkList />
         </Grid>
         <Grid item xs={12}>
-          <UserEducationList />
+          {user && <UserEducationList userId={user.id}/>}
         </Grid>
       </Grid>
     </Box>
