@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalContext";
+import NavBar from "../components/navigation/NavBar";
 
 function ProtectedRoute({ component: Component, ...rest }) {
   const { session } = useContext(GlobalContext);
@@ -10,7 +11,10 @@ function ProtectedRoute({ component: Component, ...rest }) {
       {...rest}
       render={props =>
         session.token ? (
-          <Component {...props} />
+          <Fragment>
+            <NavBar />
+            <Component {...props} />
+          </Fragment>
         ) : (
           <Redirect
             to={{
