@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import DoneIcon from '@material-ui/icons/Done';
-import { SetupSchemaSkills } from '../validations/validations'
-import { Formik } from 'formik';
 import { DownshiftMultiple } from '../profile-setup/IntegrationDownshift';
 import { skillObjects } from '../../data/skillsArray.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,74 +11,96 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
+import { POST, GET, DELETE } from "../../actions/api";
+import { GlobalContext } from "../../context/GlobalContext";
 
-const InterestsSettings = (props) => {
-	const classes = useStyles();
-	const { onSubmit } = props;
-	const [state, setState] = React.useState({
-		showInterests: false,
-	});
+const InterestsSettings = () => {
+	const skillsList = skillObjects;
+  const classes = useStyles();
+  const { session } = useContext(GlobalContext);
 
-	const interests = skillObjects;
+	const [interests, setInterests] = React.useState([]);
+	const [newInterests, setNewInterests] = React.useState([]);
+	const [showInterests, setShowInterests] = useState(false);
 
-	const handleClickInterests = () => {
-		const { showInterests } = state;
-		setState({
-			showInterests: !showInterests,
-		});
+	const loadInterests = useCallback(async () => {
+		const response = await GET('/interests', session.token);
+		const result = await response.json();
+		let interests = [];
+		for (let i = 0; i < result.length; i++) {
+			if (result[i].user === session.userId) {
+				interests = [...interests, result[i]];
+			}
+		}
+		setInterests(interests);
+	}, [session.userId, session.token]);
+
+	useEffect(() => {
+		loadInterests();
+	}, [loadInterests]);
+
+	const handleAddInterest = () => {
+		setShowInterests(true);
 	}
+
+	const handleInterestSubmit = async interest => {
+		let body = {
+			name: interest,
+			user: session.userId
+		};
+
+		await POST("/interests", body, session.token);
+	};
+
+	const handleSubmit = async () => {
+		await newInterests.forEach(interest => handleInterestSubmit(interest));
+		setShowInterests(false);
+		loadInterests();
+	};
 
 	return(
 		<React.Fragment>
-		{ state.showInterests
-			?
-			<ListItem>
-				<Formik
-					initialValues={{
-						interests: ''
-					}}
-					validationSchema={SetupSchemaSkills}
-					onSubmit={values => {
-						// same shape as initial values
-						console.log(values);
-					}}
-
-				render={(props) => (
-					<form onSubmit={onSubmit} className={classes.grow}>
+			{showInterests &&
+				<form className={classes.grow}>
+					<ListItem>
 						<DownshiftMultiple
-							placeholder="Search for interests"
-							label="Interests"
-							name="Interests"
-							options={interests}
-							onChange={props.handleChange}
-							onBlur={props.handleBlur}
-							value={props.values !== undefined ? props.values.interests : undefined}
-							/>
-					</form>
-				)}
-				/>
-				</ListItem> : ''
-		}
-			<ListItem button component="a" className={classes.addInterest} onClick={handleClickInterests}>
-				<ListItemText id="switch-list-label" primary={ state.showInterests ? "Done" : "Add an interest"} />
-				<ListItemSecondaryAction>
-					<IconButton className={classes.addInterest} onClick={handleClickInterests}>
-						{state.showInterests ?
-							<DoneIcon />
-							:
-							<AddBoxOutlinedIcon />
-						}
-					</IconButton>
-				</ListItemSecondaryAction>
-			</ListItem>
-			<ListItem>
-				<ListItemText id="switch-list-label" primary="C" />
-				<ListItemSecondaryAction>
-          <IconButton>
-						<DeleteIcon />
-					</IconButton>
-        </ListItemSecondaryAction>
-			</ListItem>
+		          placeholder="Search for interests"
+		          label="Interests"
+		          name="interests"
+		          options={skillsList}
+		          onChange={res => setNewInterests(res)}
+		        />
+					</ListItem>
+					<ListItem button component="a" className={classes.addInterest} onClick={handleSubmit}>
+						<ListItemText id="switch-list-label" primary="Done" />
+						<ListItemSecondaryAction>
+							<IconButton className={classes.addInterest}>
+									<DoneIcon />
+							</IconButton>
+						</ListItemSecondaryAction>
+					</ListItem>
+				</form>
+			}
+			{!showInterests &&
+				<ListItem button component="a" className={classes.addInterest} onClick={handleAddInterest}>
+					<ListItemText id="switch-list-label" primary={ showInterests ? "Done" : "Add an interest"} />
+					<ListItemSecondaryAction>
+						<IconButton className={classes.addInterest} onClick={handleAddInterest}>
+								<AddBoxOutlinedIcon />
+						</IconButton>
+					</ListItemSecondaryAction>
+				</ListItem>
+			}
+			{interests.map((interest) => (
+				<ListItem>
+					<ListItemText id="switch-list-label" primary={interest.name} />
+					<ListItemSecondaryAction>
+						<IconButton>
+							<DeleteIcon />
+						</IconButton>
+					</ListItemSecondaryAction>
+				</ListItem>
+			))}
 		</React.Fragment>
 	);
 }
