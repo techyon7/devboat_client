@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from "react";
-import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import ProfilePicture from "./ProfilePicture";
 import EditProfile from "./EditProfile";
@@ -18,13 +17,12 @@ import {
   Paper,
   Popper,
   Typography,
-  Divider,
-  Avatar
+  Divider
 } from "@material-ui/core";
-import listCollection from "../validations/dateInputSanitizer";
+// import listCollection from "../validations/dateInputSanitizer";
 import { GET } from "../../actions/api";
 
-const monthNames = listCollection().monthNamesCollection();
+//const monthNames = listCollection().monthNamesCollection();
 
 // UserDetails component
 const UserDetails = (props) => {
@@ -32,9 +30,9 @@ const UserDetails = (props) => {
   const { session } = useContext(GlobalContext);
 
   const [user, setUser] = React.useState(null);
-  const [connections, setConnections] = React.useState(null);
-  const [showcase, setShowcase] = React.useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [connections] = React.useState(null);
+  const [showcase] = React.useState(null);
+  const [anchorEl] = React.useState(null);
 
   useEffect(() => {
     (async () => {
@@ -163,7 +161,7 @@ const UserDetails = (props) => {
           <UserInterestsList />
         </Grid>
         <Grid item xs={12}>
-          <UserWorkList />
+          {user && <UserWorkList userId={user.id}/>}
         </Grid>
         <Grid item xs={12}>
           {user && <UserEducationList userId={user.id}/>}
