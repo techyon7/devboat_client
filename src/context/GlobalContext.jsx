@@ -6,6 +6,7 @@ export const GlobalProvider = ({ children }) => {
   const [session, setSession] = useState({
     token: null,
     userId: null,
+    username: null,
     userFirstName: null,
     userLastName: null,
     userImg: null

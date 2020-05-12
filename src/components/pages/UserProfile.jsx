@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import UserDetails from '../user-profile/UserDetails';
 import Projects from '../user-profile/Projects';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,9 +7,12 @@ import {
 	Container,
 	Paper,
 } from '@material-ui/core';
+import { GlobalContext } from "../../context/GlobalContext";
 
-const UserProfile = () => {
+const UserProfile = (props) => {
 	const classes = useStyles();
+	const { session } = useContext(GlobalContext);
+	const isProfileSelf = session.username === props.match.params.username;
 	return(
 		<div className={classes.root}>
 			{/* Fix maximum width */}
@@ -19,7 +22,9 @@ const UserProfile = () => {
 					{/* User Details */}
 					<Grid item xs={12} lg={3}>
 						<Paper className={classes.paper}>
-							<UserDetails />
+							<UserDetails
+								username={props.match.params.username}
+								isProfileSelf={isProfileSelf}/>
 						</Paper>
 					</Grid>
 					{/* Projects & Posts */}

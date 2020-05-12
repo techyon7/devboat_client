@@ -42,6 +42,7 @@ export default function Login() {
       setSession({
         token: result.token,
         userId: result.user.id,
+        username: result.user.username,
         userFirstName: result.user.first_name,
         userLastName: result.user.last_name,
         userImg: null

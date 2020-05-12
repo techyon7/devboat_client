@@ -47,6 +47,7 @@ const NavBar = () => {
   };
 
   const handleLogout = async () => {
+    console.log("logout");
     const response = await POST('/auth/logout');
     if (response.status === 200) {
       setSession({
@@ -103,7 +104,7 @@ const NavBar = () => {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <Link to="/" component="span" onClick={handleMobileMenuClose}>
+      <Link to="/" onClick={handleMobileMenuClose}>
       <MenuItem>
         <IconButton
           color="default"
@@ -169,7 +170,7 @@ const NavBar = () => {
 								<NotificationsIcon />
 							</Badge>
 						</IconButton>
-            <Link to="/" component="span">
+            <Link to="/">
             <IconButton
               color="default"
               className={classes.navIcon}

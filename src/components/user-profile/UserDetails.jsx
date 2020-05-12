@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import ProfilePicture from "./ProfilePicture";
@@ -22,149 +22,94 @@ import {
   Avatar
 } from "@material-ui/core";
 import listCollection from "../validations/dateInputSanitizer";
+import { GET } from "../../actions/api";
 
 const monthNames = listCollection().monthNamesCollection();
-const profileSelf = true;
 
 // UserDetails component
-
-const UserDetails = () => {
-  /*const unsplash = new Unsplash({
-    applicationId:
-      "9733bbb33eae4e10646b6066914846d6b620b978dce31704aee529658db37cef",
-    secret: "809ac47200d36adb68830ff85bb670b639b356f099fb2be6dda9b9a1106e0c6e"
-  });*/
+const UserDetails = (props) => {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
-  /*React.useEffect(() => {
-    let isSubscribed = true;
-    let usersAPICall = fetch("https://jsonplaceholder.typicode.com/users");
-    let photosAPICall = unsplash.photos.listPhotos(2, 15, "latest");
 
-    Promise.all([usersAPICall, photosAPICall])
-      .then(values => Promise.all(values.map(value => value.json())))
-      .then(finalVals => {
-        let usersAPIResp = finalVals[0];
-        let photosAPIResp = finalVals[1];
-
-        if (isSubscribed) {
-          setState({
-            isLoaded: true,
-            connections: usersAPIResp,
-            connectionImages: photosAPIResp
-          });
-        }
-      });
-    return () => (isSubscribed = false);
-  });*/
-
-  const [state] = React.useState({
-    isLoaded: true,
-    connections: [],
-    connectionImages: []
-  });
-
+  const [user, setUser] = React.useState(null);
+  const [connections, setConnections] = React.useState(null);
+  const [showcase, setShowcase] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const [connectionAvatar, setConnectionAvatar] = React.useState({
-    name: ""
-  });
+  useEffect(() => {
+    (async () => {
+      const response = await GET(`/users/${props.username}`, session.token);
+      const result = await response.json();
+      setUser(result);
+    })();
+  }, [session.token, props.username]);
 
-  const userDetails = {
-    fullName: session.userFirstName + " " + session.userLastName,
-    connectionsCount: "0",
-    currentPosition: {
-      title: "Founder & CEO",
-      company: "DevBoat",
-      startDate: () => {
-        const d = new Date(2019, 4);
-        return {
-          month: monthNames[d.getMonth()],
-          year: d.getFullYear()
-        };
-      }
-    },
-    connections: []
-  };
-
-  const handleAvatarMouseOver = (e, name) => {
-    setConnectionAvatar({
-      name: name
-    });
-    setAnchorEl(e.currentTarget);
-  };
-
-  const handleAvatarMouseOut = e => {
-    setConnectionAvatar({
-      name: ""
-    });
-    setAnchorEl(null);
-  };
+  // const handleAvatarMouseOver = (e, name) => {
+  //   setConnectionAvatar({
+  //     name: name
+  //   });
+  //   setAnchorEl(e.currentTarget);
+  // };
+  //
+  // const handleAvatarMouseOut = e => {
+  //   setConnectionAvatar({
+  //     name: ""
+  //   });
+  //   setAnchorEl(null);
+  // };
 
   const open = Boolean(anchorEl);
   const id = open ? "no-transition-popper" : undefined;
 
-  const renderPhotos = () =>
-    state.connectionImages
-      .slice(0, 5)
-      .map(image => (
-        <Avatar
-          key={image.id}
-          aria-describedby={id}
-          src={image.urls.thumb}
-          onMouseOver={e => handleAvatarMouseOver(e, image.user.name)}
-          onMouseOut={handleAvatarMouseOut}
-          className={clsx(classes.connectionAvatar, "connectionAvatarHover")}
-        />
-      ));
-
   // JSX Markup
-
-  if (!state.isLoaded) return <div>Loading...</div>;
-  else {
-    return (
-      <Box p={5}>
-        <Grid container justify="center" spacing={5}>
-          <Grid item>
-            <ProfilePicture />
-          </Grid>
-          <Grid item xs={12}>
+  return (
+    <Box p={5}>
+      <Grid container justify="center" spacing={5}>
+        <Grid item>
+          <ProfilePicture />
+        </Grid>
+        <Grid item xs={12}>
+          {user &&
             <Typography variant="h4" color="textPrimary">
               <Box fontWeight="fontWeightMedium" component="span">
-                {userDetails.fullName}
+                {user.first_name} {user.last_name}
               </Box>
             </Typography>
+          }
+          {showcase &&
             <Typography variant="subtitle1">
-              {userDetails.currentPosition.title} at{" "}
-              {userDetails.currentPosition.company}
-              <br />
-              since {userDetails.currentPosition.startDate().month},{" "}
-              {userDetails.currentPosition.startDate().year}
+              {showcase.currentPosition.title} at{" "}
+              {showcase.currentPosition.company}
+              <br/>
+              since {showcase.currentPosition.startDate().month},{" "}
+              {showcase.currentPosition.startDate().year}
             </Typography>
-            <Divider
-              variant="middle"
-              light={true}
-              className={classes.divider}
-            />
-          </Grid>
+          }
+          <Divider
+            variant="middle"
+            light={true}
+            className={classes.divider}
+          />
+        </Grid>
 
-          <Grid item xs={12}>
-            {profileSelf ? <EditProfile /> : <ConnectInteraction />}
-          </Grid>
-          <Grid item xs={12}>
-            <Box w={1} pt={8} display="flex" alignItems="center">
-              <Typography variant="h5" color="textPrimary" align="left">
-                <Box fontWeight="fontWeightMedium" component="span" mr={3}>
-                  Connections
-                </Box>
-              </Typography>
-              <Typography variant="subtitle1" align="left">
-                <Box fontWeight="fontWeightMedium" component="span">
-                  ({userDetails.connectionsCount})
-                </Box>
-              </Typography>
-            </Box>
-          </Grid>
+        <Grid item xs={12}>
+          {props.isProfileSelf ? <EditProfile /> : <ConnectInteraction />}
+        </Grid>
+        <Grid item xs={12}>
+          <Box w={1} pt={8} display="flex" alignItems="center">
+            <Typography variant="h5" color="textPrimary" align="left">
+              <Box fontWeight="fontWeightMedium" component="span" mr={3}>
+                Connections
+              </Box>
+            </Typography>
+            <Typography variant="subtitle1" align="left">
+              <Box fontWeight="fontWeightMedium" component="span">
+                ({connections ? connections.length : 0})
+              </Box>
+            </Typography>
+          </Box>
+        </Grid>
+        {connections &&
           <Grid item xs={12}>
             <Box display="flex" ml={4} mb={8}>
               <Popper
@@ -176,23 +121,24 @@ const UserDetails = () => {
               >
                 <Paper>
                   <Typography className={classes.typography}>
-                    {connectionAvatar.name}
+
                   </Typography>
                 </Paper>
               </Popper>
-              {renderPhotos()}
               <SearchConnections
-                connectionsCount={userDetails.connectionsCount}
-                connections={state.connectionImages}
+                connectionsCount={connections.length}
+                connections={connections}
               />
             </Box>
           </Grid>
+        }
+        {connections &&
           <Grid item xs={12}>
             <Grid container>
               <Grid item xs={5}>
                 <SearchFollowers
-                  connectionsCount={userDetails.connectionsCount}
-                  connections={state.connectionImages}
+                  connectionsCount={connections.length}
+                  connections={connections}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -203,28 +149,28 @@ const UserDetails = () => {
               </Grid>
               <Grid item xs={5}>
                 <SearchFollowing
-                  connectionsCount={userDetails.connectionsCount}
-                  connections={state.connectionImages}
+                  connectionsCount={connections.length}
+                  connections={connections}
                 />
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <UserSkillsList />
-          </Grid>
-          <Grid item xs={12}>
-            <UserInterestsList />
-          </Grid>
-          <Grid item xs={12}>
-            <UserWorkList />
-          </Grid>
-          <Grid item xs={12}>
-            <UserEducationList />
-          </Grid>
+        }
+        <Grid item xs={12}>
+          <UserSkillsList />
         </Grid>
-      </Box>
-    );
-  }
+        <Grid item xs={12}>
+          <UserInterestsList />
+        </Grid>
+        <Grid item xs={12}>
+          <UserWorkList />
+        </Grid>
+        <Grid item xs={12}>
+          <UserEducationList />
+        </Grid>
+      </Grid>
+    </Box>
+  );
 };
 
 export default UserDetails;

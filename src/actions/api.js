@@ -75,4 +75,3 @@ export async function DELETE(endpoint, token) {
     throw error;
   }
 }
-

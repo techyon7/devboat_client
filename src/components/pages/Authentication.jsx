@@ -15,17 +15,19 @@ import { GlobalContext } from "../../context/GlobalContext";
 // Authentication Component
 
 export default function Authentication(props) {
+
   // React hooks
   const classes = useStyles();
   // React Context
   const { session } = useContext(GlobalContext);
-  // JSX Markup
 
-  console.log(props);
+  console.log("auth", props);
+
+  // JSX Markup
   return (
     <Fragment>
       {session.token ? (
-        <Redirect to="/profile" />
+        <Redirect to={`/${session.username}`}/>
       ) : (
         <div className={classes.root}>
           <Router>

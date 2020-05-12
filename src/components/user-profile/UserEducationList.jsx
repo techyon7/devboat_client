@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import EducationSettings from './EducationSettings';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import {
 	ListSubheader,
 	ListItemText,
 } from '@material-ui/core';
+import { GET } from '../../actions/api';
 
 const educationList = [
 	{
@@ -26,9 +27,23 @@ const educationList = [
 	},
 ];
 
-const UserEducationList = () => {
+const UserEducationList = (props) => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
+
+	// useEffect(() => {
+	// 	(async () => {
+	// 		const response = await GET('/education', session.token);
+	// 		const result = await response.json();
+	// 		let educations = [];
+	// 		for (let i = 0; i < result.length; i++) {
+	// 			if (result[i].user === session.communityId) {
+	// 				posts = [...posts, result[i]];
+	// 			}
+	// 		}
+	// 		setPosts(posts);
+	// 	})();
+	// }, [session.token, session.communityId]);
 
 	function handleClickOpen() {
 		setOpen(true);
