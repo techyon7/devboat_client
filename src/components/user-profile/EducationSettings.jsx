@@ -17,7 +17,7 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import { POST, GET } from "../../actions/api";
+import { POST, GET, PATCH } from "../../actions/api";
 import { GlobalContext } from "../../context/GlobalContext";
 
 const EducationSettings = () => {
@@ -33,6 +33,7 @@ const EducationSettings = () => {
     currently_studying: true
   });
   const [showEducation, setShowEducation] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
   const loadEducations = useCallback(async () => {
     const response = await GET('/education', session.token);
@@ -51,13 +52,25 @@ const EducationSettings = () => {
   }, [loadEducations]);
 
   const handleAddEducation = () => {
-    setShowEducation(!showEducation);
+    setShowEducation(true);
     setState({
       institution_name: "",
       qualification_name: "",
       start_date: null,
       end_date: null,
       currently_studying: true
+    });
+  };
+
+  const handleEditEducation = (edu) => {
+    setEditingId(edu.id);
+    setShowEducation(true);
+    setState({
+      institution_name: edu.institution_name,
+      qualification_name: edu.qualification_name,
+      start_date: edu.start_date,
+      end_date: edu.end_date,
+      currently_studying: edu.currently_studying,
     });
   };
 
@@ -74,9 +87,13 @@ const EducationSettings = () => {
       currently_studying: data.currently_studying,
       user: session.userId
     };
+    if(editingId)
+      await PATCH(`/education/${editingId}`, body, session.token);
+    else
+      await POST("/education", body, session.token);
 
-    await POST("/education", body, session.token);
-    setShowEducation(!showEducation);
+    setEditingId(null);
+    setShowEducation(false);
     loadEducations();
   };
 
@@ -209,7 +226,7 @@ const EducationSettings = () => {
             secondary={education.qualification_name}
           />
           <ListItemSecondaryAction>
-            <IconButton>
+            <IconButton onClick={() => handleEditEducation(education)}>
               <EditIcon />
             </IconButton>
           </ListItemSecondaryAction>
