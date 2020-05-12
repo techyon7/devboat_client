@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
@@ -30,7 +30,19 @@ export default function AuthButtonGroup() {
     });
   };
 
-  React.useEffect(state => btnState(state, setState), []);
+  useEffect(() => {
+    if (window.location.pathname === ("/login" || "/")) {
+      setState({
+        loginActive: true,
+        registerActive: false
+      });
+    } else if (window.location.pathname === "/register") {
+      setState({
+        registerActive: true,
+        loginActive: false
+      });
+    }
+  }, []);
 
   return (
     <Box width={1} display="flex" justifyContent="stretch">
@@ -78,20 +90,3 @@ const useStyles = makeStyles({
     flexGrow: 1
   }
 });
-
-// Set state on load
-function btnState(state, setState) {
-  if (window.location.pathname === ("/login" || "/")) {
-    setState({
-      loginActive: true,
-      registerActive: false
-    });
-  } else if (window.location.pathname === "/register") {
-    setState({
-      registerActive: true,
-      loginActive: false
-    });
-  } else {
-    return null;
-  }
-}
