@@ -99,7 +99,7 @@ const UserEducationList = (props) => {
 										</Grid>
 										<Grid component="span" item xs={12}>
 											<Typography component="span" variant="subtitle2" className={classes.small}>
-												{education.start_date} - {education.end_date}
+												{education.start_date} - {education.end_date ? education.end_date : "Present"}
 											</Typography>
 										</Grid>
 									</Grid>
