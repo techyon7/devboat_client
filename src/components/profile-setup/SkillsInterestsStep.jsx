@@ -20,26 +20,20 @@ const SkillsInterestsStep = props => {
 
   const handleSkillSubmit = async skills => {
     let body = {
-      skill_name: skills,
+      name: skills,
       user: session.userId
     };
 
-    const response = await POST("/skills", body, session.token);
-    const result = await response.json();
-    console.log(result);
+    await POST("/skills", body, session.token);
   };
 
   const handleInterestSubmit = async interest => {
-    console.log(session.token);
-    console.log(session.userId);
     let body = {
-      interest_name: interest,
+      name: interest,
       user: session.userId
     };
 
-    const response = await POST("/interests", body, session.token);
-    const result = await response.json();
-    console.log(result);
+    await POST("/interests", body, session.token);
   };
 
   const handleSubmit = async () => {
