@@ -23,7 +23,7 @@ const UserProfile = (props) => {
       const result = await response.json();
       setUser(result);
     })();
-  }, [session.token, session.communityId]);
+  }, [session.token, props.match.params.username]);
 
 	return(
 		<div className={classes.root}>
