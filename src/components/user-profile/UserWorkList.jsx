@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import WorkSettings from './WorkSettings';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,27 +14,35 @@ import {
 	ListSubheader,
 	ListItemText,
 } from '@material-ui/core';
+import { GlobalContext } from "../../context/GlobalContext";
+import { GET } from '../../actions/api';
 
-const workList = [
-	{
-		id: 1,
-		position: 'Founder & CEO',
-		company: 'DevBoat',
-		location: 'New Delhi, Delhi, India',
-		start: 'May, 2019',
-		end: 'Present'
-	},
-];
-
-const UserWorkList = () => {
+const UserWorkList = (props) => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
+	const { session } = useContext(GlobalContext);
+
+	const [open, setOpen] = useState(false);
+	const [works, setWorks] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			const response = await GET('/job', session.token);
+			const result = await response.json();
+			let works = [];
+			for (let i = 0; i < result.length; i++) {
+				if (result[i].user === props.userId) {
+					works = [...works, result[i]];
+				}
+			}
+			setWorks(works);
+		})();
+	}, [props.userId, session.token, open]);
 
 	function handleClickOpen() {
 		setOpen(true);
 	}
 
-	const handleClose = value => {
+	function handleClickClose() {
 		setOpen(false);
 	};
 
@@ -55,7 +63,7 @@ const UserWorkList = () => {
 				<Dialog
 					fullWidth
 					maxWidth="xs"
-					onClose={handleClose}
+					onClose={handleClickClose}
 					aria-labelledby="simple-dialog-title"
 					open={open}
 				>
@@ -71,40 +79,35 @@ const UserWorkList = () => {
 			</Box>
 			<Divider className={classes.divider} />
 			<List>
-					{workList.slice(0,5).map((work, index) => (
-						<ListItem className={classes.listItem} key={work.id}>
-							<ListItemText
+				{works.map((work) => (
+					<ListItem className={classes.listItem} key={work.id}>
+						<ListItemText
 							primary={
 								<Typography variant="body1" color="textPrimary">
 									<Box fontWeight="fontWeightMedium" component="span">
-										{work.position}
+										{work.role}
 									</Box>
-								</Typography>}
+								</Typography>
+							}
 							secondary={
-
 								<Box display="flex" component="span" alignItems="center" width={1} justifyContent="space-between">
 									<Grid component="span" container>
 										<Grid component="span" item xs={12}>
 											<Typography component="span" variant="subtitle1" className={classes.subtitle}>
-													{work.company}
+													{work.company_name}
 											</Typography>
 										</Grid>
 										<Grid component="span" item xs={12}>
 											<Typography component="span" variant="subtitle2" className={classes.small}>
-												{work.start} - {work.end}
-											</Typography>
-										</Grid>
-										<Grid component="span" item xs={12}>
-											<Typography component="span" variant="subtitle2" className={classes.small}>
-												{work.location}
+												{work.start_date} - {work.end_date ? work.end_date : "Present"}
 											</Typography>
 										</Grid>
 									</Grid>
 								</Box>
 							}
-							/>
-						</ListItem>
-					))}
+						/>
+					</ListItem>
+				))}
 			</List>
 		</Box>
 	);
@@ -112,7 +115,7 @@ const UserWorkList = () => {
 
 export default UserWorkList;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	subtitle: {
 		fontSize: "0.75rem",
     display: "flex",
