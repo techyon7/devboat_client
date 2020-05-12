@@ -15,13 +15,10 @@ import { GlobalContext } from "../../context/GlobalContext";
 // Authentication Component
 
 export default function Authentication(props) {
-
   // React hooks
   const classes = useStyles();
   // React Context
   const { session } = useContext(GlobalContext);
-
-  console.log("auth", props);
 
   // JSX Markup
   return (

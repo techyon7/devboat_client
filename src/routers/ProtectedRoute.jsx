@@ -6,8 +6,6 @@ import NavBar from "../components/navigation/NavBar";
 function ProtectedRoute({ component: Component, ...rest }) {
   const { session } = useContext(GlobalContext);
 
-  console.log("PR", session.token);
-
   return (
     <Route
       {...rest}
