@@ -52,9 +52,9 @@ const NavBar = () => {
       setSession({
         token: null,
         userId: null,
-        userName: null,
-        userImg: null,
-        communityId: null,
+        userFirstName: null,
+        userLastName: null,
+        userImg: null
       });
     }
   }
