@@ -67,6 +67,7 @@ const Search = () => {
       <div className={classes.searchResults}>
         {isSearchOpen && (
           filteredUsers.map((user) => (
+						user.id !== session.userId &&
             <ListItem
               button
               component={Link}
