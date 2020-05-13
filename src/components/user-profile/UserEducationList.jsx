@@ -47,7 +47,7 @@ const UserEducationList = (props) => {
 	};
 
 	return(
-		<Box mt={8}>
+		<Box>
 			<Box display="flex" justifyContent="space-between">
 				<Typography variant="body1" align="left" color="textPrimary">
 					<Box fontWeight="fontWeightMedium" component="span">
@@ -78,12 +78,12 @@ const UserEducationList = (props) => {
 				</Dialog>
 			</Box>
 			<Divider className={classes.divider} />
-			<List>
+			<List disablePadding>
 				{educations.map((education) => (
 					<ListItem className={classes.listItem} key={education.id}>
 						<ListItemText
 							primary={
-								<Typography variant="body1" color="textPrimary">
+								<Typography variant="body2" color="textPrimary">
 									<Box fontWeight="fontWeightMedium" component="span">
 										{education.institution_name}
 									</Box>
@@ -115,15 +115,15 @@ const UserEducationList = (props) => {
 
 export default UserEducationList;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	subtitle: {
 		fontSize: "0.75rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
 		lineHeight: 1,
-		marginTop: 4,
-		marginBottom: 16,
+		marginTop: 1,
+		marginBottom: 1,
 	},
 	subtitleIcon: {
 		width: "0.75rem",
@@ -136,7 +136,6 @@ const useStyles = makeStyles(theme => ({
 		height: 2,
 		backgroundColor: "#4b7bec",
 		width: "1.5rem",
-		marginBottom: "1rem",
 	},
 	small: {
 		fontSize: "0.75rem",
