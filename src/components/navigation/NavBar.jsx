@@ -120,50 +120,50 @@ const NavBar = () => {
   return (
     <div className={classes.grow}>
       <AppBar className={classes.appbar} position="static" color="secondary">
-				<Container maxWidth="lg">
-				<Toolbar className={classes.toolbar}>
-          <Link to="/"className={classes.logoWrapper}>
-            <img className={classes.logo} alt="logo" src={logo}/>
-          </Link>
-          <Search />
-					<div className={classes.sectionDesktop}>
-						<IconButton aria-label="show new notifications" color="inherit" className={classes.navIcon}>
-							<Badge badgeContent={0} color="primary">
-								<NotificationsIcon />
-							</Badge>
-						</IconButton>
-            <Link to="/">
-            <IconButton
-              color="default"
-              className={classes.navIcon}
-            >
-              <AccountCircle />
-            </IconButton>
+				<Container maxWidth="xl">
+  				<Toolbar className={classes.toolbar}>
+            <Link to="/"className={classes.logoWrapper}>
+              <img className={classes.logo} alt="logo" src={logo}/>
             </Link>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-              className={classes.navIcon}
-            >
-              <SettingsIcon />
-            </IconButton>
-					</div>
-					<div className={classes.sectionMobile}>
-						<IconButton
-							aria-label="show more"
-							aria-controls={mobileMenuId}
-							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
-							color="inherit"
-						>
-							<MoreIcon />
-						</IconButton>
-					</div>
-				</Toolbar>
+            <Search />
+  					<div className={classes.sectionDesktop}>
+  						<IconButton aria-label="show new notifications" color="inherit" className={classes.navIcon}>
+  							<Badge badgeContent={0} color="primary">
+  								<NotificationsIcon />
+  							</Badge>
+  						</IconButton>
+              <Link to="/">
+              <IconButton
+                color="default"
+                className={classes.navIcon}
+              >
+                <AccountCircle />
+              </IconButton>
+              </Link>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+                className={classes.navIcon}
+              >
+                <SettingsIcon />
+              </IconButton>
+  					</div>
+  					<div className={classes.sectionMobile}>
+  						<IconButton
+  							aria-label="show more"
+  							aria-controls={mobileMenuId}
+  							aria-haspopup="true"
+  							onClick={handleMobileMenuOpen}
+  							color="inherit"
+  						>
+  							<MoreIcon />
+  						</IconButton>
+  					</div>
+  				</Toolbar>
 				</Container>
       </AppBar>
       {renderMobileMenu}
@@ -176,8 +176,7 @@ export default NavBar;
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    height: 60,
-    marginBottom: 10
+    height: 60
   },
   appbar: {
     position: 'fixed',

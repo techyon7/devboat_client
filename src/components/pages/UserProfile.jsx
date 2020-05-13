@@ -28,12 +28,12 @@ const UserProfile = (props) => {
 	return(
 		<div className={classes.root}>
 			{/* Fix maximum width */}
-			<Container maxWidth="lg">
+			<Container disableGutters maxWidth="xl">
 				{/* Main container */}
-				<Grid container spacing={5} direction="row" justify="center">
+				<Grid container direction="row" justify="center">
 					{/* User Details */}
 					<Grid item xs={12} lg={3}>
-						<Paper className={classes.paper}>
+						<Paper className={classes.leftPanel}>
 							{user &&
 								<UserDetails
 									userId={user.id}
@@ -44,36 +44,36 @@ const UserProfile = (props) => {
 					</Grid>
 					{/* Projects & Posts */}
 					<Grid item xs={12} lg={6}>
-						<Grid container spacing={5} p={0} direction="row" justify="center" alignItems="flex-start" className={classes.alignStart}>
+						<Grid container p={0} direction="row" justify="center" alignItems="flex-start" className={classes.alignStart}>
 							{/* Projects */}
-							<Grid item xs={12}>
+							<Grid className={classes.item} item xs={12}>
 								<Projects />
 							</Grid>
 							{/* Create Post */}
-							<Grid item xs={12}>
+							<Grid className={classes.item} item xs={12}>
 								<Paper className={classes.paper}>Create Post</Paper>
 							</Grid>
 							{/* Posts */}
-							<Grid item xs={12}>
+							<Grid className={classes.item} item xs={12}>
 								<Paper className={classes.paper}>Post</Paper>
 							</Grid>
 						</Grid>
 					</Grid>
 					{/* Recommendations */}
 					<Grid item xs={12} lg={3}>
-						<Grid container spacing={5} p={0} direction="row" justify="center" alignItems="flex-start" className={classes.alignStart}>
+						<Grid container p={0} direction="row" justify="center" alignItems="flex-start" className={classes.alignStart}>
 							{/* Mentor Recommendations */}
-							<Grid item xs={12} >
+							<Grid className={classes.item} item xs={12} >
 								<Paper className={classes.paper}>Mentor Recommendations</Paper>
 							</Grid>
 
 							{/* Mentee Recommendations */}
-							<Grid item xs={12}>
+							<Grid className={classes.item} item xs={12}>
 								<Paper className={classes.paper}>Mentee Recommendations</Paper>
 							</Grid>
 
 							{/* Peer Recommendations */}
-							<Grid item xs={12}>
+							<Grid className={classes.item} item xs={12}>
 								<Paper className={classes.paper}>Peer Recommendations</Paper>
 							</Grid>
 						</Grid>
@@ -89,14 +89,23 @@ export default UserProfile;
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+		padding: 0
   },
-  paper: {
-		borderRadius: 16,
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
+	leftPanel: {
+		textAlign: 'center',
+		color: theme.palette.text.secondary,
+		backgroundColor: theme.palette.background.default,
+		boxShadow: '0px 2px 2px #111111'
+	},
+	paper: {
+		padding: theme.spacing(2),
+		textAlign: 'center',
+		color: theme.palette.text.secondary,
 		backgroundColor: "#262B2F !important"
-  },
+	},
+	item: {
+		padding: '0.625rem'
+	},
 	alignStart: {
 		alignSelf: 'start'
 	}
