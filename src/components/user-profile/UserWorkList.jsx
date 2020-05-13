@@ -47,7 +47,7 @@ const UserWorkList = (props) => {
 	};
 
 	return(
-		<Box mt={8}>
+		<Box>
 			<Box display="flex" justifyContent="space-between">
 				<Typography variant="body1" align="left" color="textPrimary">
 					<Box fontWeight="fontWeightMedium" component="span">
@@ -78,12 +78,12 @@ const UserWorkList = (props) => {
 				</Dialog>
 			</Box>
 			<Divider className={classes.divider} />
-			<List>
+			<List disablePadding>
 				{works.map((work) => (
 					<ListItem className={classes.listItem} key={work.id}>
 						<ListItemText
 							primary={
-								<Typography variant="body1" color="textPrimary">
+								<Typography variant="body2" color="textPrimary">
 									<Box fontWeight="fontWeightMedium" component="span">
 										{work.role}
 									</Box>
@@ -122,8 +122,8 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "space-between",
 		lineHeight: 1,
-		marginTop: 4,
-		marginBottom: 16,
+		marginTop: 1,
+		marginBottom: 1,
 	},
 	subtitleIcon: {
 		width: "0.75rem",
@@ -135,8 +135,7 @@ const useStyles = makeStyles(() => ({
 	divider: {
 		height: 2,
 		backgroundColor: "#4b7bec",
-		width: "1.5rem",
-		marginBottom: "1rem",
+		width: "1.5rem"
 	},
 	small: {
 		fontSize: "0.75rem",
