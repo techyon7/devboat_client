@@ -112,7 +112,7 @@ const InterestsSettings = () => {
 
 export default InterestsSettings;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	addInterest: {
 		color: "#4b7bec",
 	},

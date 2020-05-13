@@ -7,16 +7,15 @@ import Container from '@material-ui/core/Container';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import InboxIcon from '@material-ui/icons/Inbox';
 import SettingsIcon from '@material-ui/icons/Settings';
+import Search from './Search';
 import { GlobalContext } from '../../context/GlobalContext';
 import { POST } from '../../actions/api';
 
@@ -129,7 +128,7 @@ const NavBar = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" color="secondary">
+      <AppBar className={classes.appbar} position="static" color="secondary">
 				<Container maxWidth="lg">
 				<Toolbar className={classes.toolbar}>
 					<Box display="flex">
@@ -145,19 +144,7 @@ const NavBar = () => {
 						DevBoat
 					</Typography>
 					</Box>
-					<div className={classes.search}>
-						<InputBase
-							placeholder="Search…"
-							classes={{
-								root: classes.inputRoot,
-								input: classes.inputInput,
-							}}
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-						<IconButton className={classes.searchIcon}>
-							<SearchIcon />
-						</IconButton>
-					</div>
+          <Search />
 					<div className={classes.sectionDesktop}>
 						<IconButton aria-label="show 4 new mails" color="inherit" className={classes.navIcon}>
 							<Badge badgeContent={4} color="primary">
@@ -213,10 +200,18 @@ export default NavBar;
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 1,
+    width: '100vw',
+    height: 60,
+    marginBottom: 10
+  },
+  appbar: {
+    position: 'fixed',
+    height: 60
   },
 	toolbar: {
+    height: 60,
 		justifyContent: 'space-between',
+    alignItems: 'center'
 	},
   menuButton: {
     marginRight: theme.spacing(2),
@@ -225,37 +220,6 @@ const useStyles = makeStyles(theme => ({
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
-    },
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-		marginRight: theme.spacing(2),
-		position: 'absolute',
-		right: 0,
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 7, 1, 3),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
     },
   },
   sectionDesktop: {
