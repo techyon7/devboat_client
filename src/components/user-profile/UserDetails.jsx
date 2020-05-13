@@ -88,18 +88,13 @@ const UserDetails = (props) => {
               {showcase.currentPosition.startDate().year}
             </Typography>
           }
-          <Divider
-            variant="middle"
-            light={true}
-            className={classes.divider}
-          />
         </Grid>
 
         <Grid item xs={12}>
           {props.isProfileSelf ? <EditProfile /> : <ConnectInteraction />}
         </Grid>
         <Grid item xs={12}>
-          <Box w={1} pt={8} display="flex" alignItems="center">
+          <Box w={1} display="flex" alignItems="center">
             <Typography variant="h5" color="textPrimary" align="left">
               <Box fontWeight="fontWeightMedium" component="span" mr={3}>
                 Connections
