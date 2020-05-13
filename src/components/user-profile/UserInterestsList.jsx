@@ -46,7 +46,7 @@ const UserInterestsList = (props) => {
 	};
 
 	return(
-		<Box mt={8}>
+		<Box>
 			<Box display="flex" justifyContent="space-between">
 				<Typography variant="body1" align="left" color="textPrimary">
 					<Box fontWeight="fontWeightMedium" component="span">
@@ -77,12 +77,12 @@ const UserInterestsList = (props) => {
 				</Dialog>
 			</Box>
 			<Divider className={classes.divider} />
-			<List>
+			<List disablePadding>
 				{interests.map(interest => (
 					<ListItem className={classes.listItem} key={interest.name}>
 						<ListItemText
 							primary={
-								<Typography variant="body1" color="textPrimary">
+								<Typography variant="body2" color="textPrimary">
 									{interest.name}
 								</Typography>
 							}
@@ -116,7 +116,6 @@ const useStyles = makeStyles(() => ({
 		height: 2,
 		backgroundColor: "#4b7bec",
 		width: "1.5rem",
-		marginBottom: "1rem",
 	},
 	editBtn: {
 		padding: "0 !important",
