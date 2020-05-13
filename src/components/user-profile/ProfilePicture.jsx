@@ -29,13 +29,11 @@ const ProfilePicture = () => {
 
 	return (
 		<div className={classes.root}>
-
-					<Box width={1} height="100%" onClick={handleClickOpen} className={clsx(classes.editProfilePicture, classes.root)} display="flex" justifyContent="center" alignItems="center">
-							<Box width={1} height="100%" className={clsx(classes.overlay, 'showOverlayOnHover' )} display="flex" justifyContent="center" alignItems="center" >
- 						 		<Icon className={classes.largeIcon} component={CameraAltIcon} />
- 						 	</Box>
-			    </Box>
-
+				<Box width={1} height="100%" onClick={handleClickOpen} className={clsx(classes.editProfilePicture, classes.root)} display="flex" justifyContent="center" alignItems="center">
+					<Box width={1} height="100%" className={clsx(classes.overlay, 'showOverlayOnHover' )} display="flex" justifyContent="center" alignItems="center" >
+				 		<Icon className={classes.largeIcon} component={CameraAltIcon} />
+				 	</Box>
+		    </Box>
 				<Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
 	        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
 	          Upload Picture
@@ -61,17 +59,17 @@ const useStyles = makeStyles(theme => ({
   },
 	editProfilePicture: {
 		borderRadius: "50%",
-		border: "4px solid #fff !important",
-		height: 154,
-		width: 154,
+		boxShadow: '0px 1px 1px #111111',
+		height: 100,
+		width: 100,
 		padding: "0px !important",
 		background: "url('https://picsum.photos/200')",
 		position: "relative",
 		cursor: 'pointer',
 	},
 	profilePicture: {
-		width: 150,
-		height: 150,
+		width: 100,
+		height: 100,
 	},
 	largeIcon: {
 		transform: 'scale(2)',
