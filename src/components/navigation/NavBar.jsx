@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
-import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Container from '@material-ui/core/Container';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,9 +12,9 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import InboxIcon from '@material-ui/icons/Inbox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Search from './Search';
+import logo from '../../assets/logo192.png';
 import { GlobalContext } from '../../context/GlobalContext';
 import { POST } from '../../actions/api';
 
@@ -87,14 +86,6 @@ const NavBar = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="primary">
-            <InboxIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="primary">
             <NotificationsIcon />
@@ -131,28 +122,13 @@ const NavBar = () => {
       <AppBar className={classes.appbar} position="static" color="secondary">
 				<Container maxWidth="lg">
 				<Toolbar className={classes.toolbar}>
-					<Box display="flex">
-					{/*<IconButton
-						edge="start"
-						className={classes.menuButton}
-						color="inherit"
-						aria-label="open drawer"
-					>
-						<MenuIcon />
-					</IconButton>*/}
-					<Typography className={classes.title} variant="h6" noWrap>
-						DevBoat
-					</Typography>
-					</Box>
+          <Link to="/"className={classes.logoWrapper}>
+            <img className={classes.logo} alt="logo" src={logo}/>
+          </Link>
           <Search />
 					<div className={classes.sectionDesktop}>
-						<IconButton aria-label="show 4 new mails" color="inherit" className={classes.navIcon}>
-							<Badge badgeContent={4} color="primary">
-								<InboxIcon />
-							</Badge>
-						</IconButton>
-						<IconButton aria-label="show 17 new notifications" color="inherit" className={classes.navIcon}>
-							<Badge badgeContent={17} color="primary">
+						<IconButton aria-label="show new notifications" color="inherit" className={classes.navIcon}>
+							<Badge badgeContent={0} color="primary">
 								<NotificationsIcon />
 							</Badge>
 						</IconButton>
@@ -200,7 +176,6 @@ export default NavBar;
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    width: '100vw',
     height: 60,
     marginBottom: 10
   },
@@ -216,16 +191,23 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
+  logoWrapper: {
+    width: '5%',
+    lineHeight: 0
+  },
+  logo: {
+    height: 42,
+    width: 42,
+    cursor: 'pointer'
   },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
+      width: '12%',
+      height: '80%',
+      alignItems: 'center',
+      justifyContent: 'space-around'
     },
   },
   sectionMobile: {
@@ -235,6 +217,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
 	navIcon: {
-		marginLeft: "1rem",
+		width: 36,
+    height: 36
 	}
 }));

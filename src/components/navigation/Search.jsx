@@ -88,15 +88,14 @@ export default Search;
 
 const useStyles = makeStyles(theme => ({
   search: {
+		width: '63%',
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.default,
     '&:hover': {
       backgroundColor: '#212124',
     },
-    width: '100%',
     alignSelf: 'flex-start',
-    maxWidth: 800,
     marginTop: 10
   },
   searchBar: {
@@ -114,7 +113,7 @@ const useStyles = makeStyles(theme => ({
   },
   inputInput: {
     width: '100%',
-    padding: theme.spacing(3, 5, 3, 5),
+    padding: theme.spacing(2.5, 5, 2.5, 5),
     transition: theme.transitions.create('width')
   },
   searchItem: {
