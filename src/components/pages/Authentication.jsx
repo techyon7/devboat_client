@@ -19,7 +19,7 @@ export default function Authentication(props) {
   const classes = useStyles();
   // React Context
   const { session } = useContext(GlobalContext);
-  const { from } = props.location.state || { from: { pathname: `/${session.username}` } };
+  const { from } = { from: { pathname: `/${session.username}` } } || props.location.state;
 
   // JSX Markup
   return (

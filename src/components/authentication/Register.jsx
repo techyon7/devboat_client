@@ -79,7 +79,7 @@ const RegisterForm = props => {
         gender: ""
       }}
       validationSchema={RegistrationSchema}
-      onSubmit={async (values, actions) => {
+      onSubmit={async (values) => {
         let response = await handleSubmit(
           values.username,
           values.email,
@@ -87,7 +87,6 @@ const RegisterForm = props => {
           values.lastName,
           values.password
         );
-        console.log(response.status)
         if (response.status === 201) {
           props.history.push({
             pathname: "/verify"
