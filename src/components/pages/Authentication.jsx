@@ -19,12 +19,13 @@ export default function Authentication(props) {
   const classes = useStyles();
   // React Context
   const { session } = useContext(GlobalContext);
+  const { from } = props.location.state || { from: { pathname: `/${session.username}` } };
 
   // JSX Markup
   return (
     <Fragment>
       {session.token ? (
-        <Redirect to={`/${session.username}`}/>
+        <Redirect to={from}/>
       ) : (
         <div className={classes.root}>
           <Router>
