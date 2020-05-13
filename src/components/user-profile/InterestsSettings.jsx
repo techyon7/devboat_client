@@ -58,6 +58,11 @@ const InterestsSettings = () => {
 		loadInterests();
 	};
 
+	const handleDelete = async (id) => {
+		await DELETE(`/interests/${id}`, session.token);
+		loadInterests();
+	};
+
 	return(
 		<React.Fragment>
 			{showInterests &&
@@ -95,7 +100,7 @@ const InterestsSettings = () => {
 				<ListItem key={interest.id}>
 					<ListItemText id="switch-list-label" primary={interest.name} />
 					<ListItemSecondaryAction>
-						<IconButton>
+						<IconButton onClick={() => handleDelete(interest.id)}>
 							<DeleteIcon />
 						</IconButton>
 					</ListItemSecondaryAction>
