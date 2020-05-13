@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import DoneIcon from '@material-ui/icons/Done';
-import { SetupSchemaSkills } from '../validations/validations'
-import { Formik } from 'formik';
 import { DownshiftMultiple } from '../profile-setup/IntegrationDownshift';
 import { skillObjects } from '../../data/skillsArray.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,80 +11,103 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
+import { POST, GET, DELETE } from "../../actions/api";
+import { GlobalContext } from "../../context/GlobalContext";
 
-const SkillsSettings = (props) => {
-	const classes = useStyles();
-	const { onSubmit } = props;
-	const [state, setState] = React.useState({
-		showSkills: false,
-	});
+const SkillsSettings = () => {
+	const skillsList = skillObjects;
+  const classes = useStyles();
+  const { session } = useContext(GlobalContext);
 
-	const skills = skillObjects;
+	const [skills, setSkills] = React.useState([]);
+	const [newSkills, setNewSkills] = React.useState([]);
+	const [showSkills, setShowSkills] = useState(false);
 
-	const handleClickSkills = () => {
-		const { showSkills } = state;
-		setState({
-			showSkills: !showSkills,
-		});
+	const loadSkills = useCallback(async () => {
+		const response = await GET('/skills', session.token);
+		const result = await response.json();
+		let skills = [];
+		for (let i = 0; i < result.length; i++) {
+			if (result[i].user === session.userId) {
+				skills = [...skills, result[i]];
+			}
+		}
+		setSkills(skills);
+	}, [session.userId, session.token]);
+
+	useEffect(() => {
+		loadSkills();
+	}, [loadSkills]);
+
+	const handleAddSkill = () => {
+		setShowSkills(true);
 	}
+
+	const handleSkillSubmit = async skill => {
+		let body = {
+			name: skill,
+			user: session.userId
+		};
+
+		await POST("/skills", body, session.token);
+	};
+
+	const handleSubmit = async () => {
+		await newSkills.forEach(skill => handleSkillSubmit(skill));
+		setShowSkills(false);
+		loadSkills();
+	};
+
 	return(
 		<React.Fragment>
-		{ state.showSkills
-			?
-			<ListItem>
-				<Formik
-					initialValues={{
-						skills: ''
-					}}
-					validationSchema={SetupSchemaSkills}
-					onSubmit={values => {
-						// same shape as initial values
-						console.log(values);
-					}}
-
-				render={(props) => (
-					<form onSubmit={onSubmit} className={classes.grow}>
+			{showSkills &&
+				<form className={classes.grow}>
+					<ListItem>
 						<DownshiftMultiple
-							placeholder="Search for skills"
-							label="Skills"
-							name="skills"
-							options={skills}
-							onChange={props.handleChange}
-							onBlur={props.handleBlur}
-							value={props.values !== undefined ? props.values.skills : undefined}
-							/>
-					</form>
-				)}
-				/>
-				</ListItem> : ''
-		}
-			<ListItem button component="a" className={classes.addSkill} onClick={handleClickSkills}>
-				<ListItemText id="switch-list-label" primary={ state.showSkills ? "Done" : "Add a skill"} />
-				<ListItemSecondaryAction>
-					<IconButton className={classes.addSkill} onClick={handleClickSkills}>
-						{state.showSkills ?
-							<DoneIcon />
-							:
-							<AddBoxOutlinedIcon />
-						}
-					</IconButton>
-				</ListItemSecondaryAction>
-			</ListItem>
-			<ListItem>
-				<ListItemText id="switch-list-label" primary="C" secondary="0 upvotes" />
-				<ListItemSecondaryAction>
-          <IconButton>
-						<DeleteIcon />
-					</IconButton>
-        </ListItemSecondaryAction>
-			</ListItem>
+		          placeholder="Search for Skills"
+		          label="Skills"
+		          name="Skills"
+		          options={skillsList}
+		          onChange={res => setNewSkills(res)}
+		        />
+					</ListItem>
+					<ListItem button component="a" className={classes.addSkill} onClick={handleSubmit}>
+						<ListItemText id="switch-list-label" primary="Done" />
+						<ListItemSecondaryAction>
+							<IconButton className={classes.addSkill}>
+									<DoneIcon />
+							</IconButton>
+						</ListItemSecondaryAction>
+					</ListItem>
+				</form>
+			}
+			{!showSkills &&
+				<ListItem button component="a" className={classes.addSkill} onClick={handleAddSkill}>
+					<ListItemText id="switch-list-label" primary="Add a skill" />
+					<ListItemSecondaryAction>
+						<IconButton className={classes.addSkill}>
+								<AddBoxOutlinedIcon />
+						</IconButton>
+					</ListItemSecondaryAction>
+				</ListItem>
+			}
+			{skills.map((skill) => (
+				<ListItem key={skill.id}>
+					<ListItemText id="switch-list-label" primary={skill.name} />
+					<ListItemSecondaryAction>
+						<IconButton>
+							<DeleteIcon />
+						</IconButton>
+					</ListItemSecondaryAction>
+				</ListItem>
+			))}
 		</React.Fragment>
 	);
 }
 
 export default SkillsSettings;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	addSkill: {
 		color: "#4b7bec",
 	},

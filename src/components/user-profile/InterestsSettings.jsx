@@ -83,16 +83,16 @@ const InterestsSettings = () => {
 			}
 			{!showInterests &&
 				<ListItem button component="a" className={classes.addInterest} onClick={handleAddInterest}>
-					<ListItemText id="switch-list-label" primary={ showInterests ? "Done" : "Add an interest"} />
+					<ListItemText id="switch-list-label" primary="Add an interest" />
 					<ListItemSecondaryAction>
-						<IconButton className={classes.addInterest} onClick={handleAddInterest}>
+						<IconButton className={classes.addInterest}>
 								<AddBoxOutlinedIcon />
 						</IconButton>
 					</ListItemSecondaryAction>
 				</ListItem>
 			}
 			{interests.map((interest) => (
-				<ListItem>
+				<ListItem key={interest.id}>
 					<ListItemText id="switch-list-label" primary={interest.name} />
 					<ListItemSecondaryAction>
 						<IconButton>
