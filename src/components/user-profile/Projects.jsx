@@ -26,38 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const Projects = () => {
 	const classes = useStyles();
-	const [state, setState] = React.useState({
-		tileData: [
-			{
-				id: 1,
-				img: "https://picsum.photos/400",
-				title: 'Image',
-				author: 'author',
-				open: false,
-			},
-			{
-				id: 2,
-				img: "https://picsum.photos/400",
-				title: 'Image',
-				author: 'author',
-				open: false,
-			},
-			{
-				id: 3,
-				img: "https://picsum.photos/400",
-				title: 'Image',
-				author: 'author',
-				open: false,
-			},
-			{
-				id: 4,
-				img: "https://picsum.photos/400",
-				title: 'Image',
-				author: 'author',
-				open: false,
-			},
-		],
-	});
+	const [state, setState] = React.useState([]);
 
 	const handleOpen = (tile) => {
 		const oldData = state.tileData.filter(currTile => currTile !== tile);
@@ -107,7 +76,7 @@ const Projects = () => {
 						</Dialog>*/}
 				</Grid>
 
-        {state.tileData.map((tile, index) => (
+        {state.map((tile) => (
 					<React.Fragment key={tile.id}>
 					<Grid className={classes.tile} item xs={6} sm={4} onClick={() => handleOpen(tile)}>
 						<Box position="relative" display="flex">
@@ -172,7 +141,7 @@ const Projects = () => {
 
 export default Projects;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	divider: {
 		height: 2,
 		backgroundColor: "#4b7bec",
@@ -184,9 +153,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	addProject: {
 		backgroundColor: "#4b7bec",
-		borderRadius: "1rem",
+		borderRadius: "4px",
 		width: "100%",
-		height: "calc(100% - 5px)",
+		height: 70,
 		boxSizing: "border-box",
 	},
 	projectCover: {
