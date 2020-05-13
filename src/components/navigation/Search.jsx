@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { Link } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
 import {
 	ListItem,
 	ListItemText,
@@ -66,7 +67,13 @@ const Search = () => {
       <div className={classes.searchResults}>
         {isSearchOpen && (
           filteredUsers.map((user) => (
-            <ListItem button component="a" key={user.id} className={classes.searchItem}>
+            <ListItem
+              button
+              component={Link}
+              key={user.id}
+              className={classes.searchItem}
+              onClick={handleClose}
+              to={`/${user.username}`}>
               <ListItemText id="switch-list-label" primary={`${user.first_name} ${user.last_name}`} />
             </ListItem>
           ))

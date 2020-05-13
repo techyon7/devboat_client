@@ -16,9 +16,6 @@ import {
 	Button,
 } from '@material-ui/core';
 
-
-
-
 const ProfilePicture = () => {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
