@@ -58,6 +58,11 @@ const SkillsSettings = () => {
 		loadSkills();
 	};
 
+	const handleDelete = async (id) => {
+		await DELETE(`/skills/${id}`, session.token);
+		loadSkills();
+	};
+
 	return(
 		<React.Fragment>
 			{showSkills &&
@@ -95,7 +100,7 @@ const SkillsSettings = () => {
 				<ListItem key={skill.id}>
 					<ListItemText id="switch-list-label" primary={skill.name} />
 					<ListItemSecondaryAction>
-						<IconButton>
+						<IconButton onClick={() => handleDelete(skill.id)}>
 							<DeleteIcon />
 						</IconButton>
 					</ListItemSecondaryAction>
