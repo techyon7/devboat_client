@@ -128,7 +128,7 @@ const ProfilePicture = (props) => {
 
 	return (
 		<div className={classes.root}>
-			<Box width={1} height="100%" onClick={handleOpen} className={clsx(classes.editProfilePicture, classes.root)} display="flex" justifyContent="center" alignItems="center">
+			<Box width={1} height="100%" className={clsx(classes.editProfilePicture, classes.root)} display="flex" justifyContent="center" alignItems="center">
 				{
 					pic &&
 					<img
@@ -136,9 +136,11 @@ const ProfilePicture = (props) => {
 						alt="logo"
 						src={pic}/>
 				}
-				<Box width={1} height="100%" className={clsx(classes.overlay, 'showOverlayOnHover' )} display="flex" justifyContent="center" alignItems="center" >
-			 		<Icon className={classes.largeIcon} component={CameraAltIcon} />
-			 	</Box>
+				{props.isProfileSelf &&
+					<Box width={1} height="100%" onClick={handleOpen} className={clsx(classes.overlay, 'showOverlayOnHover' )} display="flex" justifyContent="center" alignItems="center" >
+				 		<Icon className={classes.largeIcon} component={CameraAltIcon} />
+				 	</Box>
+				}
 	    </Box>
 			<Dialog maxWidth="lg" aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
