@@ -1,11 +1,10 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ProfilePicture from "./ProfilePicture";
-import EditProfile from "./EditProfile";
+import ConnectInteraction from "./ConnectInteraction";
 import SearchConnections from "./SearchConnections";
 import SearchFollowers from "./SearchFollowers";
 import SearchFollowing from "./SearchFollowing";
-import ConnectInteraction from "./ConnectInteraction";
 import UserSkillsList from "./UserSkillsList";
 import UserInterestsList from "./UserInterestsList";
 import UserWorkList from "./UserWorkList";
@@ -29,17 +28,19 @@ const UserDetails = props => {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
 
-  const [user, setUser] = React.useState(null);
-  const [connections] = React.useState(null);
+  const [user, setUser] = useState(null);
+
+
+  const [connections] = useState(null);
   const [showcase] = React.useState(null);
   const [anchorEl] = React.useState(null);
 
   useEffect(
     () => {
       (async () => {
-        const response = await GET(`/users/${props.username}`, session.token);
-        const result = await response.json();
-        setUser(result);
+        let response = await GET(`/users/${props.username}`, session.token);
+        const user = await response.json();
+        setUser(user);
       })();
     },
     [session.token, props.username]
@@ -76,6 +77,7 @@ const UserDetails = props => {
         <Grid item>
           {user &&
             <ProfilePicture
+              isProfileSelf={props.isProfileSelf}
               picture={user.picture}
               crop={user.cropped_data}/>
           }
@@ -99,9 +101,12 @@ const UserDetails = props => {
           )}
         </Grid>
 
-        <Grid item xs={12}>
-          {!props.isProfileSelf && <ConnectInteraction />}
-        </Grid>
+        {!props.isProfileSelf && user &&
+          <ConnectInteraction
+            user1={session.userId}
+            user2={user.id}
+            userFirstName={user.first_name}/>
+        }
         <Grid item xs={12}>
           <Box w={1} display="flex" alignItems="center">
             <Typography variant="h5" color="textPrimary" align="left">
