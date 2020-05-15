@@ -69,7 +69,11 @@ const UserDetails = (props) => {
     <Box p={5}>
       <Grid container justify="center" spacing={5}>
         <Grid item>
-          <ProfilePicture />
+          {user &&
+            <ProfilePicture
+              picture={user.picture}
+              crop={user.cropped_data}/>
+          }
         </Grid>
         <Grid item xs={12}>
           {user &&

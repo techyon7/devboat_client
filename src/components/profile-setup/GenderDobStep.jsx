@@ -24,7 +24,7 @@ const GenderDobStep = props => {
   const { page } = props;
   const { setState } = props;
   const { session } = useContext(GlobalContext);
-  const previousPage = state => {
+  const previousPage = () => {
     setState({ page: page - 1 });
   };
   const handleSubmit = async (dob, gender) => {
@@ -32,14 +32,11 @@ const GenderDobStep = props => {
       dob: dob,
       gender: gender
     };
-    const response = await PATCH(
+    await PATCH(
       `/users/${session.userId}`,
       body,
       session.token
     );
-    const result = await response.json();
-
-    console.log(result);
   };
   // JSX Markup
   return (

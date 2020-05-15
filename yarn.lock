@@ -3376,7 +3376,7 @@ core-js@^2.4.0, core-js@^2.5.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
 
-core-js@^3.5.0:
+core-js@^3.4.2, core-js@^3.5.0:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
   integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
@@ -9449,6 +9449,15 @@ react-filter-search@^1.0.8:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/react-filter-search/-/react-filter-search-1.0.11.tgz#8f38d968c56ca55431bd1353f02a137276181ec1"
   integrity sha512-iHTUToEyUYbXqb/hNn8KM4zo0NtbGamEKuBJc0kvnXyJZBCUbkD9TQW+DaeA3wwV0sRZ0r64MXIEHJWHPw+Omw==
+
+react-image-crop@^8.6.2:
+  version "8.6.2"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-8.6.2.tgz#bac0963ab517cdfba42b3a091774de4c3f4f3ece"
+  integrity sha512-mi2UwL1ZhMk/L9DhxnRK/V91HYXNNaeBzrX+IfZWPEun6H5jnrts14K2FEBKMEcyz/5anNk8TiU94yo+dSVDog==
+  dependencies:
+    clsx "^1.0.4"
+    core-js "^3.4.2"
+    prop-types "^15.7.2"
 
 react-infinite-scroll-component@^4.5.3:
   version "4.5.3"

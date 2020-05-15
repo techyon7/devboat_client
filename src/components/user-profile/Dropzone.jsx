@@ -4,33 +4,31 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles } from '@material-ui/core/styles';
 import Dropzone from 'react-dropzone';
 import {
-	Icon,
-	Typography
+	Icon
 } from '@material-ui/core';
 
-export default function DropzoneArea() {
+export default function DropzoneArea(props) {
 	const classes = useStyles();
   return (
-		<Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+		<Dropzone onDrop={acceptedFiles => props.onSet(acceptedFiles[0])}>
 		  {({getRootProps, getInputProps}) => (
 		      <div {...getRootProps()}  className={clsx(classes.dropzoneBorder, "dropzoneBorder")} >
 		        <input {...getInputProps()} />
 						<Icon fontSize="large" component={CloudUploadIcon} />
-		        <Typography variant="body1" align="center">
-							Drag 'n' drop some files here, or click to select files
-						</Typography>
 		      </div>
 		  )}
 		</Dropzone>
 	);
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   dropzoneBorder: {
+		margin: "0 40px",
+		borderRadius: "50%",
     border: "2px dashed rgba(255, 255, 255, 0.7) !important",
 		padding: 16,
-		maxWidth: 350,
-		height: 250,
+		width: 150,
+		height: 150,
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",

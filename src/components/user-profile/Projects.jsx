@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -67,7 +66,7 @@ const Projects = () => {
 			<Divider className={classes.divider} />
 			<Grid container spacing={5} width={1}>
 				<Grid item xs={6} sm={4}>
-					<IconButton component={Link} to="/project-editor" className={classes.addProject}>
+					<IconButton className={classes.addProject}>
 	  				<AddIcon />
 						Add a project
 					</IconButton>

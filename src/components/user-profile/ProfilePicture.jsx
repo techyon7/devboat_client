@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import DropzoneArea from './Dropzone';
@@ -15,45 +15,161 @@ import {
 	Typography,
 	Button,
 } from '@material-ui/core';
+import logo from '../../assets/logo192.png';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+import { GlobalContext } from "../../context/GlobalContext";
+import { PATCH } from '../../actions/api';
 
-const ProfilePicture = () => {
+const ProfilePicture = (props) => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
+	const { session } = useContext(GlobalContext);
 
-  const handleClickOpen = () => {
+	const [open, setOpen] = useState(false);
+
+	const [pic, setPic] = useState(null);
+
+	const [newPicLoaded, setNewPicLoaded] = useState(false);
+	const [newPic, setNewPic] = useState(null);
+	const [newCrop, setNewCrop] = useState({
+		aspect: 1,
+		unit: '%',
+	  width: 100,
+	  height: 100,
+	});
+
+	const getCroppedImg = (image, crop, fileName) => {
+		const canvas = document.createElement('canvas');
+		const scaleX = image.naturalWidth / image.width;
+		const scaleY = image.naturalHeight / image.height;
+		canvas.width = crop.width;
+		canvas.height = crop.height;
+		const ctx = canvas.getContext('2d');
+
+		ctx.drawImage(
+			image,
+			crop.x * scaleX,
+			crop.y * scaleY,
+			crop.width * scaleX,
+			crop.height * scaleY,
+			0,
+			0,
+			crop.width,
+			crop.height
+		);
+
+		// As a blob
+	  return new Promise((resolve) => {
+	    canvas.toBlob(blob => {
+	      blob.name = fileName;
+				const fileUrl = window.URL.createObjectURL(blob);
+	      resolve(fileUrl);
+	    }, 'image/jpeg');
+	  });
+	}
+
+	const loadPic = useCallback(async (url, crop) => {
+		var img = new Image();
+		img.src = url;
+		img.setAttribute('crossOrigin', 'anonymous');
+		img.onload = async () => {
+			const picture = await getCroppedImg(
+				img,
+				crop,
+				"profile_pic.jpeg"
+			);
+			setPic(picture);
+		}
+	}, []);
+
+	useEffect(() => {
+		(async () => {
+			if(props.picture)
+				loadPic(
+					JSON.parse(props.picture).url,
+					JSON.parse(props.crop)
+				);
+			else
+				setPic(logo);
+		})();
+	}, [loadPic, props.picture, props.crop]);
+
+  const handleOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handlePicSet = (pic) => {
+		let reader = new FileReader();
+		reader.readAsDataURL(pic);
+		reader.onload = () => {
+			setNewPic(reader.result);
+			setNewPicLoaded(true);
+			return true;
+		};
+	};
+
+	const handleSave = async () => {
+		let body = {
+			picture: newPic,
+			cropped_data: newCrop
+		};
+		await PATCH(
+			`/users/${session.username}`,
+			body,
+			session.token
+		);
+		loadPic(newPic, newCrop);
+		setOpen(false);
+	};
 
 	return (
 		<div className={classes.root}>
-				<Box width={1} height="100%" onClick={handleClickOpen} className={clsx(classes.editProfilePicture, classes.root)} display="flex" justifyContent="center" alignItems="center">
-					<Box width={1} height="100%" className={clsx(classes.overlay, 'showOverlayOnHover' )} display="flex" justifyContent="center" alignItems="center" >
-				 		<Icon className={classes.largeIcon} component={CameraAltIcon} />
-				 	</Box>
-		    </Box>
-				<Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-	        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-	          Upload Picture
-	        </DialogTitle>
-	        <DialogContent dividers>
-	          <DropzoneArea />
-	        </DialogContent>
-	        <DialogActions>
-	          <Button onClick={handleClose} color="primary">
-	            Save changes
-	          </Button>
-	        </DialogActions>
-	      </Dialog>
+			<Box width={1} height="100%" onClick={handleOpen} className={clsx(classes.editProfilePicture, classes.root)} display="flex" justifyContent="center" alignItems="center">
+				{
+					pic &&
+					<img
+						className={classes.profilePicture}
+						alt="logo"
+						src={pic}/>
+				}
+				<Box width={1} height="100%" className={clsx(classes.overlay, 'showOverlayOnHover' )} display="flex" justifyContent="center" alignItems="center" >
+			 		<Icon className={classes.largeIcon} component={CameraAltIcon} />
+			 	</Box>
+	    </Box>
+			<Dialog maxWidth="lg" aria-labelledby="customized-dialog-title" open={open}>
+        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+          Upload Picture
+        </DialogTitle>
+        <DialogContent >
+					{
+						newPicLoaded ?
+						<ReactCrop
+							className={classes.reactCrop}
+							src={newPic}
+							crop={newCrop}
+							keepSelection={true}
+							onChange={newCrop => setNewCrop(newCrop)}/> :
+          	<DropzoneArea
+							onSet={(pic) => handlePicSet(pic)}/>
+					}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSave} color="primary">
+            Save changes
+          </Button>
+        </DialogActions>
+      </Dialog>
 		</div>
 	);
 }
 
 export default ProfilePicture;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
   },
@@ -63,18 +179,22 @@ const useStyles = makeStyles(theme => ({
 		height: 100,
 		width: 100,
 		padding: "0px !important",
-		background: "url('https://picsum.photos/200')",
 		position: "relative",
 		cursor: 'pointer',
 	},
 	profilePicture: {
-		width: 100,
-		height: 100,
+		width: '100%',
+		height: '100%',
+		borderRadius: "50%"
+	},
+	reactCrop: {
+		margin: "0 auto",
 	},
 	largeIcon: {
 		transform: 'scale(2)',
 	},
 	overlay: {
+		position: 'absolute',
 		borderRadius: "50%",
 		backgroundColor: 'rgba(38,43,47, 0.5) !important',
 	},
@@ -89,15 +209,14 @@ const useStyles = makeStyles(theme => ({
 const styles = theme => ({
   root: {
     margin: 0,
-    padding: theme.spacing(2),
+    padding: theme.spacing(4),
+		display: 'flex',
+		justifyContent: 'space-between',
+		alignItems: 'center'
   },
   closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-
 });
 
 const DialogTitle = withStyles(styles)(props => {

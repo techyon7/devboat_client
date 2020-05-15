@@ -19,6 +19,7 @@
     "react-dom": "^16.9.0",
     "react-dropzone": "^10.1.9",
     "react-filter-search": "^1.0.8",
+    "react-image-crop": "^8.6.2",
     "react-infinite-scroll-component": "^4.5.3",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
