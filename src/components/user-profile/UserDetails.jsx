@@ -25,7 +25,7 @@ import { GET } from "../../actions/api";
 //const monthNames = listCollection().monthNamesCollection();
 
 // UserDetails component
-const UserDetails = (props) => {
+const UserDetails = props => {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
 
@@ -34,13 +34,16 @@ const UserDetails = (props) => {
   const [showcase] = React.useState(null);
   const [anchorEl] = React.useState(null);
 
-  useEffect(() => {
-    (async () => {
-      const response = await GET(`/users/${props.username}`, session.token);
-      const result = await response.json();
-      setUser(result);
-    })();
-  }, [session.token, props.username]);
+  useEffect(
+    () => {
+      (async () => {
+        const response = await GET(`/users/${props.username}`, session.token);
+        const result = await response.json();
+        setUser(result);
+      })();
+    },
+    [session.token, props.username]
+  );
 
   // const handleAvatarMouseOver = (e, name) => {
   //   setConnectionAvatar({
@@ -60,8 +63,10 @@ const UserDetails = (props) => {
   const id = open ? "no-transition-popper" : undefined;
 
   const userDetailsBlocks = [
-    UserSkillsList, UserInterestsList,
-    UserWorkList, UserEducationList
+    UserSkillsList,
+    UserInterestsList,
+    UserWorkList,
+    UserEducationList
   ];
 
   // JSX Markup
@@ -76,26 +81,26 @@ const UserDetails = (props) => {
           }
         </Grid>
         <Grid item xs={12}>
-          {user &&
+          {user && (
             <Typography variant="h4" color="textPrimary">
               <Box fontWeight="fontWeightMedium" component="span">
                 {user.first_name} {user.last_name}
               </Box>
             </Typography>
-          }
-          {showcase &&
+          )}
+          {showcase && (
             <Typography variant="subtitle1">
               {showcase.currentPosition.title} at{" "}
               {showcase.currentPosition.company}
-              <br/>
+              <br />
               since {showcase.currentPosition.startDate().month},{" "}
               {showcase.currentPosition.startDate().year}
             </Typography>
-          }
+          )}
         </Grid>
 
         <Grid item xs={12}>
-          {props.isProfileSelf ? <EditProfile /> : <ConnectInteraction />}
+          {!props.isProfileSelf && <ConnectInteraction />}
         </Grid>
         <Grid item xs={12}>
           <Box w={1} display="flex" alignItems="center">
@@ -111,7 +116,7 @@ const UserDetails = (props) => {
             </Typography>
           </Box>
         </Grid>
-        {connections &&
+        {connections && (
           <Grid item xs={12}>
             <Box display="flex" ml={4} mb={8}>
               <Popper
@@ -122,9 +127,7 @@ const UserDetails = (props) => {
                 className={classes.bgCinderLight}
               >
                 <Paper>
-                  <Typography className={classes.typography}>
-
-                  </Typography>
+                  <Typography className={classes.typography} />
                 </Paper>
               </Popper>
               <SearchConnections
@@ -133,8 +136,8 @@ const UserDetails = (props) => {
               />
             </Box>
           </Grid>
-        }
-        {connections &&
+        )}
+        {connections && (
           <Grid item xs={12}>
             <Grid container>
               <Grid item xs={5}>
@@ -157,14 +160,13 @@ const UserDetails = (props) => {
               </Grid>
             </Grid>
           </Grid>
-        }
+        )}
         {user &&
           userDetailsBlocks.map((Component, index) => (
             <Grid item xs={12} key={index}>
-              <Component userId={user.id}/>
+              <Component userId={user.id} />
             </Grid>
-          ))
-        }
+          ))}
       </Grid>
     </Box>
   );
