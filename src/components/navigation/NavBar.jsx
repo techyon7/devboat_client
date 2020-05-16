@@ -18,7 +18,7 @@ import logo from '../../assets/logo192.png';
 import { GlobalContext } from '../../context/GlobalContext';
 import { POST } from '../../actions/api';
 
-const NavBar = () => {
+const NavBar = (props) => {
   const classes = useStyles();
   const { setSession } = useContext(GlobalContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -47,6 +47,10 @@ const NavBar = () => {
   const handleLogout = async () => {
     const response = await POST('/auth/logout');
     if (response.status === 200) {
+      props.history.replace({
+        pathname: `/login`,
+        state: null
+      })
       setSession({
         token: null,
         userId: null,

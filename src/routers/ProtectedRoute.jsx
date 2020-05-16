@@ -12,7 +12,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
       render={props =>
         session.token ? (
           <Fragment>
-            <NavBar />
+            <NavBar {...props}/>
             <Component {...props} />
           </Fragment>
         ) : (
