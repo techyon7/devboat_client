@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	ListItem,
+	ListItemAvatar,
 	ListItemText,
 	IconButton,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import UserPicture from "../user-profile/UserPicture";
 import { GET } from "../../actions/api";
 import { GlobalContext } from "../../context/GlobalContext";
 
@@ -75,6 +77,9 @@ const Search = () => {
               className={classes.searchItem}
               onClick={handleClose}
               to={`/${user.username}`}>
+							<ListItemAvatar className={classes.userPicture}>
+								<UserPicture picture={user.picture} crop={user.cropped_data}/>
+							</ListItemAvatar>
               <ListItemText id="switch-list-label" primary={`${user.first_name} ${user.last_name}`} />
             </ListItem>
           ))
@@ -119,5 +124,11 @@ const useStyles = makeStyles(theme => ({
   searchItem: {
     paddingTop: 8,
     paddingBottom: 8
-  }
+  },
+	userPicture: {
+		height: 42,
+		width: 42,
+		minWidth: 42,
+		marginRight: 6
+	}
 }));
