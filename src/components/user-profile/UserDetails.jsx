@@ -2,9 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ProfilePicture from "./ProfilePicture";
 import ConnectInteraction from "./ConnectInteraction";
-import SearchConnections from "./SearchConnections";
-import SearchFollowers from "./SearchFollowers";
-import SearchFollowing from "./SearchFollowing";
+import UserConnectionsList from "./UserConnectionsList";
 import UserSkillsList from "./UserSkillsList";
 import UserInterestsList from "./UserInterestsList";
 import UserWorkList from "./UserWorkList";
@@ -13,10 +11,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import {
   Box,
   Grid,
-  Paper,
-  Popper,
   Typography,
-  Divider
 } from "@material-ui/core";
 // import listCollection from "../validations/dateInputSanitizer";
 import { GET } from "../../actions/api";
@@ -29,11 +24,8 @@ const UserDetails = props => {
   const { session } = useContext(GlobalContext);
 
   const [user, setUser] = useState(null);
-
-
-  const [connections] = useState(null);
-  const [showcase] = React.useState(null);
-  const [anchorEl] = React.useState(null);
+  const [connections, setConnections] = useState(null);
+  const [showcase] = useState(null);
 
   useEffect(
     () => {
@@ -41,29 +33,24 @@ const UserDetails = props => {
         let response = await GET(`/users/${props.username}`, session.token);
         const user = await response.json();
         setUser(user);
+
+        response = await GET('/connections', session.token);
+        const result = await response.json();
+				let connections = [];
+				for (let i = 0; i < result.length; i++) {
+					if (result[i].user1 === props.userId)
+						connections = [...connections, result[i].user2];
+					else if (result[i].user2 === props.userId)
+						connections = [...connections, result[i].user1];
+				}
+				setConnections(connections);
       })();
     },
-    [session.token, props.username]
+    [session.token, props.username, props.userId]
   );
 
-  // const handleAvatarMouseOver = (e, name) => {
-  //   setConnectionAvatar({
-  //     name: name
-  //   });
-  //   setAnchorEl(e.currentTarget);
-  // };
-  //
-  // const handleAvatarMouseOut = e => {
-  //   setConnectionAvatar({
-  //     name: ""
-  //   });
-  //   setAnchorEl(null);
-  // };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "no-transition-popper" : undefined;
-
   const userDetailsBlocks = [
+    UserConnectionsList,
     UserSkillsList,
     UserInterestsList,
     UserWorkList,
@@ -101,75 +88,31 @@ const UserDetails = props => {
           )}
         </Grid>
 
-        {!props.isProfileSelf && user &&
+        {!props.isProfileSelf && user && connections &&
           <ConnectInteraction
+            connections={connections}
             user1={session.userId}
             user2={user.id}
             userFirstName={user.first_name}/>
         }
-        <Grid item xs={12}>
-          <Box w={1} display="flex" alignItems="center">
+        <Grid item xs={12} className={classes.connectionsTitle}>
+          <Box w={1} display="flex" alignItems="flex-end">
             <Typography variant="h5" color="textPrimary" align="left">
-              <Box fontWeight="fontWeightMedium" component="span" mr={3}>
+              <Box fontWeight="fontWeightMedium" component="span" mr={2}>
                 Connections
               </Box>
             </Typography>
-            <Typography variant="subtitle1" align="left">
+            <Typography variant="h6" align="left">
               <Box fontWeight="fontWeightMedium" component="span">
                 ({connections ? connections.length : 0})
               </Box>
             </Typography>
           </Box>
         </Grid>
-        {connections && (
-          <Grid item xs={12}>
-            <Box display="flex" ml={4} mb={8}>
-              <Popper
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                placement="top"
-                className={classes.bgCinderLight}
-              >
-                <Paper>
-                  <Typography className={classes.typography} />
-                </Paper>
-              </Popper>
-              <SearchConnections
-                connectionsCount={connections.length}
-                connections={connections}
-              />
-            </Box>
-          </Grid>
-        )}
-        {connections && (
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={5}>
-                <SearchFollowers
-                  connectionsCount={connections.length}
-                  connections={connections}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <Divider
-                  orientation="vertical"
-                  className={classes.verticalDivider}
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <SearchFollowing
-                  connectionsCount={connections.length}
-                  connections={connections}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        )}
-        {user &&
+        {user && connections &&
           userDetailsBlocks.map((Component, index) => (
             <Grid item xs={12} key={index}>
-              <Component userId={user.id} />
+              <Component connections={connections} userId={user.id} />
             </Grid>
           ))}
       </Grid>
@@ -188,17 +131,11 @@ const useStyles = makeStyles(theme => ({
   verticalDivider: {
     margin: "0 auto"
   },
-  connectionAvatar: {
-    border: "2px solid #262B2F",
-    height: 48,
-    width: 48,
-    marginLeft: "-1rem"
+  connectionsTitle: {
+    paddingBottom: 2
   },
   typography: {
     padding: theme.spacing(2),
-    backgroundColor: "#3A4147"
-  },
-  bgCinderLight: {
     backgroundColor: "#3A4147"
   }
 }));
