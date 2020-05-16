@@ -32,17 +32,15 @@ const Search = () => {
 	}, [session.token]);
 
   useEffect(() => {
-    (async () => {
-      if(searchQuery.length === 0)
-        setIsSearchOpen(false);
-      else {
-        setIsSearchOpen(true);
-        const filteredUsers = users.filter(user => {
-          return `${user.first_name} ${user.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
-        });
-        setFilteredUsers(filteredUsers);
-      }
-    })();
+    if(searchQuery.length === 0)
+      setIsSearchOpen(false);
+    else {
+      setIsSearchOpen(true);
+      const filteredUsers = users.filter(user => {
+        return `${user.first_name} ${user.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+      setFilteredUsers(filteredUsers);
+    }
   }, [users, searchQuery]);
 
   const handleClose = () => {
