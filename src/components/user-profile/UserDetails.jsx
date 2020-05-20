@@ -8,11 +8,7 @@ import UserInterestsList from "./UserInterestsList";
 import UserWorkList from "./UserWorkList";
 import UserEducationList from "./UserEducationList";
 import { GlobalContext } from "../../context/GlobalContext";
-import {
-  Box,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
 // import listCollection from "../validations/dateInputSanitizer";
 import { GET } from "../../actions/api";
 
@@ -34,16 +30,17 @@ const UserDetails = props => {
         const user = await response.json();
         setUser(user);
 
-        response = await GET('/connections', session.token);
+        response = await GET("/connections", session.token);
         const result = await response.json();
-				let connections = [];
-				for (let i = 0; i < result.length; i++) {
-					if (result[i].user1 === props.userId)
-						connections = [...connections, result[i].user2];
-					else if (result[i].user2 === props.userId)
-						connections = [...connections, result[i].user1];
-				}
-				setConnections(connections);
+
+        let connections = [];
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].user1 === props.userId)
+            connections = [...connections, result[i].user2];
+          else if (result[i].user2 === props.userId)
+            connections = [...connections, result[i].user1];
+        }
+        setConnections(connections);
       })();
     },
     [session.token, props.username, props.userId]
@@ -62,12 +59,13 @@ const UserDetails = props => {
     <Box p={5}>
       <Grid container justify="center" spacing={5}>
         <Grid item>
-          {user &&
+          {user && (
             <ProfilePicture
               isProfileSelf={props.isProfileSelf}
               picture={user.picture}
-              crop={user.cropped_data}/>
-          }
+              crop={user.cropped_data}
+            />
+          )}
         </Grid>
         <Grid item xs={12}>
           {user && (
@@ -88,13 +86,14 @@ const UserDetails = props => {
           )}
         </Grid>
 
-        {!props.isProfileSelf && user && connections &&
+        {!props.isProfileSelf && user && connections && (
           <ConnectInteraction
             connections={connections}
             user1={session.userId}
             user2={user.id}
-            userFirstName={user.first_name}/>
-        }
+            userFirstName={user.first_name}
+          />
+        )}
         <Grid item xs={12} className={classes.connectionsTitle}>
           <Box w={1} display="flex" alignItems="flex-end">
             <Typography variant="h5" color="textPrimary" align="left">
@@ -109,7 +108,8 @@ const UserDetails = props => {
             </Typography>
           </Box>
         </Grid>
-        {user && connections &&
+        {user &&
+          connections &&
           userDetailsBlocks.map((Component, index) => (
             <Grid item xs={12} key={index}>
               <Component connections={connections} userId={user.id} />

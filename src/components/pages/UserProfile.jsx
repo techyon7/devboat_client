@@ -95,7 +95,7 @@ const UserProfile = props => {
                   Pending Connection Requests
                 </Paper>
                 <div>
-                  <ConnectionRequests />
+                  <ConnectionRequests user={session.userId} />
                 </div>
               </Grid>
             </Grid>
