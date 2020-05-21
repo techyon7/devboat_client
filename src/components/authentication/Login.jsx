@@ -10,7 +10,8 @@ import {
   Input,
   InputAdornment,
   IconButton,
-  Button
+  Button,
+  Typography
 } from "@material-ui/core";
 
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -27,6 +28,7 @@ export default function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const [displayError, setDisplayError] = React.useState(false);
 
   const handleLogin = async () => {
     let body = {
@@ -47,6 +49,8 @@ export default function Login() {
         userLastName: result.user.last_name,
         userImg: null
       });
+    } else {
+      setDisplayError(true);
     }
   };
 
@@ -59,6 +63,7 @@ export default function Login() {
     <div className={classes.root}>
       {/* Email Input */}
       <TextField
+        error={displayError}
         fullWidth
         label="Email"
         className={clsx(classes.margin, classes.textField)}
@@ -67,10 +72,10 @@ export default function Login() {
         margin="normal"
         onChange={e => setEmail(e.target.value)}
       />
-
       {/* Password Input Container */}
       <FormControl
         fullWidth
+        error={displayError}
         className={clsx(classes.margin, classes.textField)}
       >
         {/* Password Input Label */}
@@ -102,6 +107,11 @@ export default function Login() {
       {/* Forgot password link container */}
       <Box width={1} align="center" mt={5} mb={8}>
         {/* Forgot password link */}
+        {displayError && (
+          <Typography className={classes.error}>
+            Invalid user email or password
+          </Typography>
+        )}
         <Link to="/forgot" className={classes.linkLight}>
           Forgot your password?
         </Link>
@@ -135,5 +145,8 @@ const useStyles = makeStyles(theme => ({
   },
   linkLight: {
     color: "#fff"
+  },
+  error: {
+    color: "red"
   }
 }));

@@ -28,26 +28,6 @@ export const RegistrationSchema = Yup.object().shape({
     .email("Please enter a valid email")
     .required("Email is required"),
   password: Yup.string()
-    /*.matches(/^(?=.*[a-z])$/g, {
-      message: "Password must contain at least one lowercase character",
-      excludeEmptyString: true
-    })
-    .matches(/^(?=.*[A-Z])$/g, {
-      message: "Password must contain at least one uppercase character",
-      excludeEmptyString: true
-    })
-    .matches(/^(?=.*\d)$/g, {
-      message: "Password must contain at least one number",
-      excludeEmptyString: true
-    })
-    .matches(/^(?=.*[#$^+=!*()@%&])$/g, {
-      message: "Password must contain at least one special character",
-      excludeEmptyString: true
-    })
-    .matches(/^.{8,32}$/g, {
-      message: "Password must be between 8-32 characters in length",
-      excludeEmptyString: true
-    })*/
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
