@@ -5,6 +5,7 @@ import DevboatDescription from "../authentication/DevboatDescription";
 import Login from "../authentication/Login";
 import Register from "../authentication/Register";
 import VerifyEmail from "../authentication/VerifyEmail";
+import ConfirmEmail from "../authentication/ConfirmEmail";
 import Forgot from "../authentication/Forgot";
 import ResetSent from "../authentication/ResetSent";
 import ChangePassword from "../authentication/ChangePassword";
@@ -12,16 +13,12 @@ import { makeStyles } from "@material-ui/styles";
 import { Grid, Container, Box, Hidden } from "@material-ui/core";
 import { GlobalContext } from "../../context/GlobalContext";
 
-// Authentication Component
-
 export default function Authentication(props) {
-  // React hooks
   const classes = useStyles();
-  // React Context
   const { session } = useContext(GlobalContext);
+
   const { from } = props.location.state || { from: { pathname: `/${session.username}` } };
 
-  // JSX Markup
   return (
     <Fragment>
       {session.token ? (
@@ -58,7 +55,8 @@ export default function Authentication(props) {
 
                     <Route path="/(login|)" exact component={Login} />
                     <Route path="/register" component={Register} />
-                    <Route path="/confirm-email" component={VerifyEmail} />
+                    <Route path="/confirm" component={ConfirmEmail} />
+                    <Route path="/verify/:verification_key" component={VerifyEmail} />
                     <Route path="/forgot" component={Forgot} />
                     <Route path="/reset-sent" component={ResetSent} />
                     <Route path="/change-password" component={ChangePassword} />
@@ -87,8 +85,6 @@ export default function Authentication(props) {
     </Fragment>
   );
 }
-
-// Styles
 
 const useStyles = makeStyles({
   root: {
