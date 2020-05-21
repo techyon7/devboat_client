@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -7,55 +8,52 @@ import {
 	Hidden,
 	Button
 } from '@material-ui/core';
+import { POST } from "../../actions/api";
 
-// VerifyEmail Component
+export default function VerifyEmail(props) {
+	const classes = useStyles();
 
-export default function VerifyEmail() {
-	// React Hooks
-		const classes = useStyles();
+	useEffect(() => {
+		(async () => {
+			const body = { verification_key: props.match.params.verification_key }
+			await POST('/users/verify', body);
+		})();
+	}, [props.match.params.verification_key]);
 
-	// JSX Markup
 	return(
 		<React.Fragment>
 			<Box width={1} align="center">
-
-			{/* Hide longer text on smaller devices */}
 				<Hidden smDown>
 					<Typography variant="h4" text="center">
-						Confirm your email!
+						Email verification
 					</Typography>
 				</Hidden>
 
-				{/* Hide shorter text on bigger devices */}
 				<Hidden only={['md', 'lg', 'xl']}>
 					<Typography variant="h4" text="center">
-						Confirm email
+						Email verified!
 					</Typography>
 				</Hidden>
 
 				<Box mt={3}>
 					<Typography variant="body1" text="center">
-						Your account has been successfully created on DevBoat. To complete the process please check your email for a verification request.
+						Your email has been successfully verified.
 					</Typography>
 				</Box>
+
+				<Box width={1} align="center" mt={8}>
+					<Link to='/login'>
+						<Button variant="contained" className={clsx(classes.margin, "btn btn-success")}>
+							<Box px={8}>
+								Go to Login
+							</Box>
+						</Button>
+					</Link>
+				</Box>
 			</Box>
-
-			{/* Resend button container */}
-			<Box width={1} align="center" mt={8}>
-				{/* Resend button */}
-				<Button variant="contained" className={clsx(classes.margin, "btn btn-success")}>
-					<Box px={8}>
-						Resend link
-					</Box>
-				</Button>
-
-			</Box>
-
 		</React.Fragment>
 	);
 }
-
-// Styles
 
 const useStyles = makeStyles(theme => ({
   margin: {
