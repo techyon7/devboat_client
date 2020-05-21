@@ -19,7 +19,7 @@ export default function ConfirmEmail(props) {
 			props.history.push({
 				pathname: '/login'
 			});
-	}, [props.location.state.username]);
+	}, [props.history, props.location.state.username]);
 
 	const handleResend = async () => {
 		const body = { username: props.location.state.username }

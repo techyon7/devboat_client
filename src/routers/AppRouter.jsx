@@ -5,7 +5,6 @@ import Authentication from "../components/pages/Authentication";
 import ProtectedRoute from "./ProtectedRoute";
 import UserProfile from "../components/pages/UserProfile";
 import ProfileSetupForm from "../components/pages/ProfileSetupForm";
-import VerifyEmail from "../components/authentication/VerifyEmail";
 
 // AppRouter Component
 export default function AppRouter() {
