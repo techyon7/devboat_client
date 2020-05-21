@@ -1,21 +1,11 @@
 import React, { useCallback, useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
-import WorkIcon from "@material-ui/icons/Work";
-import BeachAccessIcon from "@material-ui/icons/BeachAccess";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
-import IconButton from "@material-ui/core/IconButton";
 import { GlobalContext } from "../../context/GlobalContext";
 import ConnectionRequestItem from "./ConnectionRequestItem";
 import { GET } from "../../actions/api";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
     maxWidth: 360
@@ -33,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function RequestList(props) {
+export default function RequestList() {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
   const [requests, setRequests] = useState([]);

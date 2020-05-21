@@ -50,8 +50,7 @@ export default function RequestListItem(props) {
       user2: session.userId //In DB, user2: who accepted
     };
 
-    const response = await POST("/connections", body, session.token);
-    const result = await response.json();
+    await POST("/connections", body, session.token);
     await DELETE(`/requests/${props.requestId}`, session.token);
     props.handleChange();
   };
