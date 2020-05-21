@@ -29,7 +29,7 @@ const RegisterForm = props => {
 
   // // Event Handlers
   // Change the state on toggle visibility button click to show/hide password
-  const handleClickShowPassword = props => {
+  const handleClickShowPassword = () => {
     setState({ ...state, showPassword: !state.showPassword });
   };
 
@@ -89,7 +89,10 @@ const RegisterForm = props => {
         );
         if (response.status === 201) {
           props.history.push({
-            pathname: "/verify"
+            pathname: "/confirm",
+            state: {
+              username: values.username
+            }
           });
         }
       }}
