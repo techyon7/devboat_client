@@ -3,9 +3,10 @@ import UserDetails from "../user-profile/UserDetails";
 import Projects from "../user-profile/Projects";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container, Paper } from "@material-ui/core";
+import ConnectionRequests from "../user-profile/ConnectionRequests";
 import { GlobalContext } from "../../context/GlobalContext";
 import { GET } from "../../actions/api";
-import ConnectionRequests from "../user-profile/ConnectionRequests";
+
 const UserProfile = props => {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
@@ -91,12 +92,10 @@ const UserProfile = props => {
 
               {/* Peer Recommendations */}
               <Grid className={classes.item} item xs={12}>
-                <Paper className={classes.paper}>
+                <Paper className={classes.paperRight}>
                   Pending Connection Requests
-                </Paper>
-                <div>
                   <ConnectionRequests user={session.userId} />
-                </div>
+                </Paper>
               </Grid>
             </Grid>
           </Grid>
@@ -121,6 +120,12 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    backgroundColor: "#262B2F !important"
+  },
+  paperRight: {
+    padding: theme.spacing(2, 0, 2, 0),
     textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: "#262B2F !important"

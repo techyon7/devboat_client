@@ -11,7 +11,7 @@ import UserPicture from "./UserPicture";
 import { GET, POST, DELETE } from "../../actions/api";
 import { GlobalContext } from "../../context/GlobalContext";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
     maxWidth: 360
@@ -20,30 +20,24 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-around"
-  },
-  accept: {
-    color: "green"
-  },
-  decline: {
-    color: "red"
   }
 }));
 
 export default function RequestListItem(props) {
   const classes = useStyles();
-  const [user, setUser] = useState(null);
   const { session } = useContext(GlobalContext);
-  useEffect(
-    () => {
-      (async () => {
-        const response = await GET(`/users/${props.userId}`, session.token);
-        const user = await response.json();
 
-        setUser(user);
-      })();
-    },
-    [session.token, props.userId]
-  );
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const response = await GET(`/users/${props.userId}`, session.token);
+      const user = await response.json();
+
+      setUser(user);
+    })();
+  }, [session.token, props.userId]);
+
   const handleAccept = async () => {
     let body = {
       user1: user.id, //In DB, user1: who sent
@@ -54,12 +48,14 @@ export default function RequestListItem(props) {
     await DELETE(`/requests/${props.requestId}`, session.token);
     props.handleChange();
   };
+
   const handleReject = async () => {
     await DELETE(`/requests/${props.requestId}`, session.token);
     props.handleChange();
   };
+
   return (
-    <ListItem>
+    <ListItem button>
       <ListItemAvatar>
         <Avatar>
           {user && (
@@ -74,19 +70,15 @@ export default function RequestListItem(props) {
         <IconButton
           color="primary"
           size="small"
-          aria-label="accept"
           component="span"
-          className={classes.accept}
           onClick={handleAccept}
         >
           <CheckCircleIcon />
         </IconButton>
         <IconButton
-          color="secondary"
+          color="primary"
           size="small"
-          aria-label="decline"
           component="span"
-          className={classes.decline}
           onClick={handleReject}
         >
           <CancelIcon />

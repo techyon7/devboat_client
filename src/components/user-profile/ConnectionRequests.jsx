@@ -1,30 +1,10 @@
 import React, { useCallback, useState, useEffect, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
+import { Box, List } from "@material-ui/core";
 import { GlobalContext } from "../../context/GlobalContext";
 import ConnectionRequestItem from "./ConnectionRequestItem";
 import { GET } from "../../actions/api";
 
-const useStyles = makeStyles(() => ({
-  root: {
-    width: "100%",
-    maxWidth: 360
-  },
-  iconHolder: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-around"
-  },
-  accept: {
-    color: "green"
-  },
-  decline: {
-    color: "red"
-  }
-}));
-
 export default function RequestList() {
-  const classes = useStyles();
   const { session } = useContext(GlobalContext);
   const [requests, setRequests] = useState([]);
 
@@ -43,25 +23,28 @@ export default function RequestList() {
     },
     [session.userId, session.token]
   );
-  useEffect(
-    () => {
+
+  useEffect(() => {
       loadRequests();
-    },
-    [loadRequests]
-  );
+  }, [loadRequests]);
 
   const handleChange = () => {
     loadRequests();
   };
+
   return (
-    <List className={classes.root}>
-      {requests.map(item => (
-        <ConnectionRequestItem
-          requestId={item.id}
-          userId={item.sender}
-          handleChange={handleChange}
-        />
-      ))}
-    </List>
+    <Box>
+      {requests.length > 0 &&
+        <List>
+          {requests.map(item => (
+            <ConnectionRequestItem
+              requestId={item.id}
+              userId={item.sender}
+              handleChange={handleChange}
+            />
+          ))}
+        </List>
+      }
+    </Box>
   );
 }
