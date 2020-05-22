@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -55,7 +56,7 @@ export default function RequestListItem(props) {
   };
 
   return (
-    <ListItem button>
+    <ListItem button component={Link} to={user && `/${user.username}`}>
       <ListItemAvatar>
         <Avatar>
           {user && (
