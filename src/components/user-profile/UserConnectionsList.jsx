@@ -6,7 +6,7 @@ import ConnectionUser from "./ConnectionUser";
 
 const UserConnectionsList = (props) => {
 	return (
-		<Box>
+		<Box display="flex">
 			{props.connections &&
 				props.connections.map((item) => (
 					<ConnectionUser key={item} userId={item}/>

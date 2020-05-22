@@ -72,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
   user: {
     width: 32,
 		height: 32,
+		marginRight: 4,
 		cursor: 'pointer'
   },
   bgCinderLight: {
