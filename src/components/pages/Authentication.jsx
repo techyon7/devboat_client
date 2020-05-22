@@ -7,8 +7,9 @@ import Register from "../authentication/Register";
 import VerifyEmail from "../authentication/VerifyEmail";
 import ConfirmEmail from "../authentication/ConfirmEmail";
 import Forgot from "../authentication/Forgot";
-import ResetSent from "../authentication/ResetSent";
-import ChangePassword from "../authentication/ChangePassword";
+import ForgotSent from "../authentication/ForgotSent";
+import Reset from "../authentication/Reset";
+import ResetDone from "../authentication/ResetDone";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Container, Box, Hidden } from "@material-ui/core";
 import { GlobalContext } from "../../context/GlobalContext";
@@ -46,9 +47,9 @@ export default function Authentication(props) {
                       <Route
                         path="/(|login|register)"
                         render={({ match }) => (
-                          <React.Fragment>
+                          <Fragment>
                             {match.isExact ? <AuthButtonGroup /> : null}
-                          </React.Fragment>
+                          </Fragment>
                         )}
                       />
                     </Box>
@@ -58,8 +59,9 @@ export default function Authentication(props) {
                     <Route path="/confirm" component={ConfirmEmail} />
                     <Route path="/verify/:verification_key" component={VerifyEmail} />
                     <Route path="/forgot" component={Forgot} />
-                    <Route path="/reset-sent" component={ResetSent} />
-                    <Route path="/change-password" component={ChangePassword} />
+                    <Route path="/forgot-sent" component={ForgotSent} />
+                    <Route path="/reset/:reset_password_key" component={Reset} />
+                    <Route path="/reset-done" component={ResetDone} />
                   </Container>
                 </Box>
               </Grid>
