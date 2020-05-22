@@ -4,6 +4,7 @@ import Projects from "../user-profile/Projects";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container, Paper } from "@material-ui/core";
 import ConnectionRequests from "../user-profile/ConnectionRequests";
+import Recommendations from "../user-profile/Recommendations";
 import { GlobalContext } from "../../context/GlobalContext";
 import { GET } from "../../actions/api";
 
@@ -80,21 +81,17 @@ const UserProfile = props => {
               alignItems="flex-start"
               className={classes.alignStart}
             >
-              {/* Mentor Recommendations */}
-              <Grid className={classes.item} item xs={12}>
-                <Paper className={classes.paper}>Mentor Recommendations</Paper>
-              </Grid>
-
-              {/* Mentee Recommendations */}
-              <Grid className={classes.item} item xs={12}>
-                <Paper className={classes.paper}>Mentee Recommendations</Paper>
-              </Grid>
-
-              {/* Peer Recommendations */}
               <Grid className={classes.item} item xs={12}>
                 <Paper className={classes.paperRight}>
                   Pending Connection Requests
                   <ConnectionRequests user={session.userId} />
+                </Paper>
+              </Grid>
+
+              <Grid className={classes.item} item xs={12}>
+                <Paper className={classes.paperRight}>
+                  People you make know
+                  <Recommendations user={session.userId} />
                 </Paper>
               </Grid>
             </Grid>
