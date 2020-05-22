@@ -31,11 +31,8 @@ const UserProfile = props => {
 
   return (
     <div className={classes.root}>
-      {/* Fix maximum width */}
       <Container disableGutters maxWidth="xl">
-        {/* Main container */}
         <Grid container direction="row" justify="center">
-          {/* User Details */}
           <Grid className={classes.item} item xs={12} lg={3}>
             <Paper className={classes.paper}>
               {user && (
@@ -47,7 +44,7 @@ const UserProfile = props => {
               )}
             </Paper>
           </Grid>
-          {/* Projects & Posts */}
+
           <Grid item xs={12} lg={6}>
             <Grid
               container
@@ -57,21 +54,20 @@ const UserProfile = props => {
               alignItems="flex-start"
               className={classes.alignStart}
             >
-              {/* Projects */}
               <Grid className={classes.item} item xs={12}>
                 <Projects />
               </Grid>
-              {/* Create Post */}
+
               <Grid className={classes.item} item xs={12}>
                 <Paper className={classes.paper}>Create Post</Paper>
               </Grid>
-              {/* Posts */}
+
               <Grid className={classes.item} item xs={12}>
                 <Paper className={classes.paper}>Post</Paper>
               </Grid>
             </Grid>
           </Grid>
-          {/* Recommendations */}
+
           <Grid item xs={12} lg={3}>
             <Grid
               container
