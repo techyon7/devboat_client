@@ -23,7 +23,7 @@ export default function VerifyEmail(props) {
 				});
 			}
 		})();
-	}, [props.match.params.verification_key]);
+	}, [props.history, props.match.params.verification_key]);
 
 	return(
 		<Fragment>

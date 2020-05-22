@@ -39,7 +39,7 @@ export default function Reset(props) {
 			const user = await response.json();
 			setUser(user);
 		})();
-	}, [props.match.params.reset_password_key]);
+	}, [props.history, props.match.params.reset_password_key]);
 
 	const handleChange = prop => event => {
 		setValues({ ...values, [prop]: event.target.value });
