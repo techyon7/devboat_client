@@ -17,7 +17,7 @@ export default function AppRouter() {
           <Route exact path="/register" component={Authentication} />
           <Route exact path="/verify/:verification_key" component={Authentication} />
           <Route exact path="/reset/:reset_password_key" component={Authentication} />
-          <ProtectedRoute exact path="/profileSetup" component={ProfileSetupForm} />
+          <ProtectedRoute exact path="/profile-setup" component={ProfileSetupForm} />
           <ProtectedRoute exact path="/:username" component={UserProfile} />
         </Switch>
       </GlobalProvider>

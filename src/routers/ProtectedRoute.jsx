@@ -11,15 +11,19 @@ function ProtectedRoute({ component: Component, ...rest }) {
       {...rest}
       render={props =>
         session.token ? (
-          <Fragment>
-            <NavBar {...props}/>
-            <Component {...props} />
-          </Fragment>
+          session.userIsSetup || props.location.pathname === "/profile-setup"? (
+            <Fragment>
+              <NavBar {...props}/>
+              <Component {...props} />
+            </Fragment>
+          ) : (
+            <Redirect to="/profile-setup"/>
+          )
         ) : (
           <Redirect
             to={{
               pathname: "/login",
-              state: { from: props.location }
+              state: { from: !console.log(props) && props.location }
             }}
           />
         )
