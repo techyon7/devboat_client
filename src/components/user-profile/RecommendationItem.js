@@ -5,7 +5,6 @@ import {
 	ListItem,
 	ListItemText,
   ListItemAvatar,
-  ListItemSecondaryAction,
   Avatar,
 	Button
 } from '@material-ui/core';
