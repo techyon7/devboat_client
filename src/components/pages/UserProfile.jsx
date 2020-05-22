@@ -36,8 +36,8 @@ const UserProfile = props => {
         {/* Main container */}
         <Grid container direction="row" justify="center">
           {/* User Details */}
-          <Grid item xs={12} lg={3}>
-            <Paper className={classes.leftPanel}>
+          <Grid className={classes.item} item xs={12} lg={3}>
+            <Paper className={classes.paper}>
               {user && (
                 <UserDetails
                   userId={user.id}
