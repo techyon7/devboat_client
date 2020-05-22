@@ -47,10 +47,6 @@ const NavBar = (props) => {
   const handleLogout = async () => {
     const response = await POST('/auth/logout');
     if (response.status === 200) {
-      props.history.replace({
-        pathname: `/login`,
-        state: null
-      })
       setSession({
         token: null,
         userId: null,
