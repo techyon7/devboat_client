@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -31,7 +31,7 @@ export default function ConfirmEmail(props) {
 	}
 
 	return(
-		<React.Fragment>
+		<Fragment>
 			<Box width={1} align="center">
 				<Hidden smDown>
 					<Typography variant="h4" text="center">
@@ -68,7 +68,7 @@ export default function ConfirmEmail(props) {
 					}
 				</Box>
 			</Box>
-		</React.Fragment>
+		</Fragment>
 	);
 }
 
