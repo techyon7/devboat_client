@@ -20,6 +20,12 @@ export default function Authentication(props) {
 
   const { from } = props.location.state || { from: { pathname: `/${session.username}` } };
 
+  const loggedIn = (username) => {
+    props.history.push({
+      pathname: `/${username}`
+    });
+  }
+
   return (
     <Fragment>
       {session.token ? (
@@ -53,8 +59,11 @@ export default function Authentication(props) {
                         )}
                       />
                     </Box>
-
-                    <Route path="/(login|)" exact component={Login} />
+                    <Route path="/(login|)" render={(props) => (
+                      <Login {...props}
+                        loggedIn={loggedIn}/>
+                      )}
+                    />
                     <Route path="/register" component={Register} />
                     <Route path="/confirm" component={ConfirmEmail} />
                     <Route path="/verify/:verification_key" component={VerifyEmail} />

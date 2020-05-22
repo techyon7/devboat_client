@@ -19,7 +19,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { POST } from "../../actions/api";
 
 // Login Component
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
   const { setSession } = useContext(GlobalContext);
 
@@ -39,13 +39,15 @@ export default function Login() {
 
     // store token on success
     if (response.status === 200) {
+      props.loggedIn(result.user.username);
       setSession({
         token: result.token,
         userId: result.user.id,
         username: result.user.username,
         userFirstName: result.user.first_name,
         userLastName: result.user.last_name,
-        userImg: null
+        userImg: null,
+        userIsSetup: result.user.is_setup
       });
     } else {
       setDisplayError(true);
