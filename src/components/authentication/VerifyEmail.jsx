@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,12 +16,17 @@ export default function VerifyEmail(props) {
 	useEffect(() => {
 		(async () => {
 			const body = { verification_key: props.match.params.verification_key }
-			await POST('/users/verify', body);
+			const response = await POST('/users/verify', body);
+			if(response.status === 404) {
+				props.history.push({
+					pathname: '/login'
+				});
+			}
 		})();
 	}, [props.match.params.verification_key]);
 
 	return(
-		<React.Fragment>
+		<Fragment>
 			<Box width={1} align="center">
 				<Hidden smDown>
 					<Typography variant="h4" text="center">
@@ -51,7 +56,7 @@ export default function VerifyEmail(props) {
 					</Link>
 				</Box>
 			</Box>
-		</React.Fragment>
+		</Fragment>
 	);
 }
 
