@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
@@ -21,17 +21,15 @@ import { POST } from "../../actions/api";
 // Login Component
 export default function Login() {
   const classes = useStyles();
-
-  // React Context
   const { setSession } = useContext(GlobalContext);
-  // React States
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [displayError, setDisplayError] = React.useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
 
   const handleLogin = async () => {
-    let body = {
+    const body = {
       email: email,
       password: password
     };
@@ -58,10 +56,8 @@ export default function Login() {
     event.preventDefault();
   };
 
-  // JSX Markup
   return (
     <div className={classes.root}>
-      {/* Email Input */}
       <TextField
         error={displayError}
         fullWidth
@@ -72,24 +68,19 @@ export default function Login() {
         margin="normal"
         onChange={e => setEmail(e.target.value)}
       />
-      {/* Password Input Container */}
       <FormControl
         fullWidth
         error={displayError}
         className={clsx(classes.margin, classes.textField)}
       >
-        {/* Password Input Label */}
         <InputLabel htmlFor="login-password">Password</InputLabel>
 
-        {/* Password Input Field */}
         <Input
           id="login-password"
           type={showPassword ? "text" : "password"}
           value={password}
           onChange={e => setPassword(e.target.value)}
           endAdornment={
-            /* Password Visibility Icon Container*/
-
             <InputAdornment position="end">
               {/* Toggle Password Visibility Icon */}
               <IconButton
@@ -104,9 +95,7 @@ export default function Login() {
         />
       </FormControl>
 
-      {/* Forgot password link container */}
       <Box width={1} align="center" mt={5} mb={8}>
-        {/* Forgot password link */}
         {displayError && (
           <Typography className={classes.error}>
             Invalid user email or password
@@ -117,9 +106,7 @@ export default function Login() {
         </Link>
       </Box>
 
-      {/* Sign in button container */}
       <Box width={1} align="center">
-        {/* Sign in button */}
         <Button
           onClick={handleLogin}
           variant="contained"
@@ -132,7 +119,6 @@ export default function Login() {
   );
 }
 
-// Styles
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
