@@ -4,7 +4,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import ConnectionRequestItem from "./ConnectionRequestItem";
 import { GET } from "../../actions/api";
 
-export default function RequestList() {
+export default function ConnectionRequests() {
   const { session } = useContext(GlobalContext);
   const [requests, setRequests] = useState([]);
 

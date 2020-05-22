@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function RequestListItem(props) {
+export default function ConnectionRequestItem(props) {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
 
@@ -39,7 +39,8 @@ export default function RequestListItem(props) {
     })();
   }, [session.token, props.userId]);
 
-  const handleAccept = async () => {
+  const handleAccept = async (e) => {
+    e.preventDefault();
     let body = {
       user1: user.id, //In DB, user1: who sent
       user2: session.userId //In DB, user2: who accepted
@@ -50,7 +51,8 @@ export default function RequestListItem(props) {
     props.handleChange();
   };
 
-  const handleReject = async () => {
+  const handleReject = async (e) => {
+    e.preventDefault();
     await DELETE(`/requests/${props.requestId}`, session.token);
     props.handleChange();
   };
