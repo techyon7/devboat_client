@@ -11,7 +11,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
       {...rest}
       render={props =>
         session.token ? (
-          session.userIsSetup || props.location.pathname === "/profile-setup" ? (
+          session.userIsSetup || props.location.pathname !== "/profile-setup" ? (
             <Fragment>
               <NavBar {...props}/>
               <Component {...props} />
