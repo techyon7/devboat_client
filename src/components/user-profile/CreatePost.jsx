@@ -12,7 +12,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import { GlobalContext } from "../../context/GlobalContext";
 import { POST } from "../../actions/api";
 
-export default function CreatePost() {
+export default function CreatePost(props) {
 	const classes = useStyles();
   const { session } = useContext(GlobalContext);
 
@@ -36,6 +36,7 @@ export default function CreatePost() {
     await POST("/posts", body, session.token);
 		setContent("");
 		setIsValid(false);
+		props.handleCreated();
 	}
 
 	return(

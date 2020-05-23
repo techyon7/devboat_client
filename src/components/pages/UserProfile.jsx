@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from "react";
+import React, { Fragment, useEffect, useState, useContext, useCallback } from "react";
 import UserDetails from "../user-profile/UserDetails";
 import Projects from "../user-profile/Projects";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,6 +18,20 @@ const UserProfile = props => {
   const [user, setUser] = useState(null);
   const [is404, setIs404] = useState(false);
   const isProfileSelf = session.username === props.match.params.username;
+  const [posts, setPosts] = useState([]);
+
+  const loadPosts = useCallback(async (user) => {
+    const response = await GET('/posts', session.token);
+    const result = await response.json();
+    let posts = [];
+    for (let i = 0; i < result.length; i++) {
+      if (result[i].user === user.id) {
+        posts = [...posts, result[i]];
+      }
+    }
+    posts.sort((a, b) => new Date(b.created_on) - new Date(a.created_on));
+    setPosts(posts);
+  }, [session.token]);
 
   useEffect(
     () => {
@@ -29,6 +43,7 @@ const UserProfile = props => {
         if(response.status === 200) {
           const result = await response.json();
           setUser(result);
+          loadPosts(result);
         }
         else if(response.status === 404)
           setIs404(true);
@@ -65,12 +80,13 @@ const UserProfile = props => {
 
                 {isProfileSelf &&
                   <Grid className={classes.item} item xs={12}>
-                    <CreatePost />
+                    <CreatePost handleCreated={() => loadPosts(user)}/>
                   </Grid>
                 }
 
                 {user && (
                   <Posts
+                    posts={posts}
                     userId={user.id}
                     userFirstName={user.first_name}
                     userLastName={user.last_name}
