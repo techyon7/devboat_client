@@ -27,6 +27,8 @@ export default function Post(props) {
 	const [comments, setComments] = useState([]);
 	const [commentsCount, setCommentsCount] = useState(0);
 
+	console.log(upvotes); // remove later
+
 	const loadComments = useCallback(async () => {
 		const response = await GET('/comments', session.token);
 		const result = await response.json();
@@ -38,7 +40,7 @@ export default function Post(props) {
 		}
 		setComments(comments);
 		setCommentsCount(comments.length);
-  }, [session.token]);
+  }, [props.id, session.token]);
 
 	useEffect(() => {
     loadComments();

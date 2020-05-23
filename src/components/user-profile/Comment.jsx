@@ -1,18 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-	Grid,
 	Box,
-	Button,
-	Paper,
 	Typography
 } from '@material-ui/core';
 import UserPicture from "./UserPicture";
-import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
-import ForumRoundedIcon from '@material-ui/icons/ForumRounded';
 import { GlobalContext } from "../../context/GlobalContext";
-import { POST, GET, DELETE } from "../../actions/api";
+import { GET } from "../../actions/api";
 
 export default function Comment(props) {
 	const classes = useStyles();
