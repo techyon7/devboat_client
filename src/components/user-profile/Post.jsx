@@ -11,6 +11,7 @@ import {
 import UserPicture from "./UserPicture";
 import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
 import ForumRoundedIcon from '@material-ui/icons/ForumRounded';
+import CreateComment from "./CreateComment";
 import Comments from "./Comments";
 import { GlobalContext } from "../../context/GlobalContext";
 import { POST, GET, DELETE } from "../../actions/api";
@@ -79,7 +80,7 @@ export default function Post(props) {
 	return(
 		<Grid className={classes.item} item xs={12}>
 			<Paper elevation={false} className={classes.paper}>
-				<Box p={4} pb={0}>
+				<Box pl={4} pr={4} mb={4}>
 					<Box mb={4} display="flex" alignItems="center" justifyContent="left">
 						<Box className={classes.userPic}>
 							<UserPicture picture={props.userPicture} crop={props.userCrop}/>
@@ -96,7 +97,7 @@ export default function Post(props) {
 					<Typography textAlign="left" variant="body1" color="textSecondary">
 						{props.content}
 					</Typography>
-					<Box mt={4} mb={4} display="flex" alignItems="center" justifyContent="left">
+					<Box mt={4} display="flex" alignItems="center" justifyContent="left">
 						<Button
 							className={clsx(classes.button, {
 								[classes.active]: upvoteId
@@ -117,6 +118,7 @@ export default function Post(props) {
 					</Box>
 				</Box>
 				<Box>
+					<CreateComment />
 					<Comments comments={comments} />
 				</Box>
 			</Paper>
@@ -126,6 +128,7 @@ export default function Post(props) {
 
 const useStyles = makeStyles(theme => ({
 	paper: {
+		padding: theme.spacing(4, 0, 4, 0),
 		color: theme.palette.text.primary,
 		backgroundColor: theme.palette.secondary.main
 	},
@@ -140,8 +143,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	button: {
 		minWidth: 48,
-		width: 60,
-		height: 34,
+		width: 56,
+		height: 30,
 		fontSize: 14,
 		letterSpacing: 1.1,
 		marginRight: 8,
@@ -153,7 +156,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	active: {
 		backgroundColor: theme.palette.primary.main,
-		color: theme.palette.text.primary,
+		color: theme.palette.text.primary
 	},
 	title: {
 		cursor: 'pointer'

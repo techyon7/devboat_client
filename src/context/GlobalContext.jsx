@@ -9,7 +9,8 @@ export const GlobalProvider = ({ children }) => {
     username: null,
     userFirstName: null,
     userLastName: null,
-    userImg: null,
+    userPicture: null,
+    userCrop: null,
     userIsSetup: false
   });
 

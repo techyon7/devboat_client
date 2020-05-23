@@ -44,7 +44,8 @@ export default function Login(props) {
         username: result.user.username,
         userFirstName: result.user.first_name,
         userLastName: result.user.last_name,
-        userImg: null,
+        userPicture: result.user.picture,
+        userCrop: result.user.cropped_data,
         userIsSetup: result.user.is_setup
       });
     } else {

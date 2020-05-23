@@ -29,7 +29,7 @@ export default function Comment(props) {
 	}, [props.userId, session.token]);
 
 	return(
-		<Box p={4}>
+		<Box pl={4} pr={4} mt={4}>
 			{user &&
 				<Box display="flex" justifyContent="left">
 					<Box className={classes.userPic}>
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 		cursor: 'pointer'
 	},
 	title: {
-		fontSize: "0.80rem",
+		fontSize: "0.85rem",
 		cursor: 'pointer',
 		marginBottom: 4
 	},
