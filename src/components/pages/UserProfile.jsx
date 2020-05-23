@@ -42,7 +42,11 @@ const UserProfile = props => {
       ) : (
         <div className={classes.root}>
           <Container disableGutters maxWidth="xl">
-            <Grid container direction="row" justify="center">
+            <Grid
+              container
+              direction="row"
+              justify="center"
+            >
               <Grid className={classes.item} item xs={12} lg={3}>
                 <Paper className={classes.paper}>
                   {user && (
@@ -56,50 +60,32 @@ const UserProfile = props => {
               </Grid>
 
               <Grid item xs={12} lg={6}>
-                <Grid
-                  container
-                  p={0}
-                  direction="row"
-                  justify="center"
-                  alignItems="flex-start"
-                  className={classes.alignStart}
-                >
-                  <Grid className={classes.item} item xs={12}>
-                    <Projects />
-                  </Grid>
+                <Grid className={classes.item} item xs={12}>
+                  <Projects />
+                </Grid>
 
-                  <Grid className={classes.item} item xs={12}>
-                    <Paper className={classes.paper}>Create Post</Paper>
-                  </Grid>
+                <Grid className={classes.item} item xs={12}>
+                  <Paper className={classes.paper}>Create Post</Paper>
+                </Grid>
 
-                  <Grid className={classes.item} item xs={12}>
-                    <Paper className={classes.paper}>Post</Paper>
-                  </Grid>
+                <Grid className={classes.item} item xs={12}>
+                  <Paper className={classes.paper}>Post</Paper>
                 </Grid>
               </Grid>
 
               <Grid item xs={12} lg={3}>
-                <Grid
-                  container
-                  p={0}
-                  direction="row"
-                  justify="center"
-                  alignItems="flex-start"
-                  className={classes.alignStart}
-                >
-                  <Grid className={classes.item} item xs={12}>
-                    <Paper className={classes.paperRight}>
-                      Pending Connection Requests
-                      <ConnectionRequests user={session.userId} />
-                    </Paper>
-                  </Grid>
+                <Grid className={classes.item} item xs={12}>
+                  <Paper className={classes.paperRight}>
+                    Pending Connection Requests
+                    <ConnectionRequests user={session.userId} />
+                  </Paper>
+                </Grid>
 
-                  <Grid className={classes.item} item xs={12}>
-                    <Paper className={classes.paperRight}>
-                      People you make know
-                      <Recommendations user={session.userId} />
-                    </Paper>
-                  </Grid>
+                <Grid className={classes.item} item xs={12}>
+                  <Paper className={classes.paperRight}>
+                    People you make know
+                    <Recommendations user={session.userId} />
+                  </Paper>
                 </Grid>
               </Grid>
             </Grid>
