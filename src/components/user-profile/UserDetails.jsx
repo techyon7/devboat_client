@@ -52,7 +52,7 @@ const UserDetails = props => {
   return (
     <Grid item xs={12} lg={3}>
       <Grid className={classes.item} item xs={12} >
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} textAlign="center">
           {user && (
             <ProfilePicture
               isProfileSelf={props.isProfileSelf}
@@ -61,11 +61,11 @@ const UserDetails = props => {
             />
           )}
           {user && (
-            <Typography variant="h5" color="textPrimary">
-              <Box fontWeight="fontWeightMedium" component="span">
+            <Box mt={2}>
+              <Typography variant="h5" color="textPrimary">
                 {user.first_name} {user.last_name}
-              </Box>
-            </Typography>
+              </Typography>
+            </Box>
           )}
           {showcase && (
             <Typography variant="subtitle1">
@@ -89,12 +89,17 @@ const UserDetails = props => {
       {user &&
         <Grid className={classes.item} item xs={12}>
           <Paper className={classes.paper}>
-            <Typography variant="body1">
-                Connections ({connections ? connections.length : 0})
-            </Typography>
-            <Grid item xs={12}>
-              <UserConnectionsList connections={connections} userId={user.id} />
-            </Grid>
+            <Box display="flex" alignItems="center" mb={2}>
+              <Box mr={1}>
+                <Typography variant="body1" align="left">
+                    Connections
+                </Typography>
+              </Box>
+              <Typography variant="body2" align="left">
+                  ({connections ? connections.length : 0})
+              </Typography>
+            </Box>
+            <UserConnectionsList connections={connections} userId={user.id} />
           </Paper>
         </Grid>
       }
