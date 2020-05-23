@@ -127,7 +127,7 @@ const ProfilePicture = (props) => {
 			cropped_data: newCrop
 		};
 		await PATCH(
-			`/users/${session.username}`,
+			`/users/${session.username}/set_picture`,
 			body,
 			session.token
 		);
