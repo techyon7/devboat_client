@@ -3,6 +3,7 @@ import UserDetails from "../user-profile/UserDetails";
 import Projects from "../user-profile/Projects";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container, Paper, Typography } from "@material-ui/core";
+import CreatePost from "../user-profile/CreatePost";
 import ConnectionRequests from "../user-profile/ConnectionRequests";
 import Recommendations from "../user-profile/Recommendations";
 import NotFound from "./NotFound";
@@ -63,11 +64,7 @@ const UserProfile = props => {
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper elevation={false} className={classes.paper}>Create Post</Paper>
-                </Grid>
-
-                <Grid className={classes.item} item xs={12}>
-                  <Paper elevation={false} className={classes.paper}>Post</Paper>
+                  <CreatePost />
                 </Grid>
               </Grid>
 
