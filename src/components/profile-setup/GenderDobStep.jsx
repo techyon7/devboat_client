@@ -23,20 +23,30 @@ const GenderDobStep = props => {
   const classes = useStyles();
   const { page } = props;
   const { setState } = props;
-  const { session } = useContext(GlobalContext);
+  const { session, setSession } = useContext(GlobalContext);
   const previousPage = () => {
     setState({ page: page - 1 });
   };
   const handleSubmit = async (dob, gender) => {
     let body = {
       dob: dob,
-      gender: gender
+      gender: gender,
+      is_setup: 1
     };
-    await PATCH(
-      `/users/${session.userId}`,
-      body,
-      session.token
-    );
+    await PATCH(`/users/${session.userId}`, body, session.token);
+  };
+  const handleSkip = async () => {
+    let body = {
+      is_setup: 1
+    };
+    await PATCH(`/users/${session.userId}`, body, session.token);
+    console.log(props);
+    setSession({
+      userIsSetup: true
+    });
+    // props.history.push({
+    //   pathname: `/${session.username}`
+    // });
   };
   // JSX Markup
   return (
@@ -137,13 +147,24 @@ const GenderDobStep = props => {
             >
               <Box px={8}>Back</Box>
             </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              className={clsx(classes.margin + "btn btn-success")}
-            >
-              <Box px={8}>Done</Box>
-            </Button>
+            <div className={classes.buttonContainer}>
+              <Box mr={2}>
+                <Button
+                  variant="contained"
+                  onClick={handleSkip}
+                  className={clsx(classes.margin + "btn btn-success")}
+                >
+                  <Box px={8}>Skip</Box>
+                </Button>
+              </Box>
+              <Button
+                type="submit"
+                variant="contained"
+                className={clsx(classes.margin + "btn btn-success")}
+              >
+                <Box px={8}>Done</Box>
+              </Button>
+            </div>
           </Box>
         </form>
       )}
@@ -168,6 +189,11 @@ const useStyles = makeStyles(theme => ({
   chips: {
     display: "flex",
     flexWrap: "wrap"
+  },
+  buttonContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start"
   },
   chip: {
     margin: 2

@@ -6,12 +6,12 @@ import { DownshiftMultiple } from "./IntegrationDownshift";
 import { makeStyles } from "@material-ui/styles";
 import { Box, Typography, Button } from "@material-ui/core";
 import { GlobalContext } from "../../context/GlobalContext";
-import { POST } from "../../actions/api";
+import { POST, PATCH } from "../../actions/api";
 
 const SkillsInterestsStep = props => {
   // React hooks
   const classes = useStyles();
-  const { session } = useContext(GlobalContext);
+  const { session, setSession } = useContext(GlobalContext);
   const { onSubmit } = props;
   const skillsList = skillObjects;
 
@@ -40,6 +40,20 @@ const SkillsInterestsStep = props => {
     await skills.forEach(skill => handleSkillSubmit(skill));
     await interests.forEach(interest => handleInterestSubmit(interest));
     onSubmit();
+  };
+
+  const handleSkip = async () => {
+    let body = {
+      is_setup: 1
+    };
+    await PATCH(`/users/${session.userId}`, body, session.token);
+    console.log(props);
+    setSession({
+      userIsSetup: true
+    });
+    // props.history.push({
+    //   pathname: `/${session.username}`
+    // });
   };
 
   return (
@@ -71,15 +85,26 @@ const SkillsInterestsStep = props => {
         options={skillsList}
         onChange={res => setInterests(res)}
       />
-      <Box mt={15}>
-        <Button
-          type="submit"
-          variant="contained"
-          className={clsx(classes.margin + "btn btn-success")}
-        >
-          <Box px={8}>Next</Box>
-        </Button>
-      </Box>
+      <div className={classes.buttonContainer}>
+        <Box mt={15}>
+          <Button
+            variant="contained"
+            onClick={handleSkip}
+            className={clsx(classes.margin + "btn btn-success")}
+          >
+            <Box px={8}>Skip</Box>
+          </Button>
+        </Box>
+        <Box mt={15} ml={2}>
+          <Button
+            type="submit"
+            variant="contained"
+            className={clsx(classes.margin + "btn btn-success")}
+          >
+            <Box px={8}>Next</Box>
+          </Button>
+        </Box>
+      </div>
     </form>
   );
 };
@@ -102,5 +127,10 @@ const useStyles = makeStyles(theme => ({
   },
   boxPrimary: {
     background: "#4B7BEC"
+  },
+  buttonContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start"
   }
 }));

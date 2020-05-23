@@ -9,23 +9,25 @@ export const GlobalProvider = ({ children }) => {
     username: null,
     userFirstName: null,
     userLastName: null,
-    userImg: null
+    userImg: null,
+    userIsSetup: false
   });
 
   // Set session based on localStorage when App is mounted
   useEffect(() => {
-    const devboatSession = JSON.parse(
-      localStorage.getItem('@devboat:session')
-    );
+    const devboatSession = JSON.parse(localStorage.getItem("@devboat:session"));
     if (devboatSession) {
       setSession(devboatSession);
     }
   }, []);
 
   // Store session in localStorage when session chaneges
-  useEffect(() => {
-    localStorage.setItem('@devboat:session', JSON.stringify(session));
-  }, [session]);
+  useEffect(
+    () => {
+      localStorage.setItem("@devboat:session", JSON.stringify(session));
+    },
+    [session]
+  );
 
   return (
     <GlobalContext.Provider
