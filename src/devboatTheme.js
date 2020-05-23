@@ -6,7 +6,7 @@ const devboatTheme = createMuiTheme({
 			main: '#4B7BEC'
 		},
 		secondary: {
-			main: '#262B2F',
+			main: '#222528',
 		},
 		background: {
 			default: '#1E1E21'
