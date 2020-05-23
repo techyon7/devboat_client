@@ -49,7 +49,7 @@ export default function Comment(props) {
 	);
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	userPic: {
 		width: 24,
 		height: 24,
@@ -59,9 +59,10 @@ const useStyles = makeStyles(theme => ({
 	title: {
 		fontSize: "0.85rem",
 		cursor: 'pointer',
-		marginBottom: 4
+		marginBottom: 4,
+		lineHeight: 1
 	},
 	small: {
-		fontSize: "0.75rem"
+		fontSize: "0.85rem"
 	}
 }));

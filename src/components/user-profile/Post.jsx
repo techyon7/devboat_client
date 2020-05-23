@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -27,20 +27,22 @@ export default function Post(props) {
 	const [comments, setComments] = useState([]);
 	const [commentsCount, setCommentsCount] = useState(0);
 
-	useEffect(() => {
-		(async () => {
-			const response = await GET('/comments', session.token);
-			const result = await response.json();
-			let comments = [];
-			for (let i = 0; i < result.length; i++) {
-				if (result[i].post === props.id) {
-					comments = [...comments, result[i]];
-				}
+	const loadComments = useCallback(async () => {
+		const response = await GET('/comments', session.token);
+		const result = await response.json();
+		let comments = [];
+		for (let i = 0; i < result.length; i++) {
+			if (result[i].post === props.id) {
+				comments = [...comments, result[i]];
 			}
-			setComments(comments);
-			setCommentsCount(comments.length);
-		})();
-	}, [session.token]);
+		}
+		setComments(comments);
+		setCommentsCount(comments.length);
+  }, [session.token]);
+
+	useEffect(() => {
+    loadComments();
+  }, [loadComments]);
 
 	useEffect(() => {
 		(async () => {
@@ -75,6 +77,10 @@ export default function Post(props) {
 		await DELETE(`/upvotes/${upvoteId}`, session.token);
 		setUpvoteId(null);
 		setUpvotesCount(upvotesCount - 1);
+	}
+
+	const commentCreated = () => {
+		loadComments();
 	}
 
 	return(
@@ -118,7 +124,7 @@ export default function Post(props) {
 					</Box>
 				</Box>
 				<Box>
-					<CreateComment />
+					<CreateComment postId={props.id} commentCreated={commentCreated}/>
 					<Comments comments={comments} />
 				</Box>
 			</Paper>
