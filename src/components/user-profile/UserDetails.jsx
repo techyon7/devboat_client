@@ -61,7 +61,7 @@ const UserDetails = props => {
             />
           )}
           {user && (
-            <Box mt={2}>
+            <Box mt={2} mb={2}>
               <Typography variant="h5" color="textPrimary">
                 {user.first_name} {user.last_name}
               </Typography>
