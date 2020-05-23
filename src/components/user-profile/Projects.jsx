@@ -37,7 +37,7 @@ export default Projects;
 
 const useStyles = makeStyles(theme => ({
 	addProject: {
-		backgroundColor: theme.palette.background.default,
+		backgroundColor: theme.palette.secondary.vice,
 		borderRadius: "4px",
 		width: 70,
 		height: 70,

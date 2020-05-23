@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { skillObjects } from "../../data/skillsArray.js";
@@ -14,8 +14,8 @@ const SkillsInterestsStep = props => {
   const { onSubmit } = props;
   const skillsList = skillObjects;
 
-  const [skills, setSkills] = React.useState([]);
-  const [interests, setInterests] = React.useState([]);
+  const [skills, setSkills] = useState([]);
+  const [interests, setInterests] = useState([]);
 
   const handleSkillSubmit = async skills => {
     let body = {
@@ -112,8 +112,6 @@ SkillsInterestsStep.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired
 };
-
-// Styles
 
 const useStyles = makeStyles(theme => ({
   root: {

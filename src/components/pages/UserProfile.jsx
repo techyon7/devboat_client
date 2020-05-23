@@ -2,7 +2,8 @@ import React, { Fragment, useEffect, useState, useContext } from "react";
 import UserDetails from "../user-profile/UserDetails";
 import Projects from "../user-profile/Projects";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Container, Paper } from "@material-ui/core";
+import { Grid, Container, Paper, Typography } from "@material-ui/core";
+import CreatePost from "../user-profile/CreatePost";
 import ConnectionRequests from "../user-profile/ConnectionRequests";
 import Recommendations from "../user-profile/Recommendations";
 import NotFound from "./NotFound";
@@ -63,25 +64,25 @@ const UserProfile = props => {
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper elevation={false} className={classes.paper}>Create Post</Paper>
-                </Grid>
-
-                <Grid className={classes.item} item xs={12}>
-                  <Paper elevation={false} className={classes.paper}>Post</Paper>
+                  <CreatePost />
                 </Grid>
               </Grid>
 
               <Grid item xs={12} lg={3} className={classes.panel}>
                 <Grid className={classes.item} item xs={12}>
-                  <Paper elevation={false} className={classes.paperRight}>
-                    Pending Connection Requests
+                  <Paper elevation={false} className={classes.paperRight} color="textPrimary">
+                    <Typography variant="body1" color="textPrimary">
+                      Pending Connection Requests
+                    </Typography>
                     <ConnectionRequests user={session.userId} />
                   </Paper>
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper elevation={false} className={classes.paperRight}>
-                    People you make know
+                  <Paper elevation={false} className={classes.paperRight} color="textPrimary">
+                    <Typography variant="body1" color="textPrimary">
+                      People you may know
+                    </Typography>
                     <Recommendations user={session.userId} />
                   </Paper>
                 </Grid>
