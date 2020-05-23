@@ -31,6 +31,7 @@ const ProfilePicture = (props) => {
 
 	const [newPicLoaded, setNewPicLoaded] = useState(false);
 	const [newPic, setNewPic] = useState(null);
+	const [adjustedPic, setAdjustedPic] = useState(null);
 	const [newCrop, setNewCrop] = useState({
 		aspect: 1,
 		unit: '%',
@@ -40,8 +41,10 @@ const ProfilePicture = (props) => {
 
 	const getCroppedImg = (image, crop, fileName) => {
 		const canvas = document.createElement('canvas');
-		const scaleX = image.naturalWidth / image.width;
-		const scaleY = image.naturalHeight / image.height;
+		const imageWidth = crop.imageWidth || image.width;
+		const imageHeight = crop.imageHeight || image.height;
+		const scaleX = image.naturalWidth / imageWidth;
+		const scaleY = image.naturalHeight / imageHeight;
 		canvas.width = crop.width;
 		canvas.height = crop.height;
 		const ctx = canvas.getContext('2d');
@@ -112,7 +115,13 @@ const ProfilePicture = (props) => {
 		};
 	};
 
+	const onImageLoaded = image => {
+		setAdjustedPic(image);
+	};
+
 	const handleSave = async () => {
+		newCrop["imageWidth"] = adjustedPic.width;
+		newCrop["imageHeight"] = adjustedPic.height;
 		let body = {
 			picture: newPic,
 			cropped_data: newCrop
@@ -123,6 +132,8 @@ const ProfilePicture = (props) => {
 			session.token
 		);
 		loadPic(newPic, newCrop);
+		setNewPic(null);
+		setNewPicLoaded(false);
 		setOpen(false);
 	};
 
@@ -154,6 +165,7 @@ const ProfilePicture = (props) => {
 							src={newPic}
 							crop={newCrop}
 							keepSelection={true}
+							onImageLoaded={onImageLoaded}
 							onChange={newCrop => setNewCrop(newCrop)}/> :
           	<DropzoneArea
 							onSet={(pic) => handlePicSet(pic)}/>
@@ -191,6 +203,7 @@ const useStyles = makeStyles(() => ({
 		borderRadius: "50%"
 	},
 	reactCrop: {
+		maxWidth: "600px",
 		margin: "0 auto",
 	},
 	largeIcon: {
