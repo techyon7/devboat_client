@@ -16,7 +16,7 @@ export default function Posts(props) {
 	const classes = useStyles();
   const { session } = useContext(GlobalContext);
 
-	const [setUpvotes] = useState([]);
+	const [upvotes, setUpvotes] = useState([]);
 	const [upvotesCount, setUpvotesCount] = useState(0);
 	const [upvoteId, setUpvoteId] = useState(null);
 
