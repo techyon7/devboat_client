@@ -49,15 +49,10 @@ const UserSkillsList = (props) => {
 		<Box>
 			<Box display="flex" justifyContent="space-between">
 				<Typography variant="body1" align="left" color="textPrimary">
-					<Box fontWeight="fontWeightMedium" component="span">
-						Skills
-					</Box>
+					Skills
 				</Typography>
 				<Button className={classes.editBtn} onClick={handleClickOpen}>
-					<EditIcon className={classes.subtitleIcon}/>
-					<Box pl={1} fontSize="0.5rem">
-						Edit
-					</Box>
+					<EditIcon style={{ fontSize: 14 }}/>
 				</Button>
 				<Dialog
 					fullWidth
@@ -76,13 +71,12 @@ const UserSkillsList = (props) => {
 					</List>
 				</Dialog>
 			</Box>
-			<Divider className={classes.divider} />
 			<List disablePadding>
 				{skills.map((skill) => (
 					<ListItem className={classes.listItem} key={skill.name}>
 						<ListItemText
 							primary={
-								<Typography variant="body2" color="textPrimary">
+								<Typography variant="body2">
 									{skill.name}
 								</Typography>
 							}
@@ -118,6 +112,10 @@ const useStyles = makeStyles(() => ({
 		width: "1.5rem",
 	},
 	editBtn: {
-		padding: "0 !important",
+		padding: 0,
+		minWidth: 24,
+		width: 24,
+		height: 24,
+		borderRadius: "50%"
 	}
 }));
