@@ -8,13 +8,9 @@ import UserInterestsList from "./UserInterestsList";
 import UserWorkList from "./UserWorkList";
 import UserEducationList from "./UserEducationList";
 import { GlobalContext } from "../../context/GlobalContext";
-import { Box, Grid, Typography } from "@material-ui/core";
-// import listCollection from "../validations/dateInputSanitizer";
+import { Box, Grid, Paper, Typography } from "@material-ui/core";
 import { GET } from "../../actions/api";
 
-//const monthNames = listCollection().monthNamesCollection();
-
-// UserDetails component
 const UserDetails = props => {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
@@ -47,18 +43,16 @@ const UserDetails = props => {
   );
 
   const userDetailsBlocks = [
-    UserConnectionsList,
     UserSkillsList,
     UserInterestsList,
     UserWorkList,
     UserEducationList
   ];
 
-  // JSX Markup
   return (
-    <Box p={5}>
-      <Grid container justify="center" spacing={5}>
-        <Grid item>
+    <Grid item xs={12} lg={3}>
+      <Grid className={classes.item} item xs={12} >
+        <Paper className={classes.paper}>
           {user && (
             <ProfilePicture
               isProfileSelf={props.isProfileSelf}
@@ -66,8 +60,6 @@ const UserDetails = props => {
               crop={user.cropped_data}
             />
           )}
-        </Grid>
-        <Grid item xs={12}>
           {user && (
             <Typography variant="h4" color="textPrimary">
               <Box fontWeight="fontWeightMedium" component="span">
@@ -84,18 +76,19 @@ const UserDetails = props => {
               {showcase.currentPosition.startDate().year}
             </Typography>
           )}
-        </Grid>
-
-        {!props.isProfileSelf && user && connections && (
-          <ConnectInteraction
-            connections={connections}
-            user1={session.userId}
-            user2={user.id}
-            userFirstName={user.first_name}
-          />
-        )}
-        <Grid item xs={12} className={classes.connectionsTitle}>
-          <Box w={1} display="flex" alignItems="flex-end">
+          {!props.isProfileSelf && user && connections && (
+            <ConnectInteraction
+              connections={connections}
+              user1={session.userId}
+              user2={user.id}
+              userFirstName={user.first_name}
+            />
+          )}
+        </Paper>
+      </Grid>
+      {user &&
+        <Grid className={classes.item} item xs={12}>
+          <Paper className={classes.paper}>
             <Typography variant="h5" color="textPrimary" align="left">
               <Box fontWeight="fontWeightMedium" component="span" mr={2}>
                 Connections
@@ -106,23 +99,38 @@ const UserDetails = props => {
                 ({connections ? connections.length : 0})
               </Box>
             </Typography>
-          </Box>
-        </Grid>
-        {user &&
-          connections &&
-          userDetailsBlocks.map((Component, index) => (
-            <Grid item xs={12} key={index}>
-              <Component connections={connections} userId={user.id} />
+            <Grid item xs={12}>
+              <UserConnectionsList connections={connections} userId={user.id} />
             </Grid>
-          ))}
-      </Grid>
-    </Box>
+          </Paper>
+        </Grid>
+      }
+      {user &&
+        connections &&
+        userDetailsBlocks.map((Component, index) => (
+          <Grid className={classes.item} item xs={12} key={index}>
+            <Paper className={classes.paper}>
+              <Component connections={connections} userId={user.id} />
+            </Paper>
+          </Grid>
+        ))
+      }
+    </Grid>
   );
 };
 
 export default UserDetails;
 
 const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(3),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    backgroundColor: "#262B2F !important"
+  },
+  item: {
+    padding: "0.625rem"
+  },
   divider: {
     width: 50,
     border: "1px solid #4b7bec",

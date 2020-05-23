@@ -47,17 +47,13 @@ const UserProfile = props => {
               direction="row"
               justify="center"
             >
-              <Grid className={classes.item} item xs={12} lg={3}>
-                <Paper className={classes.paper}>
-                  {user && (
-                    <UserDetails
-                      userId={user.id}
-                      username={user.username}
-                      isProfileSelf={isProfileSelf}
-                    />
-                  )}
-                </Paper>
-              </Grid>
+              {user && (
+                <UserDetails
+                  userId={user.id}
+                  username={user.username}
+                  isProfileSelf={isProfileSelf}
+                />
+              )}
 
               <Grid item xs={12} lg={6}>
                 <Grid className={classes.item} item xs={12}>
