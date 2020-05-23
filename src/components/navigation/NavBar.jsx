@@ -18,7 +18,7 @@ import logo from '../../assets/logo192.png';
 import { GlobalContext } from '../../context/GlobalContext';
 import { POST } from '../../actions/api';
 
-const NavBar = (props) => {
+const NavBar = () => {
   const classes = useStyles();
   const { setSession } = useContext(GlobalContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -119,7 +119,7 @@ const NavBar = (props) => {
 
   return (
     <div className={classes.grow}>
-      <AppBar className={classes.appbar} position="static" color="secondary">
+      <AppBar className={classes.appbar} position="static">
 				<Container maxWidth="xl">
   				<Toolbar className={classes.toolbar}>
             <Link to="/"className={classes.logoWrapper}>
@@ -180,7 +180,8 @@ const useStyles = makeStyles(theme => ({
   },
   appbar: {
     position: 'fixed',
-    height: 60
+    height: 60,
+    backgroundColor: theme.palette.secondary.main
   },
 	toolbar: {
     height: 60,

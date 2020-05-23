@@ -7,10 +7,8 @@ import {
 	Dialog,
 	Typography,
 	Button,
-	Divider,
 	List,
 	ListItem,
-	ListItemText,
 	ListSubheader
 } from '@material-ui/core';
 import { GlobalContext } from "../../context/GlobalContext";
@@ -47,17 +45,12 @@ const UserSkillsList = (props) => {
 
 	return(
 		<Box>
-			<Box display="flex" justifyContent="space-between">
+			<Box mb={2} display="flex" justifyContent="space-between" alignItems="center">
 				<Typography variant="body1" align="left" color="textPrimary">
-					<Box fontWeight="fontWeightMedium" component="span">
-						Skills
-					</Box>
+					Skills
 				</Typography>
 				<Button className={classes.editBtn} onClick={handleClickOpen}>
-					<EditIcon className={classes.subtitleIcon}/>
-					<Box pl={1} fontSize="0.5rem">
-						Edit
-					</Box>
+					<EditIcon style={{ fontSize: 16 }}/>
 				</Button>
 				<Dialog
 					fullWidth
@@ -76,17 +69,12 @@ const UserSkillsList = (props) => {
 					</List>
 				</Dialog>
 			</Box>
-			<Divider className={classes.divider} />
 			<List disablePadding>
 				{skills.map((skill) => (
 					<ListItem className={classes.listItem} key={skill.name}>
-						<ListItemText
-							primary={
-								<Typography variant="body2" color="textPrimary">
-									{skill.name}
-								</Typography>
-							}
-						/>
+						<Typography variant="body2">
+							{skill.name}
+						</Typography>
 					</ListItem>
 				))}
 			</List>
@@ -96,28 +84,15 @@ const UserSkillsList = (props) => {
 
 export default UserSkillsList;
 
-const useStyles = makeStyles(() => ({
-	subtitle: {
-		fontSize: "0.75rem",
-		width: "1rem",
-		height: "1rem",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-	},
-	subtitleIcon: {
-		width: "0.75rem",
-		height: "0.75rem",
-	},
+const useStyles = makeStyles(theme => ({
 	listItem: {
-		paddingLeft: "0 !important",
-	},
-	divider: {
-		height: 2,
-		backgroundColor: "#4b7bec",
-		width: "1.5rem",
+		padding: theme.spacing(0.5, 0, 0.5, 0)
 	},
 	editBtn: {
-		padding: "0 !important",
+		padding: 0,
+		minWidth: 28,
+		width: 28,
+		height: 28,
+		borderRadius: "50%"
 	}
 }));

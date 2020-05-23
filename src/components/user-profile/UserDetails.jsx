@@ -8,13 +8,9 @@ import UserInterestsList from "./UserInterestsList";
 import UserWorkList from "./UserWorkList";
 import UserEducationList from "./UserEducationList";
 import { GlobalContext } from "../../context/GlobalContext";
-import { Box, Grid, Typography } from "@material-ui/core";
-// import listCollection from "../validations/dateInputSanitizer";
+import { Box, Grid, Paper, Typography } from "@material-ui/core";
 import { GET } from "../../actions/api";
 
-//const monthNames = listCollection().monthNamesCollection();
-
-// UserDetails component
 const UserDetails = props => {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
@@ -47,18 +43,16 @@ const UserDetails = props => {
   );
 
   const userDetailsBlocks = [
-    UserConnectionsList,
     UserSkillsList,
     UserInterestsList,
     UserWorkList,
     UserEducationList
   ];
 
-  // JSX Markup
   return (
-    <Box p={5}>
-      <Grid container justify="center" spacing={5}>
-        <Grid item>
+    <Grid item xs={12} lg={3} className={classes.panel}>
+      <Grid className={classes.item} item xs={12} >
+        <Paper className={classes.paper} elevation={false} textAlign="center">
           {user && (
             <ProfilePicture
               isProfileSelf={props.isProfileSelf}
@@ -66,14 +60,12 @@ const UserDetails = props => {
               crop={user.cropped_data}
             />
           )}
-        </Grid>
-        <Grid item xs={12}>
           {user && (
-            <Typography variant="h4" color="textPrimary">
-              <Box fontWeight="fontWeightMedium" component="span">
+            <Box mt={2} mb={2}>
+              <Typography variant="h5" color="textPrimary">
                 {user.first_name} {user.last_name}
-              </Box>
-            </Typography>
+              </Typography>
+            </Box>
           )}
           {showcase && (
             <Typography variant="subtitle1">
@@ -84,45 +76,62 @@ const UserDetails = props => {
               {showcase.currentPosition.startDate().year}
             </Typography>
           )}
-        </Grid>
-
-        {!props.isProfileSelf && user && connections && (
-          <ConnectInteraction
-            connections={connections}
-            user1={session.userId}
-            user2={user.id}
-            userFirstName={user.first_name}
-          />
-        )}
-        <Grid item xs={12} className={classes.connectionsTitle}>
-          <Box w={1} display="flex" alignItems="flex-end">
-            <Typography variant="h5" color="textPrimary" align="left">
-              <Box fontWeight="fontWeightMedium" component="span" mr={2}>
-                Connections
-              </Box>
-            </Typography>
-            <Typography variant="h6" align="left">
-              <Box fontWeight="fontWeightMedium" component="span">
-                ({connections ? connections.length : 0})
-              </Box>
-            </Typography>
-          </Box>
-        </Grid>
-        {user &&
-          connections &&
-          userDetailsBlocks.map((Component, index) => (
-            <Grid item xs={12} key={index}>
-              <Component connections={connections} userId={user.id} />
-            </Grid>
-          ))}
+          {!props.isProfileSelf && user && connections && (
+            <ConnectInteraction
+              connections={connections}
+              user1={session.userId}
+              user2={user.id}
+              userFirstName={user.first_name}
+            />
+          )}
+        </Paper>
       </Grid>
-    </Box>
+      {user &&
+        <Grid className={classes.item} item xs={12}>
+          <Paper elevation={false} className={classes.paper}>
+            <Box display="flex" alignItems="center" mb={2}>
+              <Box mr={1} mb={0.5}>
+                <Typography variant="body1" align="left" color="textPrimary">
+                  Connections
+                </Typography>
+              </Box>
+              <Typography variant="body2" align="left">
+                  ({connections ? connections.length : 0})
+              </Typography>
+            </Box>
+            <UserConnectionsList connections={connections} userId={user.id} />
+          </Paper>
+        </Grid>
+      }
+      {user &&
+        connections &&
+        userDetailsBlocks.map((Component, index) => (
+          <Grid className={classes.item} item xs={12} key={index}>
+            <Paper elevation={false} className={classes.paper}>
+              <Component connections={connections} userId={user.id} />
+            </Paper>
+          </Grid>
+        ))
+      }
+    </Grid>
   );
 };
 
 export default UserDetails;
 
 const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(3, 3.5, 3, 3.5),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.secondary.main
+  },
+  panel: {
+    padding: "0.625rem"
+  },
+  item: {
+    marginBottom: "0.625rem"
+  },
   divider: {
     width: 50,
     border: "1px solid #4b7bec",

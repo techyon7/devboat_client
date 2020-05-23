@@ -47,42 +47,40 @@ const UserProfile = props => {
               direction="row"
               justify="center"
             >
-              <Grid className={classes.item} item xs={12} lg={3}>
-                <Paper className={classes.paper}>
-                  {user && (
-                    <UserDetails
-                      userId={user.id}
-                      username={user.username}
-                      isProfileSelf={isProfileSelf}
-                    />
-                  )}
-                </Paper>
-              </Grid>
+              {user && (
+                <UserDetails
+                  userId={user.id}
+                  username={user.username}
+                  isProfileSelf={isProfileSelf}
+                />
+              )}
 
-              <Grid item xs={12} lg={6}>
+              <Grid item xs={12} lg={6} className={classes.panel}>
                 <Grid className={classes.item} item xs={12}>
-                  <Projects />
+                  <Paper elevation={false} className={classes.paper}>
+                    <Projects />
+                  </Paper>
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper className={classes.paper}>Create Post</Paper>
+                  <Paper elevation={false} className={classes.paper}>Create Post</Paper>
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper className={classes.paper}>Post</Paper>
+                  <Paper elevation={false} className={classes.paper}>Post</Paper>
                 </Grid>
               </Grid>
 
-              <Grid item xs={12} lg={3}>
+              <Grid item xs={12} lg={3} className={classes.panel}>
                 <Grid className={classes.item} item xs={12}>
-                  <Paper className={classes.paperRight}>
+                  <Paper elevation={false} className={classes.paperRight}>
                     Pending Connection Requests
                     <ConnectionRequests user={session.userId} />
                   </Paper>
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper className={classes.paperRight}>
+                  <Paper elevation={false} className={classes.paperRight}>
                     People you make know
                     <Recommendations user={session.userId} />
                   </Paper>
@@ -103,26 +101,24 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: 0
   },
-  leftPanel: {
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    backgroundColor: theme.palette.background.default,
-    boxShadow: "0px 2px 2px #111111"
-  },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3, 3.5, 3, 3.5),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    backgroundColor: "#262B2F !important"
+    backgroundColor: theme.palette.secondary.main
   },
   paperRight: {
-    padding: theme.spacing(2, 0, 2, 0),
+    padding: theme.spacing(3, 0, 3, 0),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    backgroundColor: "#262B2F !important"
+    backgroundColor: theme.palette.secondary.main
+  },
+  panel: {
+    padding: "0.625rem",
+    paddingLeft: 0
   },
   item: {
-    padding: "0.625rem"
+    marginBottom: "0.625rem"
   },
   alignStart: {
     alignSelf: "start"
