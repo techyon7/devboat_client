@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -9,9 +9,12 @@ import {
 	Paper
 } from '@material-ui/core';
 import ImageIcon from '@material-ui/icons/Image';
+import { GlobalContext } from "../../context/GlobalContext";
+import { POST } from "../../actions/api";
 
 export default function CreatePost() {
 	const classes = useStyles();
+  const { session } = useContext(GlobalContext);
 
 	const [content, setContent] = useState("");
 	const [isValid, setIsValid] = useState(false);
@@ -22,6 +25,17 @@ export default function CreatePost() {
 			setIsValid(true);
 		else
 			setIsValid(false);
+	}
+
+	const handlePost = async () => {
+    const body = {
+      content: content,
+      user: session.userId
+    };
+
+    await POST("/posts", body, session.token);
+		setContent("");
+		setIsValid(false);
 	}
 
 	return(
@@ -48,7 +62,8 @@ export default function CreatePost() {
 					disabled={!isValid}
 					className={clsx(classes.post, {
 						[classes.active]: isValid
-					})}>
+					})}
+					onClick={handlePost}>
 					Post
 				</Button>
 			</Box>
