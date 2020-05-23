@@ -4,11 +4,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	Box,
-	Grid,
 	Dialog,
 	Typography,
 	Button,
-	Divider,
 	List,
 	ListItem,
 	ListSubheader,

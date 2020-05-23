@@ -7,11 +7,9 @@ import {
 	Dialog,
 	Typography,
 	Button,
-	Divider,
 	List,
 	ListItem,
 	ListSubheader,
-	ListItemText,
 } from '@material-ui/core';
 import { GlobalContext } from "../../context/GlobalContext";
 import { GET } from '../../actions/api';

@@ -7,10 +7,8 @@ import {
 	Dialog,
 	Typography,
 	Button,
-	Divider,
 	List,
 	ListItem,
-	ListItemText,
 	ListSubheader
 } from '@material-ui/core';
 import { GlobalContext } from "../../context/GlobalContext";
