@@ -92,7 +92,7 @@ const UserDetails = props => {
             <Box display="flex" alignItems="center" mb={2}>
               <Box mr={1} mb={0.5}>
                 <Typography variant="body1" align="left" color="textPrimary">
-                    Connections
+                  Connections
                 </Typography>
               </Box>
               <Typography variant="body2" align="left">

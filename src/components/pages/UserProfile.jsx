@@ -57,7 +57,9 @@ const UserProfile = props => {
 
               <Grid item xs={12} lg={6} className={classes.panel}>
                 <Grid className={classes.item} item xs={12}>
-                  <Projects />
+                  <Paper elevation={false} className={classes.paper}>
+                    <Projects />
+                  </Paper>
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
@@ -100,19 +102,20 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3, 3.5, 3, 3.5),
     textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.secondary.main
   },
   paperRight: {
-    padding: theme.spacing(2, 0, 2, 0),
+    padding: theme.spacing(3, 0, 3, 0),
     textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.secondary.main
   },
   panel: {
-    padding: "0.625rem"
+    padding: "0.625rem",
+    paddingLeft: 0
   },
   item: {
     marginBottom: "0.625rem"
