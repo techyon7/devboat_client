@@ -1,6 +1,5 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment } from 'react';
 import Post from "../user-profile/Post";
-import { GlobalContext } from "../../context/GlobalContext";
 
 export default function Posts(props) {
 	return(

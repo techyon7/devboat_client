@@ -49,7 +49,7 @@ const UserProfile = props => {
           setIs404(true);
       })();
     },
-    [session.token, props.match.params.username]
+    [session.token, props.match.params.username, loadPosts]
   );
 
   return (

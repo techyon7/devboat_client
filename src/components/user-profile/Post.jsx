@@ -16,7 +16,7 @@ export default function Posts(props) {
 	const classes = useStyles();
   const { session } = useContext(GlobalContext);
 
-	const [upvotes, setUpvotes] = useState([]);
+	const [setUpvotes] = useState([]);
 	const [upvotesCount, setUpvotesCount] = useState(0);
 	const [upvoteId, setUpvoteId] = useState(null);
 
@@ -35,7 +35,7 @@ export default function Posts(props) {
 			setUpvotes(upvotes);
 			setUpvotesCount(upvotes.length);
 		})();
-	}, [props.userId, session.token]);
+	}, [session.userId, props.id, session.token, setUpvotes]);
 
 	const handleUpvote = async () => {
 		const body = {
