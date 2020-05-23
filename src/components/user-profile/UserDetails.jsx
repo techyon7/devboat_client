@@ -22,7 +22,7 @@ const UserDetails = props => {
   useEffect(
     () => {
       (async () => {
-        let response = await GET(`/users/${props.username}`, session.token);
+        let response = await GET(`/users/${props.userId}`, session.token);
         const user = await response.json();
         setUser(user);
 
@@ -39,7 +39,7 @@ const UserDetails = props => {
         setConnections(connections);
       })();
     },
-    [session.token, props.username, props.userId]
+    [session.token, props.userId]
   );
 
   const userDetailsBlocks = [

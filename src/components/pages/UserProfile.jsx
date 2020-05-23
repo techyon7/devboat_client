@@ -4,6 +4,7 @@ import Projects from "../user-profile/Projects";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container, Paper, Typography } from "@material-ui/core";
 import CreatePost from "../user-profile/CreatePost";
+import Posts from "../user-profile/Posts";
 import ConnectionRequests from "../user-profile/ConnectionRequests";
 import Recommendations from "../user-profile/Recommendations";
 import NotFound from "./NotFound";
@@ -51,7 +52,6 @@ const UserProfile = props => {
               {user && (
                 <UserDetails
                   userId={user.id}
-                  username={user.username}
                   isProfileSelf={isProfileSelf}
                 />
               )}
@@ -63,9 +63,22 @@ const UserProfile = props => {
                   </Paper>
                 </Grid>
 
-                <Grid className={classes.item} item xs={12}>
-                  <CreatePost />
-                </Grid>
+                {isProfileSelf &&
+                  <Grid className={classes.item} item xs={12}>
+                    <CreatePost />
+                  </Grid>
+                }
+
+                {user && (
+                  <Posts
+                    userId={user.id}
+                    userFirstName={user.first_name}
+                    userLastName={user.last_name}
+                    userPicture={user.picture}
+                    userCrop={user.cropped_data}
+                    isProfileSelf={isProfileSelf}
+                  />
+                )}
               </Grid>
 
               <Grid item xs={12} lg={3} className={classes.panel}>
@@ -74,7 +87,7 @@ const UserProfile = props => {
                     <Typography variant="body1" color="textPrimary">
                       Pending Connection Requests
                     </Typography>
-                    <ConnectionRequests user={session.userId} />
+                    <ConnectionRequests />
                   </Paper>
                 </Grid>
 
@@ -83,7 +96,7 @@ const UserProfile = props => {
                     <Typography variant="body1" color="textPrimary">
                       People you may know
                     </Typography>
-                    <Recommendations user={session.userId} />
+                    <Recommendations />
                   </Paper>
                 </Grid>
               </Grid>
