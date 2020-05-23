@@ -46,18 +46,10 @@ export default function ProfileSetupForm(props) {
     <div className={classes.root}>
       <Router>
         {/* Grid Layout */}
-        <Grid container spacing={0}>
-          <Grid item xs={12} lg={6} className={classes.boxPrimary}>
+        <Grid container spacing={0} className={classes.box}>
+          <Grid item xs={12} lg={6} height="100%" className={classes.primary}>
             {/* Form container */}
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              minHeight="100vh"
-              width={1}
-              px={3}
-            >
+            <Box width={1} mt={20}>
               {/* Limit Width */}
               <Container maxWidth="sm">
                 {page === 1 && (
@@ -78,14 +70,8 @@ export default function ProfileSetupForm(props) {
 
           {/* Description container (Hidden in small devices) */}
           <Hidden mdDown>
-            <Grid item xs={12} lg={6}>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                minHeight="100vh"
-              >
+            <Grid item xs={12} lg={6} height="100%">
+              <Box width={1} mt={40}>
                 <DevboatDescription />
               </Box>
             </Grid>
@@ -105,7 +91,10 @@ const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1)
   },
-  boxPrimary: {
+  box: {
+    height: "calc(100vh - 60px)"
+  },
+  primary: {
     background: "#4B7BEC"
-  }
+  },
 }));
