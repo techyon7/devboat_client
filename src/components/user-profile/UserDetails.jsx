@@ -121,7 +121,7 @@ export default UserDetails;
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(3, 3.5, 3, 3.5),
     textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: "#262B2F !important"
