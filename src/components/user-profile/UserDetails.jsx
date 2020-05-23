@@ -124,7 +124,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 3.5, 3, 3.5),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    backgroundColor: "#262B2F !important"
+    backgroundColor: theme.palette.secondary.main
   },
   panel: {
     padding: "0.625rem"

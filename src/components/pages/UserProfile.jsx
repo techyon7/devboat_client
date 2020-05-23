@@ -103,13 +103,13 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    backgroundColor: "#262B2F !important"
+    backgroundColor: theme.palette.secondary.main
   },
   paperRight: {
     padding: theme.spacing(2, 0, 2, 0),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    backgroundColor: "#262B2F !important"
+    backgroundColor: theme.palette.secondary.main
   },
   panel: {
     padding: "0.625rem"
