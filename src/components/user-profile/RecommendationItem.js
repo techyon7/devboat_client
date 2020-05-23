@@ -12,12 +12,18 @@ import UserPicture from "./UserPicture";
 import { GlobalContext } from "../../context/GlobalContext";
 import { GET, POST, DELETE } from "../../actions/api";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   iconHolder: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-around"
-  }
+  },
+	button: {
+		backgroundColor: theme.palette.secondary.vice,
+		borderRadius: "4px",
+		textTransform: "capitalize",
+		padding: 3
+	}
 }));
 
 export default function RecommendationItem(props) {
@@ -55,7 +61,7 @@ export default function RecommendationItem(props) {
   }
 
   return (
-    <ListItem button component={Link} to={user && `/${user.username}`}>
+    <ListItem component={Link} to={user && `/${user.username}`}>
       <ListItemAvatar>
         <Avatar>
           {user && (
@@ -69,11 +75,11 @@ export default function RecommendationItem(props) {
       <div class={classes.iconHolder}>
         {
           requestId ?
-          <Button size="small" variant="outlined" color="default" onClick={handleCancelRequest}>
+          <Button className={classes.button} onClick={handleCancelRequest}>
             Cancel
           </Button>
           :
-          <Button size="small" variant="outlined" color="default" onClick={handleSendRequest}>
+          <Button className={classes.button} onClick={handleSendRequest}>
             Add
           </Button>
         }
