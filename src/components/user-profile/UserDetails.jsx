@@ -61,7 +61,7 @@ const UserDetails = props => {
             />
           )}
           {user && (
-            <Typography variant="h4" color="textPrimary">
+            <Typography variant="h5" color="textPrimary">
               <Box fontWeight="fontWeightMedium" component="span">
                 {user.first_name} {user.last_name}
               </Box>
@@ -89,15 +89,8 @@ const UserDetails = props => {
       {user &&
         <Grid className={classes.item} item xs={12}>
           <Paper className={classes.paper}>
-            <Typography variant="h5" color="textPrimary" align="left">
-              <Box fontWeight="fontWeightMedium" component="span" mr={2}>
-                Connections
-              </Box>
-            </Typography>
-            <Typography variant="h6" align="left">
-              <Box fontWeight="fontWeightMedium" component="span">
-                ({connections ? connections.length : 0})
-              </Box>
+            <Typography variant="body1">
+                Connections ({connections ? connections.length : 0})
             </Typography>
             <Grid item xs={12}>
               <UserConnectionsList connections={connections} userId={user.id} />
