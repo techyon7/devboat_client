@@ -55,30 +55,30 @@ const UserProfile = props => {
                 />
               )}
 
-              <Grid item xs={12} lg={6}>
+              <Grid item xs={12} lg={6} className={classes.panel}>
                 <Grid className={classes.item} item xs={12}>
                   <Projects />
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper className={classes.paper}>Create Post</Paper>
+                  <Paper elevation={false} className={classes.paper}>Create Post</Paper>
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper className={classes.paper}>Post</Paper>
+                  <Paper elevation={false} className={classes.paper}>Post</Paper>
                 </Grid>
               </Grid>
 
-              <Grid item xs={12} lg={3}>
+              <Grid item xs={12} lg={3} className={classes.panel}>
                 <Grid className={classes.item} item xs={12}>
-                  <Paper className={classes.paperRight}>
+                  <Paper elevation={false} className={classes.paperRight}>
                     Pending Connection Requests
                     <ConnectionRequests user={session.userId} />
                   </Paper>
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper className={classes.paperRight}>
+                  <Paper elevation={false} className={classes.paperRight}>
                     People you make know
                     <Recommendations user={session.userId} />
                   </Paper>
@@ -99,12 +99,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: 0
   },
-  leftPanel: {
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    backgroundColor: theme.palette.background.default,
-    boxShadow: "0px 2px 2px #111111"
-  },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
@@ -117,8 +111,11 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     backgroundColor: "#262B2F !important"
   },
-  item: {
+  panel: {
     padding: "0.625rem"
+  },
+  item: {
+    marginBottom: "0.625rem"
   },
   alignStart: {
     alignSelf: "start"
