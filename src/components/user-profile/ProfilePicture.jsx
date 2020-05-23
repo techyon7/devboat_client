@@ -182,6 +182,7 @@ const useStyles = makeStyles(() => ({
 		width: 100,
 		padding: "0px !important",
 		position: "relative",
+		margin: "0 auto",
 		cursor: 'pointer',
 	},
 	profilePicture: {
