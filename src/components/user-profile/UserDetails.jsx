@@ -50,7 +50,7 @@ const UserDetails = props => {
   ];
 
   return (
-    <Grid item xs={12} lg={3}>
+    <Grid item xs={12} lg={3} className={classes.panel}>
       <Grid className={classes.item} item xs={12} >
         <Paper className={classes.paper} textAlign="center">
           {user && (
@@ -126,8 +126,11 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     backgroundColor: "#262B2F !important"
   },
-  item: {
+  panel: {
     padding: "0.625rem"
+  },
+  item: {
+    marginBottom: "0.625rem"
   },
   divider: {
     width: 50,
