@@ -16,39 +16,41 @@ import { SetupSchemaDob } from "../validations/validations";
 import { GlobalContext } from "../../context/GlobalContext";
 import { PATCH } from "../../actions/api";
 
-// Main [component (sort of)] function
-
 const GenderDobStep = props => {
-  // React Hooks
   const classes = useStyles();
+
+  const { session, setSession } = useContext(GlobalContext);
   const { page } = props;
   const { setState } = props;
-  const { session, setSession } = useContext(GlobalContext);
+
   const previousPage = () => {
     setState({ page: page - 1 });
   };
+
   const handleSubmit = async (dob, gender) => {
     let body = {
       dob: dob,
       gender: gender,
       is_setup: 1
     };
-    await PATCH(`/users/${session.userId}`, body, session.token);
-  };
-  const handleSkip = async () => {
-    let body = {
-      is_setup: 1
-    };
-    await PATCH(`/users/${session.userId}`, body, session.token);
-    console.log(props);
+    await PATCH(`/users/${session.username}`, body, session.token);
     setSession({
+      ...session,
       userIsSetup: true
     });
-    // props.history.push({
-    //   pathname: `/${session.username}`
-    // });
   };
-  // JSX Markup
+
+  const handleSkip = async () => {
+    let body = {
+      is_setup: 2
+    };
+    await PATCH(`/users/${session.username}`, body, session.token);
+    setSession({
+      ...session,
+      userIsSetup: true
+    });
+  };
+
   return (
     <Formik
       initialValues={{
@@ -56,22 +58,17 @@ const GenderDobStep = props => {
       }}
       validationSchema={SetupSchemaDob}
       onSubmit={values => {
-        // same shape as initial values
         handleSubmit(values.dob, values.sex);
-        props.handleRedirect();
-        console.log(values);
       }}
     >
       {props => (
         <form onSubmit={props.handleSubmit}>
           <Box mb={15} width={1}>
-            {/* Date of Birth Header Text */}
             <Box>
               <Typography variant="h4">Date of birth</Typography>
               <Typography variant="body1">When were you born?</Typography>
             </Box>
 
-            {/* Date of Birth Input Container */}
             <Box width={1} className={classes.root}>
               <TextField
                 error={props.errors.dob && props.touched.dob ? true : false}
@@ -90,7 +87,6 @@ const GenderDobStep = props => {
             </Box>
           </Box>
 
-          {/* Gender Input Container */}
           <Box display="flex" flexDirection="column">
             {/* Gender Header Text */}
             <Typography variant="h4">Gender</Typography>
@@ -98,7 +94,6 @@ const GenderDobStep = props => {
               What is your current gender identity?
             </Typography>
 
-            {/* Gender Input Options */}
             <FormControl
               component="fieldset"
               className={classes.formControl}
@@ -126,7 +121,6 @@ const GenderDobStep = props => {
                   label="Other"
                 />
               </RadioGroup>
-              {/* Additional gender information input (shows when "other" is selected) */}
               {props.values.sex === "other" ? (
                 <TextField
                   multiline
@@ -138,7 +132,6 @@ const GenderDobStep = props => {
             </FormControl>
           </Box>
 
-          {/* Buttons container */}
           <Box mt={15} width={1} display="flex" justifyContent="space-between">
             <Button
               variant="contained"

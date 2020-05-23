@@ -134,6 +134,12 @@ const ProfilePicture = (props) => {
 		loadPic(newPic, newCrop);
 		setNewPic(null);
 		setNewPicLoaded(false);
+		setNewCrop({
+			aspect: 1,
+			unit: '%',
+		  width: 100,
+		  height: 100,
+		})
 		setOpen(false);
 	};
 

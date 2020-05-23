@@ -9,7 +9,6 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { POST, PATCH } from "../../actions/api";
 
 const SkillsInterestsStep = props => {
-  // React hooks
   const classes = useStyles();
   const { session, setSession } = useContext(GlobalContext);
   const { onSubmit } = props;
@@ -44,16 +43,13 @@ const SkillsInterestsStep = props => {
 
   const handleSkip = async () => {
     let body = {
-      is_setup: 1
+      is_setup: 2
     };
-    await PATCH(`/users/${session.userId}`, body, session.token);
-    console.log(props);
+    await PATCH(`/users/${session.username}`, body, session.token);
     setSession({
-      userIsSetup: true
+      ...session,
+      userIsSetup: 2
     });
-    // props.history.push({
-    //   pathname: `/${session.username}`
-    // });
   };
 
   return (
@@ -71,13 +67,13 @@ const SkillsInterestsStep = props => {
           options={skillsList}
           onChange={res => setSkills(res)}
         />
-
-        {/* Skills */}
       </Box>
+
       <Typography variant="h4">Interests</Typography>
       <Typography variant="body1">
         What are some things that you'd like to learn?
       </Typography>
+
       <DownshiftMultiple
         placeholder="Search for interests"
         label="Interests"
@@ -85,6 +81,7 @@ const SkillsInterestsStep = props => {
         options={skillsList}
         onChange={res => setInterests(res)}
       />
+
       <div className={classes.buttonContainer}>
         <Box mt={15}>
           <Button

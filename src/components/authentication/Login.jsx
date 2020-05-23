@@ -18,7 +18,6 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { GlobalContext } from "../../context/GlobalContext";
 import { POST } from "../../actions/api";
 
-// Login Component
 export default function Login(props) {
   const classes = useStyles();
   const { setSession } = useContext(GlobalContext);
@@ -37,7 +36,6 @@ export default function Login(props) {
     const response = await POST("/auth/login", body);
     const result = await response.json();
 
-    // store token on success
     if (response.status === 200) {
       props.loggedIn(result.user.username);
       setSession({
