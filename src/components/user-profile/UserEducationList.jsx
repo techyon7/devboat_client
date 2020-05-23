@@ -48,17 +48,12 @@ const UserEducationList = (props) => {
 
 	return(
 		<Box>
-			<Box display="flex" justifyContent="space-between">
+			<Box mb={2} display="flex" justifyContent="space-between" alignItems="center">
 				<Typography variant="body1" align="left" color="textPrimary">
-					<Box fontWeight="fontWeightMedium" component="span">
-						Education
-					</Box>
+					Education
 				</Typography>
 				<Button className={classes.editBtn} onClick={handleClickOpen}>
-					<EditIcon className={classes.subtitleIcon}/>
-					<Box pl={1} fontSize="0.5rem">
-						Edit
-					</Box>
+					<EditIcon style={{ fontSize: 16 }}/>
 				</Button>
 				<Dialog
 					fullWidth
@@ -77,33 +72,19 @@ const UserEducationList = (props) => {
 					</List>
 				</Dialog>
 			</Box>
-			<Divider className={classes.divider} />
 			<List disablePadding>
 				{educations.map((education) => (
 					<ListItem className={classes.listItem} key={education.id}>
 						<ListItemText
 							primary={
-								<Typography variant="body2" color="textPrimary">
-									<Box fontWeight="fontWeightMedium" component="span">
-										{education.institution_name}
-									</Box>
+								<Typography variant="body2">
+									{education.qualification_name} at <span className={classes.highlight}>{education.institution_name}</span>
 								</Typography>
 							}
 							secondary={
-								<Box display="flex" component="span" alignItems="center" width={1} justifyContent="space-between">
-									<Grid component="span" container>
-										<Grid component="span" item xs={12}>
-											<Typography component="span" variant="subtitle1" className={classes.subtitle}>
-													{education.qualification_name}
-											</Typography>
-										</Grid>
-										<Grid component="span" item xs={12}>
-											<Typography component="span" variant="subtitle2" className={classes.small}>
-												{education.start_date} - {education.end_date ? education.end_date : "Present"}
-											</Typography>
-										</Grid>
-									</Grid>
-								</Box>
+								<Typography variant="body2" className={classes.small}>
+									{education.start_date} to {education.end_date ? education.end_date : "Present"}
+								</Typography>
 							}
 						/>
 					</ListItem>
@@ -115,29 +96,21 @@ const UserEducationList = (props) => {
 
 export default UserEducationList;
 
-const useStyles = makeStyles(() => ({
-	subtitle: {
-		fontSize: "0.75rem",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-		lineHeight: 1,
-		marginTop: 1,
-		marginBottom: 1,
-	},
-	subtitleIcon: {
-		width: "0.75rem",
-		height: "0.75rem",
+const useStyles = makeStyles(theme => ({
+	highlight: {
+		color: "rgba(255, 255, 255, 0.85)",
 	},
 	listItem: {
-		paddingLeft: "0 !important",
-	},
-	divider: {
-		height: 2,
-		backgroundColor: "#4b7bec",
-		width: "1.5rem",
+		padding: theme.spacing(0.5, 0, 0.5, 0)
 	},
 	small: {
-		fontSize: "0.75rem",
+		fontSize: "0.75rem"
 	},
+	editBtn: {
+		padding: 0,
+		minWidth: 28,
+		width: 28,
+		height: 28,
+		borderRadius: "50%"
+	}
 }));
