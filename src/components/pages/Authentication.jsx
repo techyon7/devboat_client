@@ -33,10 +33,8 @@ export default function Authentication(props) {
       ) : (
         <div className={classes.root}>
           <Router>
-            {/* Grid Layout */}
             <Grid container spacing={0}>
               <Grid item xs={12} lg={6}>
-                {/* Form container */}
                 <Box
                   display="flex"
                   flexDirection="column"
@@ -46,9 +44,7 @@ export default function Authentication(props) {
                   width={1}
                   px={3}
                 >
-                  {/* Limit Width */}
                   <Container maxWidth="sm">
-                    {/* Add margin between button ground and form */}
                     <Box mb={5}>
                       <Route
                         path="/(|login|register)"
@@ -75,7 +71,6 @@ export default function Authentication(props) {
                 </Box>
               </Grid>
 
-              {/* Description container (Hidden in small devices) */}
               <Hidden mdDown>
                 <Grid item xs={12} lg={6} className={classes.boxPrimary}>
                   <Box
