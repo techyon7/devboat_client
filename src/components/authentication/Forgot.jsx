@@ -1,9 +1,9 @@
 import React, { useState }  from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	Box,
 	Button,
+	Paper,
 	TextField,
 	Typography
 } from '@material-ui/core';
@@ -26,57 +26,62 @@ export default function Forgot(props) {
 	}
 
 	return(
-		<div className={classes.root}>
-			<Box width={1} align="center" mb={8}>
-				<Typography variant="h4" text="center">
-					Forgot password?
-				</Typography>
-				<Box mt={3}>
-					<Typography variant="subtitle1" text="center">
-						No worries.
-						Enter your email below and we'll send a verification email to help you reset your password.
+		<Paper elevation={false} className={classes.paper} color="textPrimary">
+			<div className={classes.root}>
+				<Box width={1} align="center" mb={4}>
+					<Typography variant="h5" text="center">
+						Forgot password?
 					</Typography>
-				</Box>
-			</Box>
-
-			<TextField
-				fullWidth
-				label="Email"
-				className={clsx(classes.margin, classes.textField)}
-				type="email"
-				autoComplete="current-email"
-				margin="normal"
-				onChange={e => setEmail(e.target.value)}
-			/>
-
-			<Box width={1} align="center" mt={8}>
-				{/* Reset button */}
-				<Button
-					variant="contained"
-					className={clsx(classes.margin, "btn btn-success")}
-					onClick={handleReset}>
-					<Box px={8}>
-						Reset password
+					<Box mt={3}>
+						<Typography variant="subtitle1" text="center">
+							No worries.
+							Enter your email below and we'll send a verification email to help you reset your password.
+						</Typography>
 					</Box>
-				</Button>
-			</Box>
-		</div>
+				</Box>
+
+				<TextField
+					fullWidth
+					label="Email"
+					type="email"
+					autoComplete="current-email"
+					margin="normal"
+					onChange={e => setEmail(e.target.value)}
+				/>
+
+				<Box width={1} align="center" mt={8}>
+					<Button
+						variant="contained"
+						className={classes.button}
+						onClick={handleReset}>
+						<Box px={8}>
+							Continue
+						</Box>
+					</Button>
+				</Box>
+			</div>
+		</Paper>
 	);
 }
 
-// Styles
-
 const useStyles = makeStyles(theme => ({
 	root: {
-		flexGrow: 1
+		width: "100%",
+		padding: theme.spacing(2, 10, 2, 10)
 	},
-  margin: {
+	paper: {
+		width: "60%",
+		textAlign: "center",
+		color: theme.palette.text.secondary,
+		backgroundColor: theme.palette.secondary.main,
+		margin: "0 auto"
+	},
+	button: {
     margin: theme.spacing(1),
+		textTransform: "capitalize",
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main
+    }
   },
-	textField: {
-    flexBasis: 200,
-  },
-	linkLight: {
-		color: '#fff'
-	}
 }));
