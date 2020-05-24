@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	Box,
 	Typography,
 	Hidden,
+	Paper,
 	Button
 } from '@material-ui/core';
 import { POST } from "../../actions/api";
@@ -26,16 +26,16 @@ export default function VerifyEmail(props) {
 	}, [props.history, props.match.params.verification_key]);
 
 	return(
-		<Fragment>
-			<Box width={1} align="center">
+		<Paper elevation={false} className={classes.paper} color="textPrimary">
+			<div className={classes.root}>
 				<Hidden smDown>
-					<Typography variant="h4" text="center">
+					<Typography variant="h5" text="center">
 						Email verification
 					</Typography>
 				</Hidden>
 
 				<Hidden only={['md', 'lg', 'xl']}>
-					<Typography variant="h4" text="center">
+					<Typography variant="h5" text="center">
 						Email verified!
 					</Typography>
 				</Hidden>
@@ -46,22 +46,40 @@ export default function VerifyEmail(props) {
 					</Typography>
 				</Box>
 
-				<Box width={1} align="center" mt={8}>
+				<Box width={1} align="center" mt={6}>
 					<Link to='/login'>
-						<Button variant="contained" className={clsx(classes.margin, "btn btn-success")}>
+						<Button
+							variant="contained"
+							className={classes.button}>
 							<Box px={8}>
 								Go to Login
 							</Box>
 						</Button>
 					</Link>
 				</Box>
-			</Box>
-		</Fragment>
+			</div>
+		</Paper>
 	);
 }
 
 const useStyles = makeStyles(theme => ({
-  margin: {
+	root: {
+		width: "100%",
+		padding: theme.spacing(2, 10, 2, 10)
+	},
+	paper: {
+		width: "60%",
+		textAlign: "center",
+		color: theme.palette.text.secondary,
+		backgroundColor: theme.palette.secondary.main,
+		margin: "0 auto"
+	},
+	button: {
     margin: theme.spacing(1),
-  }
+		textTransform: "capitalize",
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main
+    }
+  },
 }));
