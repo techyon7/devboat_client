@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { RegistrationSchema } from "../validations/validations";
 import { Formik } from "formik";
@@ -19,21 +18,17 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { POST } from "../../actions/api";
 
 const RegisterForm = props => {
-  // React Hooks
   const classes = useStyles();
-  // React States
+
   const [state, setState] = React.useState({
     showPassword: false,
     showPasswordConfirmation: false
   });
 
-  // // Event Handlers
-  // Change the state on toggle visibility button click to show/hide password
   const handleClickShowPassword = () => {
     setState({ ...state, showPassword: !state.showPassword });
   };
 
-  // Change the state on toggle visibility button click to show/hide password confirmation
   const handleClickShowPasswordConfirmation = () => {
     setState({
       ...state,
@@ -99,14 +94,13 @@ const RegisterForm = props => {
       render={props => (
         <form onSubmit={props.handleSubmit} className={classes.root}>
           <Box width={1} display="flex" justifyContent="space-between">
-            {/* First Name Input */}
             <TextField
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               name="firstName"
               label="First Name"
               value={props.values.firstName}
-              className={clsx(classes.margin, classes.textField, classes.root)}
+              className={classes.firstName}
               margin="normal"
               error={
                 props.errors.firstName && props.touched.firstName ? true : false
@@ -118,14 +112,12 @@ const RegisterForm = props => {
               }
             />
 
-            {/* Last Name Input */}
             <TextField
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               name="lastName"
               label="Last Name"
               value={props.values.lastName}
-              className={clsx(classes.margin, classes.textField, classes.root)}
               margin="normal"
               error={
                 props.errors.lastName && props.touched.lastName ? true : false
@@ -137,7 +129,6 @@ const RegisterForm = props => {
               }
             />
           </Box>
-          {/* Username Input */}
 
           <TextField
             fullWidth
@@ -147,7 +138,6 @@ const RegisterForm = props => {
             label="Username"
             type="username"
             value={props.values.username}
-            className={clsx(classes.margin, classes.textField)}
             margin="normal"
             error={
               props.errors.username && props.touched.username ? true : false
@@ -159,7 +149,6 @@ const RegisterForm = props => {
             }
           />
 
-          {/* Email Input */}
           <TextField
             fullWidth
             onChange={props.handleChange}
@@ -168,7 +157,6 @@ const RegisterForm = props => {
             label="Email"
             type="email"
             value={props.values.email}
-            className={clsx(classes.margin, classes.textField)}
             margin="normal"
             error={props.errors.email && props.touched.email ? true : false}
             helperText={
@@ -178,18 +166,14 @@ const RegisterForm = props => {
             }
           />
 
-          {/* Password Input */}
           <FormControl
             fullWidth
-            className={clsx(classes.margin, classes.textField)}
             error={
               props.errors.password && props.touched.password ? true : false
             }
           >
-            {/* Password Input Label */}
             <InputLabel htmlFor="password">Password</InputLabel>
 
-            {/* Password Input Field */}
             <Input
               name="password"
               type={state.showPassword ? "text" : "password"}
@@ -197,10 +181,7 @@ const RegisterForm = props => {
               onBlur={props.handleBlur}
               value={props.values.password}
               endAdornment={
-                /* Password Visibility Icon Container*/
-
                 <InputAdornment position="end">
-                  {/* Toggle Password Visibility Icon */}
                   <IconButton
                     tabIndex="0"
                     aria-label="toggle password visibility"
@@ -219,20 +200,16 @@ const RegisterForm = props => {
             </FormHelperText>
           </FormControl>
 
-          {/* Password Confirmation Input */}
           <FormControl
             fullWidth
-            className={clsx(classes.margin, classes.textField)}
             error={
               props.errors.confirmPassword && props.touched.confirmPassword
                 ? true
                 : false
             }
           >
-            {/* Password Input Label */}
             <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
 
-            {/* Password Input Field */}
             <Input
               name="confirmPassword"
               type={state.showPasswordConfirmation ? "text" : "password"}
@@ -240,10 +217,7 @@ const RegisterForm = props => {
               onBlur={props.handleBlur}
               value={props.values.confirmPassword}
               endAdornment={
-                /* Password Visibility Icon Container*/
-
                 <InputAdornment position="end">
-                  {/* Toggle Password Visibility Icon */}
                   <IconButton
                     tabIndex="0"
                     aria-label="toggle password visibility"
@@ -266,15 +240,13 @@ const RegisterForm = props => {
             </FormHelperText>
           </FormControl>
 
-          {/* Sign up button container */}
           <Box width={1} align="center" mt={8}>
-            {/* Sign up button */}
             <Button
               variant="contained"
-              className={clsx(classes.margin, "btn btn-success")}
+              className={classes.button}
               type="submit"
             >
-              <Box px={8}>Sign up</Box>
+              <Box px={8}>Register</Box>
             </Button>
           </Box>
         </form>
@@ -285,17 +257,25 @@ const RegisterForm = props => {
 
 export default RegisterForm;
 
-// Styles
-
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    width: "100%",
+    padding: theme.spacing(2, 10, 2, 10)
   },
-  margin: {
-    margin: theme.spacing(1)
+  button: {
+    margin: theme.spacing(1),
+		textTransform: "capitalize",
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main
+    }
   },
   textField: {
-    flexBasis: 200
+    margin: theme.spacing(1),
+    display: 'block'
+  },
+  firstName: {
+    marginRight: 10
   },
   linkLight: {
     color: "#fff"
