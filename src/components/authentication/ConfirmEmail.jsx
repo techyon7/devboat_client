@@ -1,10 +1,10 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import clsx from 'clsx';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	Box,
 	Typography,
 	Hidden,
+	Paper,
 	Button
 } from '@material-ui/core';
 import { POST } from "../../actions/api";
@@ -31,16 +31,16 @@ export default function ConfirmEmail(props) {
 	}
 
 	return(
-		<Fragment>
-			<Box width={1} align="center">
+		<Paper elevation={false} className={classes.paper} color="textPrimary">
+			<div className={classes.root}>
 				<Hidden smDown>
-					<Typography variant="h4" text="center">
+					<Typography variant="h5" text="center">
 						Confirm your email!
 					</Typography>
 				</Hidden>
 
 				<Hidden only={['md', 'lg', 'xl']}>
-					<Typography variant="h4" text="center">
+					<Typography variant="h5" text="center">
 						Confirm email
 					</Typography>
 				</Hidden>
@@ -51,11 +51,10 @@ export default function ConfirmEmail(props) {
 					</Typography>
 				</Box>
 
-				<Box width={1} align="center" mt={8}>
-					{/* Resend button */}
+				<Box width={1} align="center" mt={6}>
 					<Button
 						variant="contained"
-						className={clsx(classes.margin, "btn btn-success")}
+						className={classes.button}
 						onClick={handleResend}>
 						<Box px={8}>
 							Resend link
@@ -67,15 +66,29 @@ export default function ConfirmEmail(props) {
 						</Typography>
 					}
 				</Box>
-			</Box>
-		</Fragment>
+			</div>
+		</Paper>
 	);
 }
 
-// Styles
-
 const useStyles = makeStyles(theme => ({
-  margin: {
+	root: {
+		width: "100%",
+		padding: theme.spacing(2, 10, 2, 10)
+	},
+	paper: {
+		width: "60%",
+		textAlign: "center",
+		color: theme.palette.text.secondary,
+		backgroundColor: theme.palette.secondary.main,
+		margin: "0 auto"
+	},
+	button: {
     margin: theme.spacing(1),
-  }
+		textTransform: "capitalize",
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main
+    }
+  },
 }));
