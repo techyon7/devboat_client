@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Box,
@@ -10,6 +9,7 @@ import {
   InputAdornment,
   IconButton,
   Button,
+  Paper,
   Typography
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -100,113 +100,120 @@ export default function Reset(props) {
   };
 
   return (
-    <div className={classes.root}>
-      <Box width={1} align="center" mb={8}>
-        <Typography variant="h4" text="center">
-          Change Password
-        </Typography>
-        <Box mt={3}>
-          <Typography variant="subtitle1" text="center">
-            Enter a new password for your DevBoat account
+    <Paper elevation={false} className={classes.paper} color="textPrimary">
+      <div className={classes.root}>
+        <Box width={1} align="center" mb={4}>
+          <Typography variant="h5" text="center">
+            Change Password
           </Typography>
+          <Box mt={3}>
+            <Typography variant="subtitle1" text="center">
+              Enter a new password for your DevBoat account
+            </Typography>
+          </Box>
         </Box>
-      </Box>
 
-      <FormControl
-        error={!validated}
-        fullWidth
-        className={clsx(classes.margin, classes.textField)}
-      >
-        <InputLabel htmlFor="change-password">Password</InputLabel>
-        <Input
-          id="change-password"
-          type={values.showPassword ? "text" : "password"}
-          value={values.password}
-          onChange={handleChange("password")}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-              >
-                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-
-        <FormHelperText id="change-password-helper-text">
-          The password must be at least 8 characters long, contain a number,
-          asymbol, an uppercase and a lowercase letter.
-        </FormHelperText>
-      </FormControl>
-
-      <FormControl
-        error={matchPassword}
-        fullWidth
-        className={clsx(classes.margin, classes.textField)}
-      >
-        <InputLabel htmlFor="change-password-confirmation">
-          Confirm Password
-        </InputLabel>
-        <Input
-          id="change-password-confirmation"
-          error={validated}
-          type={values.showPasswordConfirmation ? "text" : "password"}
-          value={values.confirmPassword}
-          onChange={handleChange("confirmPassword")}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPasswordConfirmation}
-                onMouseDown={handleMouseDownPassword}
-              >
-                {values.showPasswordConfirmation ? (
-                  <Visibility />
-                ) : (
-                  <VisibilityOff />
-                )}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-        {matchPassword && (
-          <FormHelperText
-            id="change-password-confirmation-helper-text"
-            className={classes.error}
-          >
-            Your passwords must match!
-          </FormHelperText>
-        )}
-      </FormControl>
-
-      <Box width={1} align="center" mt={8}>
-        <Button
-          variant="contained"
-          className={clsx(classes.margin, "btn btn-success")}
-          onClick={handleResetPassword}
+        <FormControl
+          error={!validated}
+          fullWidth
         >
-          <Box px={8}>Change Password</Box>
-        </Button>
-      </Box>
-    </div>
+          <InputLabel htmlFor="change-password">Password</InputLabel>
+          <Input
+            id="change-password"
+            type={values.showPassword ? "text" : "password"}
+            value={values.password}
+            onChange={handleChange("password")}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+
+          <FormHelperText id="change-password-helper-text">
+            The password must be at least 8 characters long, contain a number,
+            asymbol, an uppercase and a lowercase letter.
+          </FormHelperText>
+        </FormControl>
+
+        <FormControl
+          error={matchPassword}
+          fullWidth
+        >
+          <InputLabel htmlFor="change-password-confirmation">
+            Confirm Password
+          </InputLabel>
+          <Input
+            id="change-password-confirmation"
+            error={validated}
+            type={values.showPasswordConfirmation ? "text" : "password"}
+            value={values.confirmPassword}
+            onChange={handleChange("confirmPassword")}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPasswordConfirmation}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {values.showPasswordConfirmation ? (
+                    <Visibility />
+                  ) : (
+                    <VisibilityOff />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+          {matchPassword && (
+            <FormHelperText
+              id="change-password-confirmation-helper-text"
+              className={classes.error}
+            >
+              Your passwords must match!
+            </FormHelperText>
+          )}
+        </FormControl>
+
+        <Box width={1} align="center" mt={8}>
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={handleResetPassword}
+          >
+            <Box px={8}>Change Password</Box>
+          </Button>
+        </Box>
+      </div>
+		</Paper>
   );
 }
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
-  },
-  margin: {
-    margin: theme.spacing(1)
-  },
-  textField: {
-    flexBasis: 200
-  },
-  linkLight: {
-    color: "#fff"
+		width: "100%",
+		padding: theme.spacing(2, 10, 2, 10)
+	},
+	paper: {
+		width: "60%",
+		textAlign: "center",
+		color: theme.palette.text.secondary,
+		backgroundColor: theme.palette.secondary.main,
+		margin: "0 auto"
+	},
+	button: {
+    margin: theme.spacing(1),
+		textTransform: "capitalize",
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main
+    }
   },
   error: {
     color: "red",
