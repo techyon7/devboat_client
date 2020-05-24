@@ -27,6 +27,8 @@ export default function Post(props) {
 	const [comments, setComments] = useState([]);
 	const [commentsCount, setCommentsCount] = useState(0);
 
+	const [isOpen, setIsOpen] = useState(false);
+
 	console.log(upvotes); // remove later
 
 	const loadComments = useCallback(async () => {
@@ -88,7 +90,7 @@ export default function Post(props) {
 	return(
 		<Grid className={classes.item} item xs={12}>
 			<Paper elevation={false} className={classes.paper}>
-				<Box pl={4} pr={4} mb={4}>
+				<Box pl={4} pr={4} mb={ isOpen ? 4 : 0 }>
 					<Box mb={4} display="flex" alignItems="center" justifyContent="left">
 						<Box className={classes.userPic}>
 							<UserPicture picture={props.userPicture} crop={props.userCrop}/>
@@ -111,24 +113,27 @@ export default function Post(props) {
 								[classes.active]: upvoteId
 							})}
 							onClick={upvoteId ? deleteUpvote : handleUpvote}>
-							<ExpandLessRoundedIcon style={{ fontSize: 20 }}/>
-							<Typography variant="body1" color="textSecondary">
+							<ExpandLessRoundedIcon style={{ fontSize: 16, transform: "scale(1.8)" }}/>
+							<Typography variant="body1" color="textPrimary" className={classes.count}>
 								{upvotesCount}
 							</Typography>
 						</Button>
 						<Button
-							className={classes.button}>
-							<ForumRoundedIcon style={{ fontSize: 18 }}/>
-							<Typography variant="body1" color="textSecondary">
+							className={classes.button}
+							onClick={() => setIsOpen(true)}>
+							<ForumRoundedIcon style={{ fontSize: 16 }}/>
+							<Typography variant="body1" color="textPrimary" className={classes.count}>
 								{commentsCount}
 							</Typography>
 						</Button>
 					</Box>
 				</Box>
-				<Box>
-					<CreateComment postId={props.id} commentCreated={commentCreated}/>
-					<Comments comments={comments} />
-				</Box>
+				{isOpen &&
+					<Box>
+						<CreateComment postId={props.id} commentCreated={commentCreated}/>
+						<Comments comments={comments} />
+					</Box>
+				}
 			</Paper>
 		</Grid>
 	);
@@ -150,8 +155,7 @@ const useStyles = makeStyles(theme => ({
 		cursor: 'pointer'
 	},
 	button: {
-		minWidth: 48,
-		width: 56,
+		minWidth: 56,
 		height: 30,
 		fontSize: 14,
 		letterSpacing: 1.1,
@@ -164,12 +168,21 @@ const useStyles = makeStyles(theme => ({
 	},
 	active: {
 		backgroundColor: theme.palette.primary.main,
-		color: theme.palette.text.primary
+		color: theme.palette.text.primary,
+		'&:hover': {
+			 backgroundColor: theme.palette.primary.main,
+		},
 	},
 	title: {
 		cursor: 'pointer'
 	},
 	small: {
 		fontSize: "0.75rem"
+	},
+	count: {
+		fontSize: "1rem"
+	},
+	upvote: {
+		transform: "scale(1.8)"
 	}
 }));
