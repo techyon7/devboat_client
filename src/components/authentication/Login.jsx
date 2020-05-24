@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import {
@@ -63,7 +62,6 @@ export default function Login(props) {
         error={displayError}
         fullWidth
         label="Email"
-        className={clsx(classes.margin, classes.textField)}
         type="email"
         autoComplete="current-email"
         margin="normal"
@@ -72,7 +70,6 @@ export default function Login(props) {
       <FormControl
         fullWidth
         error={displayError}
-        className={clsx(classes.margin, classes.textField)}
       >
         <InputLabel htmlFor="login-password">Password</InputLabel>
 
@@ -83,7 +80,6 @@ export default function Login(props) {
           onChange={e => setPassword(e.target.value)}
           endAdornment={
             <InputAdornment position="end">
-              {/* Toggle Password Visibility Icon */}
               <IconButton
                 aria-label="toggle password visibility"
                 onClick={() => setShowPassword(!showPassword)}
@@ -111,7 +107,7 @@ export default function Login(props) {
         <Button
           onClick={handleLogin}
           variant="contained"
-          className={clsx(classes.margin, "btn btn-success")}
+          className={classes.button}
         >
           <Box px={8}>Sign in</Box>
         </Button>
@@ -122,13 +118,20 @@ export default function Login(props) {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    width: "100%",
+    padding: theme.spacing(2, 10, 2, 10)
   },
-  margin: {
-    margin: theme.spacing(1)
+  button: {
+    margin: theme.spacing(1),
+		textTransform: "capitalize",
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main
+    }
   },
   textField: {
-    flexBasis: 200
+    margin: theme.spacing(1),
+    display: 'block'
   },
   linkLight: {
     color: "#fff"
