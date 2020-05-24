@@ -1,9 +1,9 @@
 import React, { useState }  from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	Box,
 	Button,
+	Paper,
 	Typography
 } from '@material-ui/core';
 import { POST } from "../../actions/api";
@@ -23,54 +23,60 @@ export default function ForgotSent(props) {
 	}
 
 	return(
-		<div className={classes.root}>
-			<Box width={1} align="center" mb={8}>
-				<Typography variant="h4" text="center">
-					Reset Password Instructions Sent
-				</Typography>
-				{props.location.state.email &&
-					<Box mt={3}>
-						<Typography variant="body1" text="center">
-							Reset password link has been sent to {props.location.state.email}. Please check your mail box for instructions to reset your password.
-						</Typography>
-					</Box>
-				}
-			</Box>
-
-			<Box width={1} align="center" mt={8}>
-				{/* Reset button */}
-				<Button
-					variant="contained"
-					className={clsx(classes.margin, "btn btn-success")}
-					onClick={handleResend}>
-					<Box px={8}>
-						Resend Link
-					</Box>
-				</Button>
-
-				{isResent &&
-					<Typography variant="subtitle1" text="center">
-						Link has been resent.
+		<Paper elevation={false} className={classes.paper} color="textPrimary">
+			<div className={classes.root}>
+				<Box width={1} align="center" mb={4}>
+					<Typography variant="h5" text="center">
+						Reset Password Instructions Sent
 					</Typography>
-				}
-			</Box>
-		</div>
+					{props.location.state.email &&
+						<Box mt={3}>
+							<Typography variant="body1" text="center">
+								Reset password link has been sent to {props.location.state.email}. Please check your mail box for instructions to reset your password.
+							</Typography>
+						</Box>
+					}
+				</Box>
+
+				<Box width={1} align="center" mt={6}>
+					<Button
+						variant="contained"
+						className={classes.button}
+						onClick={handleResend}>
+						<Box px={8}>
+							Resend Link
+						</Box>
+					</Button>
+
+					{isResent &&
+						<Typography variant="subtitle1" text="center">
+							Link has been resent.
+						</Typography>
+					}
+				</Box>
+			</div>
+		</Paper>
 	);
 }
 
-// Styles
-
 const useStyles = makeStyles(theme => ({
 	root: {
-		flexGrow: 1
+		width: "100%",
+		padding: theme.spacing(2, 10, 2, 10)
 	},
-  margin: {
+	paper: {
+		width: "60%",
+		textAlign: "center",
+		color: theme.palette.text.secondary,
+		backgroundColor: theme.palette.secondary.main,
+		margin: "0 auto"
+	},
+	button: {
     margin: theme.spacing(1),
+		textTransform: "capitalize",
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main
+    }
   },
-	textField: {
-    flexBasis: 200,
-  },
-	linkLight: {
-		color: '#fff'
-	}
 }));
