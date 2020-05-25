@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import clsx from "clsx";
 import { Formik } from "formik";
+import { EducationSettingsSchema } from "../validations/validations";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   TextField,
@@ -22,7 +23,7 @@ const EducationSettings = () => {
   const classes = useStyles();
   const { session } = useContext(GlobalContext);
 
-	const [educations, setEducations] = useState([]);
+  const [educations, setEducations] = useState([]);
   const [state, setState] = useState({
     institution_name: "",
     qualification_name: "",
@@ -33,21 +34,27 @@ const EducationSettings = () => {
   const [showEducation, setShowEducation] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
-  const loadEducations = useCallback(async () => {
-    const response = await GET('/education', session.token);
-    const result = await response.json();
-    let educations = [];
-    for (let i = 0; i < result.length; i++) {
-      if (result[i].user === session.userId) {
-        educations = [...educations, result[i]];
+  const loadEducations = useCallback(
+    async () => {
+      const response = await GET("/education", session.token);
+      const result = await response.json();
+      let educations = [];
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].user === session.userId) {
+          educations = [...educations, result[i]];
+        }
       }
-    }
-    setEducations(educations);
-  }, [session.userId, session.token]);
+      setEducations(educations);
+    },
+    [session.userId, session.token]
+  );
 
-  useEffect(() => {
-    loadEducations();
-  }, [loadEducations]);
+  useEffect(
+    () => {
+      loadEducations();
+    },
+    [loadEducations]
+  );
 
   const handleAddEducation = () => {
     setShowEducation(true);
@@ -60,7 +67,7 @@ const EducationSettings = () => {
     });
   };
 
-  const handleEditEducation = (edu) => {
+  const handleEditEducation = edu => {
     setEditingId(edu.id);
     setShowEducation(true);
     setState({
@@ -68,7 +75,7 @@ const EducationSettings = () => {
       qualification_name: edu.qualification_name,
       start_date: edu.start_date,
       end_date: edu.end_date,
-      currently_studying: edu.currently_studying,
+      currently_studying: edu.currently_studying
     });
   };
 
@@ -76,7 +83,7 @@ const EducationSettings = () => {
     setState({ ...state, [name]: event.target.checked });
   };
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async data => {
     let body = {
       institution_name: data.institution_name,
       qualification_name: data.qualification_name,
@@ -86,10 +93,8 @@ const EducationSettings = () => {
       user: session.userId
     };
 
-    if(editingId)
-      await PATCH(`/education/${editingId}`, body, session.token);
-    else
-      await POST("/education", body, session.token);
+    if (editingId) await PATCH(`/education/${editingId}`, body, session.token);
+    else await POST("/education", body, session.token);
 
     setEditingId(null);
     setShowEducation(false);
@@ -108,6 +113,7 @@ const EducationSettings = () => {
               end_date: state.end_date,
               currently_studying: state.currently_studying
             }}
+            validationSchema={EducationSettingsSchema}
             onSubmit={values => handleSubmit(values)}
             render={props => (
               <form
@@ -121,6 +127,18 @@ const EducationSettings = () => {
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.institution_name}
+                  error={
+                    props.errors.institution_name &&
+                    props.touched.institution_name
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    props.errors.institution_name &&
+                    props.touched.institution_name
+                      ? props.errors.institution_name
+                      : null
+                  }
                 />
                 <TextField
                   placeholder="Qualification"
@@ -129,10 +147,24 @@ const EducationSettings = () => {
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.qualification_name}
+                  error={
+                    props.errors.qualification_name &&
+                    props.touched.qualification_name
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    props.errors.qualification_name &&
+                    props.touched.qualification_name
+                      ? props.errors.qualification_name
+                      : null
+                  }
                 />
                 <TextField
                   error={
-                    props.errors.start && props.touched.start ? true : false
+                    props.errors.start_date && props.touched.start_date
+                      ? true
+                      : false
                   }
                   name="start_date"
                   label="Start Date"
@@ -142,8 +174,8 @@ const EducationSettings = () => {
                   value={props.values.start_date}
                   onChange={props.handleChange}
                   helperText={
-                    props.errors.start && props.touched.start
-                      ? props.errors.start
+                    props.errors.start_date && props.touched.start_date
+                      ? props.errors.start_date
                       : null
                   }
                   InputLabelProps={{
@@ -203,10 +235,7 @@ const EducationSettings = () => {
           className={classes.addEducation}
           onClick={handleAddEducation}
         >
-          <ListItemText
-            id="switch-list-label"
-            primary="Add a qualification"
-          />
+          <ListItemText id="switch-list-label" primary="Add a qualification" />
           <ListItemSecondaryAction className={classes.addEducation}>
             <IconButton
               className={classes.addEducation}
@@ -217,7 +246,7 @@ const EducationSettings = () => {
           </ListItemSecondaryAction>
         </ListItem>
       )}
-      {educations.map((education) => (
+      {educations.map(education => (
         <ListItem>
           <ListItemText
             id="switch-list-label"

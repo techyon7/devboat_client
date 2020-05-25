@@ -70,8 +70,18 @@ export const WorkSettingsSchema = Yup.object().shape({
   start_date: Yup.date()
     .typeError("Start date must be in date format")
     .required("Starting date is required"),
-  role: Yup.string().required("You must define a role"),
+  role: Yup.string().required("You must define a position"),
   company_name: Yup.string().required("Please enter the name of company")
+});
+
+export const EducationSettingsSchema = Yup.object().shape({
+  start_date: Yup.date()
+    .typeError("Start date must be in date format")
+    .required("Starting date is required"),
+  qualification_name: Yup.string().required("You must define a qualification"),
+  institution_name: Yup.string().required(
+    "Please enter the name of the Institution"
+  )
 });
 // .test('isOver-18', 'Please enter a valid date', function(value) {
 //   if(!value) return true
