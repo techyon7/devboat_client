@@ -11,7 +11,8 @@ import {
   Input,
   InputAdornment,
   IconButton,
-  Button
+  Button,
+  Typography
 } from "@material-ui/core";
 
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -24,7 +25,10 @@ const RegisterForm = props => {
     showPassword: false,
     showPasswordConfirmation: false
   });
-
+  const [errorValues, setErrorValues] = React.useState({
+    showError: false,
+    errorValue: null
+  });
   const handleClickShowPassword = () => {
     setState({ ...state, showPassword: !state.showPassword });
   };
@@ -58,7 +62,12 @@ const RegisterForm = props => {
     };
 
     const response = await POST("/users", body);
-
+    if (response.status == 400) {
+      setErrorValues({
+        showError: true,
+        errorValue: response.text
+      });
+    }
     return response;
   };
   return (
@@ -74,7 +83,7 @@ const RegisterForm = props => {
         gender: ""
       }}
       validationSchema={RegistrationSchema}
-      onSubmit={async (values) => {
+      onSubmit={async values => {
         let response = await handleSubmit(
           values.username,
           values.email,
@@ -239,7 +248,13 @@ const RegisterForm = props => {
                 : null}
             </FormHelperText>
           </FormControl>
-
+          <Box width={1} align="center" mt={5} mb={8}>
+            {errorValues.showError && (
+              <Typography className={classes.error}>
+                This username or user email is already in use
+              </Typography>
+            )}
+          </Box>
           <Box width={1} align="center" mt={8}>
             <Button
               variant="contained"
@@ -264,15 +279,19 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     margin: theme.spacing(1),
-		textTransform: "capitalize",
+    textTransform: "capitalize",
     backgroundColor: theme.palette.primary.main,
     "&:hover": {
       backgroundColor: theme.palette.primary.main
     }
   },
+  error: {
+    color: "red",
+    fontSize: 12
+  },
   textField: {
     margin: theme.spacing(1),
-    display: 'block'
+    display: "block"
   },
   firstName: {
     marginRight: 10
