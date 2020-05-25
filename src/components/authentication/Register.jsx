@@ -62,7 +62,7 @@ const RegisterForm = props => {
     };
 
     const response = await POST("/users", body);
-    if (response.status == 400) {
+    if (response.status === 400) {
       setErrorValues({
         showError: true,
         errorValue: response.text

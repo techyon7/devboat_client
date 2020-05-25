@@ -36,16 +36,9 @@ export const RegistrationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Please enter the same password again")
-  //)
 });
 
 export const SetupSchemaDob = Yup.object().shape({
-  // dobYear: Yup.number()
-  // .required('Year of birth is required'),
-  // dobMonth: Yup.string()
-  // .required('Month of birth is required'),
-  // dobDay: Yup.number()
-  // .required('Day of birth is required'),
   dob: Yup.date()
     .min(
       new Date(
@@ -83,32 +76,6 @@ export const EducationSettingsSchema = Yup.object().shape({
     "Please enter the name of the Institution"
   )
 });
-// .test('isOver-18', 'Please enter a valid date', function(value) {
-//   if(!value) return true
-//   let isValid = false;
-//   const { dobYear, dobMonth, dobDay } = value;
-//   const dob = Date.parse(dobMonth + dobDay.toString() + ", " + dobYear.toString());
-//   if (dob instanceof Date && !isNaN(dob)) {
-//     const myFailureMessage = 'You must be over 18';
-//     const currentDate = new Date();
-//     const minAgeYear = currentDate.getFullYear() - 18;
-//     const minAgeDate = new Date(minAgeYear);
-//     isValid = dob <= minAgeDate;
-//     return isValid || this.createError({
-//           // Formik will use the error "path" as the key in the errors; set this to whatever you want
-//           path: 'dob',
-//           message: myFailureMessage
-//       })
-//   } else {
-//     const myFailureMessage = 'Please enter a valid date'
-//     return this.createError({
-//           // Formik will use the error "path" as the key in the errors; set this to whatever you want
-//           path: 'dob.all',
-//           message: myFailureMessage
-//       })
-//   }
-//
-// });
 
 export const SetupSchemaSkills = Yup.object().shape({
   interests: Yup.mixed().required("You must choose at least one interest")
