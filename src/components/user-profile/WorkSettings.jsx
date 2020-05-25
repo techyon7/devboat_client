@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import clsx from "clsx";
 import { Formik } from "formik";
+import { WorkSettingsSchema } from "../validations/validations";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   TextField,
@@ -11,10 +12,7 @@ import {
   FormControlLabel,
   Checkbox
 } from "@material-ui/core";
-import {
-  Box,
-  Button
-} from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import { POST, GET, PATCH } from "../../actions/api";
@@ -35,21 +33,27 @@ const WorkSettings = () => {
   const [showWork, setShowWork] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
-  const loadWorks = useCallback(async () => {
-    const response = await GET('/job', session.token);
-    const result = await response.json();
-    let works = [];
-    for (let i = 0; i < result.length; i++) {
-      if (result[i].user === session.userId) {
-        works = [...works, result[i]];
+  const loadWorks = useCallback(
+    async () => {
+      const response = await GET("/job", session.token);
+      const result = await response.json();
+      let works = [];
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].user === session.userId) {
+          works = [...works, result[i]];
+        }
       }
-    }
-    setWorks(works);
-  }, [session.userId, session.token]);
+      setWorks(works);
+    },
+    [session.userId, session.token]
+  );
 
-  useEffect(() => {
-    loadWorks();
-  }, [loadWorks]);
+  useEffect(
+    () => {
+      loadWorks();
+    },
+    [loadWorks]
+  );
 
   const handleAddWork = () => {
     setShowWork(true);
@@ -62,7 +66,7 @@ const WorkSettings = () => {
     });
   };
 
-  const handleEditWork = (work) => {
+  const handleEditWork = work => {
     setEditingId(work.id);
     setShowWork(true);
     setState({
@@ -70,7 +74,7 @@ const WorkSettings = () => {
       qualification_name: work.qualification_name,
       start_date: work.start_date,
       end_date: work.end_date,
-      currently_studying: work.currently_studying,
+      currently_studying: work.currently_studying
     });
   };
 
@@ -78,7 +82,7 @@ const WorkSettings = () => {
     setState({ ...state, [name]: event.target.checked });
   };
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async data => {
     let body = {
       company_name: data.company_name,
       role: data.role,
@@ -88,10 +92,8 @@ const WorkSettings = () => {
       user: session.userId
     };
 
-    if(editingId)
-      await PATCH(`/job/${editingId}`, body, session.token);
-    else
-      await POST("/job", body, session.token);
+    if (editingId) await PATCH(`/job/${editingId}`, body, session.token);
+    else await POST("/job", body, session.token);
 
     setEditingId(null);
     setShowWork(false);
@@ -110,6 +112,7 @@ const WorkSettings = () => {
               end_date: state.end_date,
               currently_working: state.currently_working
             }}
+            validationSchema={WorkSettingsSchema}
             onSubmit={values => handleSubmit(values)}
             render={props => (
               <form onSubmit={props.handleSubmit} className={classes.workForm}>
@@ -120,6 +123,12 @@ const WorkSettings = () => {
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.role}
+                  error={props.errors.role && props.touched.role ? true : false}
+                  helperText={
+                    props.errors.role && props.touched.role
+                      ? props.errors.role
+                      : null
+                  }
                 />
                 <TextField
                   placeholder="Company"
@@ -128,10 +137,22 @@ const WorkSettings = () => {
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.company_name}
+                  error={
+                    props.errors.company_name && props.touched.company_name
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    props.errors.company_name && props.touched.company_name
+                      ? props.errors.company_name
+                      : null
+                  }
                 />
                 <TextField
                   error={
-                    props.errors.start && props.touched.start ? true : false
+                    props.errors.start_date && props.touched.start_date
+                      ? true
+                      : false
                   }
                   name="start_date"
                   label="Start Date"
@@ -141,8 +162,8 @@ const WorkSettings = () => {
                   value={props.values.start_date}
                   onChange={props.handleChange}
                   helperText={
-                    props.errors.start && props.touched.start
-                      ? props.errors.start
+                    props.errors.start_date && props.touched.start_date
+                      ? props.errors.start_date
                       : null
                   }
                   InputLabelProps={{
@@ -151,7 +172,13 @@ const WorkSettings = () => {
                 />
                 {!state.currently_working && (
                   <TextField
-                    error={props.errors.end && props.touched.end ? true : false}
+                    error={
+                      props.errors.end_date &&
+                      props.touched.end_date &&
+                      !state.currently_working
+                        ? true
+                        : false
+                    }
                     name="end_date"
                     label="End Date"
                     type="date"
@@ -160,8 +187,10 @@ const WorkSettings = () => {
                     value={props.values.end_date}
                     onChange={props.handleChange}
                     helperText={
-                      props.errors.end && props.touched.end
-                        ? props.errors.end
+                      props.errors.end_date &&
+                      props.touched.end_date &&
+                      !state.currently_working
+                        ? props.errors.end_date
                         : null
                     }
                     InputLabelProps={{
@@ -215,7 +244,7 @@ const WorkSettings = () => {
           </ListItemSecondaryAction>
         </ListItem>
       )}
-      {works.map((work) => (
+      {works.map(work => (
         <ListItem>
           <ListItemText
             id="switch-list-label"

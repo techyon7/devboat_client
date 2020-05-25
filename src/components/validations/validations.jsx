@@ -65,6 +65,14 @@ export const SetupSchemaDob = Yup.object().shape({
     )
     .required("Please enter your date of birth")
 });
+
+export const WorkSettingsSchema = Yup.object().shape({
+  start_date: Yup.date()
+    .typeError("Start date must be in date format")
+    .required("Starting date is required"),
+  role: Yup.string().required("You must define a role"),
+  company_name: Yup.string().required("Please enter the name of company")
+});
 // .test('isOver-18', 'Please enter a valid date', function(value) {
 //   if(!value) return true
 //   let isValid = false;
