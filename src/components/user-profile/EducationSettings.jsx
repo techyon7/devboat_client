@@ -16,8 +16,9 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import { POST, GET, PATCH } from "../../actions/api";
+import { POST, GET, PATCH, DELETE } from "../../actions/api";
 import { GlobalContext } from "../../context/GlobalContext";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const EducationSettings = () => {
   const classes = useStyles();
@@ -65,6 +66,11 @@ const EducationSettings = () => {
       end_date: null,
       currently_studying: true
     });
+  };
+
+  const handleDeleteEducation = async edu => {
+    await DELETE(`/education/${edu.id}`, session.token);
+    loadEducations();
   };
 
   const handleEditEducation = edu => {
@@ -254,6 +260,9 @@ const EducationSettings = () => {
             secondary={education.qualification_name}
           />
           <ListItemSecondaryAction>
+            <IconButton onClick={() => handleDeleteEducation(education)}>
+              <DeleteIcon />
+            </IconButton>
             <IconButton onClick={() => handleEditEducation(education)}>
               <EditIcon />
             </IconButton>
