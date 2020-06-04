@@ -84,10 +84,6 @@ const WorkSettings = () => {
     });
   };
 
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
-
   const handleSubmit = async data => {
     let body = {
       company_name: data.company_name,
@@ -176,7 +172,7 @@ const WorkSettings = () => {
                     shrink: true
                   }}
                 />
-                {!state.currently_working && (
+              {!props.data.currently_working && (
                   <TextField
                     error={
                       props.errors.end_date &&
@@ -208,8 +204,9 @@ const WorkSettings = () => {
                   control={
                     <Checkbox
                       checked={state.currently_working}
-                      onChange={handleChange("currently_working")}
+                      onChange={props.handleChange}
                       value="currently_working"
+                      name="currently_working"
                       color="primary"
                     />
                   }
