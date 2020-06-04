@@ -85,11 +85,8 @@ const EducationSettings = () => {
     });
   };
 
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
-
   const handleSubmit = async data => {
+    console.log(state);
     let body = {
       institution_name: data.institution_name,
       qualification_name: data.qualification_name,
@@ -188,7 +185,7 @@ const EducationSettings = () => {
                     shrink: true
                   }}
                 />
-                {!state.currently_studying && (
+                {!props.values.currently_studying && (
                   <TextField
                     error={props.errors.end && props.touched.end ? true : false}
                     name="end_date"
@@ -211,9 +208,10 @@ const EducationSettings = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={state.currently_studying}
-                      onChange={handleChange("currently_studying")}
+                      checked={props.values.currently_studying}
+                      onChange={props.handleChange}
                       value="currently_studying"
+                      name="currently_studying"
                       color="primary"
                     />
                   }
