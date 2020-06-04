@@ -15,8 +15,9 @@ import {
 import { Box, Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import { POST, GET, PATCH } from "../../actions/api";
+import { POST, GET, PATCH, DELETE } from "../../actions/api";
 import { GlobalContext } from "../../context/GlobalContext";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const WorkSettings = () => {
   const classes = useStyles();
@@ -64,6 +65,11 @@ const WorkSettings = () => {
       end_date: null,
       currently_working: true
     });
+  };
+
+  const handleDeleteWork = async job => {
+    await DELETE(`/job/${job.id}`, session.token);
+    loadWorks();
   };
 
   const handleEditWork = work => {
@@ -252,6 +258,9 @@ const WorkSettings = () => {
             secondary={work.company_name}
           />
           <ListItemSecondaryAction>
+            <IconButton onClick={() => handleDeleteWork(work)}>
+              <DeleteIcon />
+            </IconButton>
             <IconButton onClick={() => handleEditWork(work)}>
               <EditIcon />
             </IconButton>
