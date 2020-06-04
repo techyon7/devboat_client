@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from "react";
+import React, {
+  Fragment,
+  useEffect,
+  useState,
+  useContext,
+  useCallback
+} from "react";
 import UserDetails from "../user-profile/UserDetails";
 import Projects from "../user-profile/Projects";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,18 +26,21 @@ const UserProfile = props => {
   const isProfileSelf = session.username === props.match.params.username;
   const [posts, setPosts] = useState([]);
 
-  const loadPosts = useCallback(async (user) => {
-    const response = await GET('/posts', session.token);
-    const result = await response.json();
-    let posts = [];
-    for (let i = 0; i < result.length; i++) {
-      if (result[i].user === user.id) {
-        posts = [...posts, result[i]];
+  const loadPosts = useCallback(
+    async user => {
+      const response = await GET("/posts", session.token);
+      const result = await response.json();
+      let posts = [];
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].user === user.id) {
+          posts = [...posts, result[i]];
+        }
       }
-    }
-    posts.sort((a, b) => new Date(b.created_on) - new Date(a.created_on));
-    setPosts(posts);
-  }, [session.token]);
+      posts.sort((a, b) => new Date(b.created_on) - new Date(a.created_on));
+      setPosts(posts);
+    },
+    [session.token]
+  );
 
   useEffect(
     () => {
@@ -40,13 +49,11 @@ const UserProfile = props => {
           `/users/${props.match.params.username}`,
           session.token
         );
-        if(response.status === 200) {
+        if (response.status === 200) {
           const result = await response.json();
           setUser(result);
           loadPosts(result);
-        }
-        else if(response.status === 404)
-          setIs404(true);
+        } else if (response.status === 404) setIs404(true);
       })();
     },
     [session.token, props.match.params.username, loadPosts]
@@ -59,16 +66,9 @@ const UserProfile = props => {
       ) : (
         <div className={classes.root}>
           <Container disableGutters maxWidth="xl">
-            <Grid
-              container
-              direction="row"
-              justify="center"
-            >
+            <Grid container direction="row" justify="center">
               {user && (
-                <UserDetails
-                  userId={user.id}
-                  isProfileSelf={isProfileSelf}
-                />
+                <UserDetails userId={user.id} isProfileSelf={isProfileSelf} />
               )}
 
               <Grid item xs={12} lg={6} className={classes.panel}>
@@ -78,11 +78,11 @@ const UserProfile = props => {
                   </Paper>
                 </Grid>
 
-                {isProfileSelf &&
+                {isProfileSelf && (
                   <Grid className={classes.item} item xs={12}>
-                    <CreatePost handleCreated={() => loadPosts(user)}/>
+                    <CreatePost handleCreated={() => loadPosts(user)} />
                   </Grid>
-                }
+                )}
 
                 {user && (
                   <Posts
@@ -93,13 +93,18 @@ const UserProfile = props => {
                     userPicture={user.picture}
                     userCrop={user.cropped_data}
                     isProfileSelf={isProfileSelf}
+                    loadPosts={() => loadPosts(user)}
                   />
                 )}
               </Grid>
 
               <Grid item xs={12} lg={3} className={classes.panel}>
                 <Grid className={classes.item} item xs={12}>
-                  <Paper elevation={false} className={classes.paperRight} color="textPrimary">
+                  <Paper
+                    elevation={false}
+                    className={classes.paperRight}
+                    color="textPrimary"
+                  >
                     <Typography variant="body1" color="textPrimary">
                       Pending Connection Requests
                     </Typography>
@@ -108,7 +113,11 @@ const UserProfile = props => {
                 </Grid>
 
                 <Grid className={classes.item} item xs={12}>
-                  <Paper elevation={false} className={classes.paperRight} color="textPrimary">
+                  <Paper
+                    elevation={false}
+                    className={classes.paperRight}
+                    color="textPrimary"
+                  >
                     <Typography variant="body1" color="textPrimary">
                       People you may know
                     </Typography>
