@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect, useContext } from "react";
-import { Box, List } from "@material-ui/core";
+import { Box, List, Typography } from "@material-ui/core";
 import { GlobalContext } from "../../context/GlobalContext";
 import RecommendationItem from "./RecommendationItem";
 import { GET } from "../../actions/api";
@@ -10,7 +10,10 @@ export default function Recommendations() {
 
   const loadRecommendations = useCallback(
     async () => {
-      const response = await GET(`/users/${session.username}/recommendations`, session.token);
+      const response = await GET(
+        `/users/${session.username}/recommendations`,
+        session.token
+      );
       const recommendations = await response.json();
 
       setRecommendations(recommendations);
@@ -18,9 +21,12 @@ export default function Recommendations() {
     [session.username, session.token]
   );
 
-  useEffect(() => {
+  useEffect(
+    () => {
       loadRecommendations();
-  }, [loadRecommendations]);
+    },
+    [loadRecommendations]
+  );
 
   const handleChange = () => {
     loadRecommendations();
@@ -28,7 +34,7 @@ export default function Recommendations() {
 
   return (
     <Box>
-      {recommendations.length > 0 &&
+      {recommendations.length > 0 && (
         <List>
           {recommendations.map(item => (
             <RecommendationItem
@@ -38,7 +44,20 @@ export default function Recommendations() {
             />
           ))}
         </List>
-      }
+      )}
+      {recommendations.length <= 0 && (
+        <List>
+          <Typography
+            style={{
+              fontSize: 14,
+              margin: 10
+            }}
+          >
+            {" "}
+            Nothing to show here
+          </Typography>
+        </List>
+      )}
     </Box>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect, useContext } from "react";
-import { Box, List } from "@material-ui/core";
+import { Box, List, Typography } from "@material-ui/core";
 import { GlobalContext } from "../../context/GlobalContext";
 import ConnectionRequestItem from "./ConnectionRequestItem";
 import { GET } from "../../actions/api";
@@ -24,9 +24,12 @@ export default function ConnectionRequests() {
     [session.userId, session.token]
   );
 
-  useEffect(() => {
+  useEffect(
+    () => {
       loadRequests();
-  }, [loadRequests]);
+    },
+    [loadRequests]
+  );
 
   const handleChange = () => {
     loadRequests();
@@ -34,7 +37,7 @@ export default function ConnectionRequests() {
 
   return (
     <Box>
-      {requests.length > 0 &&
+      {requests.length > 0 && (
         <List>
           {requests.map(item => (
             <ConnectionRequestItem
@@ -44,7 +47,20 @@ export default function ConnectionRequests() {
             />
           ))}
         </List>
-      }
+      )}
+      {requests.length <= 0 && (
+        <List>
+          <Typography
+            style={{
+              fontSize: 14,
+              margin: 10
+            }}
+          >
+            {" "}
+            Nothing to show here
+          </Typography>
+        </List>
+      )}
     </Box>
   );
 }
