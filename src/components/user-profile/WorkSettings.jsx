@@ -172,7 +172,7 @@ const WorkSettings = () => {
                     shrink: true
                   }}
                 />
-              {!props.data.currently_working && (
+                {!props.values.currently_working && (
                   <TextField
                     error={
                       props.errors.end_date &&
