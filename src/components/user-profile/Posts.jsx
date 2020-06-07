@@ -26,7 +26,8 @@ export default function Posts(props) {
               style={{
                 textAlign: "center",
                 margin: 10,
-                fontSize: 14
+                fontSize: 14,
+                color: "#bab8b8"
               }}
             >
               No posts to show

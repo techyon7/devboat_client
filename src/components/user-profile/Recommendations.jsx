@@ -50,7 +50,8 @@ export default function Recommendations() {
           <Typography
             style={{
               fontSize: 14,
-              margin: 10
+              margin: 10,
+              color: "#bab8b8"
             }}
           >
             {" "}

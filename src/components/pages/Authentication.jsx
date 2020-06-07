@@ -105,13 +105,34 @@ export default function Authentication(props) {
               </Grid>
             </Grid>
           </Router>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            align="center"
+            style={{
+              position: "relative",
+              bottom: 10,
+              textAlign: "center"
+            }}
+          >
+            {"Copyright © "}
+            <Link
+              color="inherit"
+              href="https://devboat-beta.herokuapp.com/"
+              target="_blank"
+            >
+              <span className={classes.name}>DevBoat</span>
+            </Link>{" "}
+            {new Date().getFullYear()}
+            {"."}
+          </Typography>
         </div>
       )}
     </Fragment>
   );
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
@@ -128,5 +149,8 @@ const useStyles = makeStyles({
     height: 55,
     width: 55,
     marginRight: 10
+  },
+  name: {
+    color: theme.palette.primary.main
   }
-});
+}));
