@@ -51,7 +51,7 @@ const UserDetails = props => {
 
   return (
     <Grid item xs={12} lg={3} className={classes.panel}>
-      <Grid className={classes.item} item xs={12} >
+      <Grid className={classes.item} item xs={12}>
         <Paper className={classes.paper} elevation={false} textAlign="center">
           {user && (
             <ProfilePicture
@@ -86,7 +86,7 @@ const UserDetails = props => {
           )}
         </Paper>
       </Grid>
-      {user &&
+      {user && (
         <Grid className={classes.item} item xs={12}>
           <Paper elevation={false} className={classes.paper}>
             <Box display="flex" alignItems="center" mb={2}>
@@ -96,23 +96,26 @@ const UserDetails = props => {
                 </Typography>
               </Box>
               <Typography variant="body2" align="left">
-                  ({connections ? connections.length : 0})
+                ({connections ? connections.length : 0})
               </Typography>
             </Box>
             <UserConnectionsList connections={connections} userId={user.id} />
           </Paper>
         </Grid>
-      }
+      )}
       {user &&
         connections &&
         userDetailsBlocks.map((Component, index) => (
           <Grid className={classes.item} item xs={12} key={index}>
             <Paper elevation={false} className={classes.paper}>
-              <Component connections={connections} userId={user.id} />
+              <Component
+                connections={connections}
+                userId={user.id}
+                isProfileSelf={props.isProfileSelf}
+              />
             </Paper>
           </Grid>
-        ))
-      }
+        ))}
     </Grid>
   );
 };
