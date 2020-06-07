@@ -101,12 +101,12 @@ const UserSkillsList = props => {
                 style={{
                   textAlign: "center",
                   margin: 10,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: "#bab8b8",
                   wordBreak: "break-word"
                 }}
               >
-                Let others know what all technologies you are skilled in
+                Add your skills here
               </Typography>
             </Paper>
           </Grid>
@@ -118,7 +118,7 @@ const UserSkillsList = props => {
                 style={{
                   textAlign: "center",
                   margin: 10,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: "#bab8b8",
                   wordBreak: "break-word"
                 }}

@@ -60,9 +60,11 @@ const UserEducationList = props => {
         <Typography variant="body1" align="left" color="textPrimary">
           Education
         </Typography>
-        <Button className={classes.editBtn} onClick={handleClickOpen}>
-          <EditIcon style={{ fontSize: 16 }} />
-        </Button>
+        {props.isProfileSelf && (
+          <Button className={classes.editBtn} onClick={handleClickOpen}>
+            <EditIcon style={{ fontSize: 16 }} />
+          </Button>
+        )}
         <Dialog
           fullWidth
           maxWidth="xs"
@@ -115,7 +117,7 @@ const UserEducationList = props => {
                 style={{
                   textAlign: "center",
                   margin: 10,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: "#bab8b8",
                   wordBreak: "break-word"
                 }}
@@ -132,12 +134,12 @@ const UserEducationList = props => {
                 style={{
                   textAlign: "center",
                   margin: 10,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: "#bab8b8",
                   wordBreak: "break-word"
                 }}
               >
-                No eaducational activities to show
+                No educational activities to show
               </Typography>
             </Paper>
           </Grid>

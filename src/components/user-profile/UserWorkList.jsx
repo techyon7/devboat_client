@@ -115,13 +115,12 @@ const UserWorkList = props => {
                 style={{
                   textAlign: "center",
                   margin: 10,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: "#bab8b8",
                   wordBreak: "break-word"
                 }}
               >
-                Add your work experience here and let others know how much
-                experienced you are
+                Add your work experience here
               </Typography>
             </Paper>
           </Grid>
@@ -133,7 +132,7 @@ const UserWorkList = props => {
                 style={{
                   textAlign: "center",
                   margin: 10,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: "#bab8b8",
                   wordBreak: "break-word"
                 }}

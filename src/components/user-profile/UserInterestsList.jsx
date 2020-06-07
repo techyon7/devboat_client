@@ -59,9 +59,11 @@ const UserInterestsList = props => {
         <Typography variant="body1" align="left" color="textPrimary">
           Interests
         </Typography>
-        <Button className={classes.editBtn} onClick={handleClickOpen}>
-          <EditIcon style={{ fontSize: 16 }} />
-        </Button>
+        {props.isProfileSelf && (
+          <Button className={classes.editBtn} onClick={handleClickOpen}>
+            <EditIcon style={{ fontSize: 16 }} />
+          </Button>
+        )}
         <Dialog
           fullWidth
           maxWidth="xs"
@@ -99,12 +101,12 @@ const UserInterestsList = props => {
                 style={{
                   textAlign: "center",
                   margin: 10,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: "#bab8b8",
                   wordBreak: "break-word"
                 }}
               >
-                Let others know what technologies you are interested in
+                Add your interests here
               </Typography>
             </Paper>
           </Grid>
@@ -116,7 +118,7 @@ const UserInterestsList = props => {
                 style={{
                   textAlign: "center",
                   margin: 10,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: "#bab8b8",
                   wordBreak: "break-word"
                 }}
