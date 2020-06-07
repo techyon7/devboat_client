@@ -154,7 +154,10 @@ const useStyles = makeStyles(theme => ({
   },
   panel: {
     padding: "0.625rem",
-    paddingLeft: 0
+    paddingLeft: 0,
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 12
+    }
   },
   item: {
     marginBottom: "0.625rem"
