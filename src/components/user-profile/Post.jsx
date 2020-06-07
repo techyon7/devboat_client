@@ -172,7 +172,14 @@ export default function Post(props) {
               </Menu>
             </Box>
           </Box>
-          <Typography textAlign="left" variant="body1" color="textSecondary">
+          <Typography
+            textAlign="left"
+            variant="body1"
+            color="textSecondary"
+            style={{
+              wordBreak: "break-word"
+            }}
+          >
             {props.content}
           </Typography>
           <Box mt={4} display="flex" alignItems="center" justifyContent="left">
