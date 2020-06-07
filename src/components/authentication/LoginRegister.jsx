@@ -49,11 +49,19 @@ export default function DevboatDescription(props) {
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    width: "60%",
+    [theme.breakpoints.down("sm")]: {
+      width: "80%"
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "60%"
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "60%"
+    },
     textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.secondary.main,
-    margin: "0 auto"
+    margin: "0"
   },
   buttonWrap: {
     width: "50%",
