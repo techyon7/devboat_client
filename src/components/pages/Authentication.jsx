@@ -9,8 +9,10 @@ import ForgotSent from "../authentication/ForgotSent";
 import Reset from "../authentication/Reset";
 import ResetDone from "../authentication/ResetDone";
 import { makeStyles } from "@material-ui/styles";
-import { Grid, Box, Hidden } from "@material-ui/core";
+import { Grid, Box, Hidden, Typography } from "@material-ui/core";
 import { GlobalContext } from "../../context/GlobalContext";
+import { Link } from "react-router-dom";
+import logo from "../../assets/logo192.png";
 
 export default function Authentication(props) {
   const classes = useStyles();
@@ -49,6 +51,32 @@ export default function Authentication(props) {
                 </Grid>
               </Hidden>
               <Grid item xs={12} lg={6}>
+                <Hidden mdUp>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    mt={20}
+                    mb={10}
+                    width="100%"
+                  >
+                    <Link to="/">
+                      <img className={classes.logo} alt="logo" src={logo} />
+                    </Link>
+                    <Typography variant="h3">DevBoat</Typography>
+                  </Box>
+                  <Box
+                    style={{
+                      textAlign: "center",
+                      margin: 10
+                    }}
+                  >
+                    <Typography variant="body1">
+                      A social network for developers
+                    </Typography>
+                  </Box>
+                </Hidden>
                 <Box
                   display="flex"
                   flexDirection="column"
@@ -89,5 +117,16 @@ const useStyles = makeStyles({
   },
   boxPrimary: {
     background: "#4B7BEC"
+  },
+  flex: {
+    margin: 20,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around"
+  },
+  logo: {
+    height: 55,
+    width: 55,
+    marginRight: 10
   }
 });
