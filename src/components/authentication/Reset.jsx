@@ -27,7 +27,7 @@ export default function Reset(props) {
     showPasswordConfirmation: false
   });
   const [matchPassword, setMatchPassword] = useState(false);
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(null);
 
   useEffect(
     () => {
@@ -113,10 +113,7 @@ export default function Reset(props) {
           </Box>
         </Box>
 
-        <FormControl
-          error={!validated}
-          fullWidth
-        >
+        <FormControl error={!validated} fullWidth>
           <InputLabel htmlFor="change-password">Password</InputLabel>
           <Input
             id="change-password"
@@ -142,10 +139,7 @@ export default function Reset(props) {
           </FormHelperText>
         </FormControl>
 
-        <FormControl
-          error={matchPassword}
-          fullWidth
-        >
+        <FormControl error={matchPassword} fullWidth>
           <InputLabel htmlFor="change-password-confirmation">
             Confirm Password
           </InputLabel>
@@ -191,25 +185,25 @@ export default function Reset(props) {
           </Button>
         </Box>
       </div>
-		</Paper>
+    </Paper>
   );
 }
 
 const useStyles = makeStyles(theme => ({
   root: {
-		width: "100%",
-		padding: theme.spacing(2, 10, 2, 10)
-	},
-	paper: {
-		width: "60%",
-		textAlign: "center",
-		color: theme.palette.text.secondary,
-		backgroundColor: theme.palette.secondary.main,
-		margin: "0 auto"
-	},
-	button: {
+    width: "100%",
+    padding: theme.spacing(2, 10, 2, 10)
+  },
+  paper: {
+    width: "60%",
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.secondary.main,
+    margin: "0 auto"
+  },
+  button: {
     margin: theme.spacing(1),
-		textTransform: "capitalize",
+    textTransform: "capitalize",
     backgroundColor: theme.palette.primary.main,
     "&:hover": {
       backgroundColor: theme.palette.primary.main
