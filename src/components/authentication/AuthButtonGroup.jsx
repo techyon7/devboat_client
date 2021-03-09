@@ -12,21 +12,21 @@ export default function AuthButtonGroup() {
 
   // State
   const [state, setState] = React.useState({
-    loginActive: useSelector(state => state.loginActive),
-    registerActive: useSelector(state => state.registerActive)
+    loginActive: useSelector((state) => state.loginActive),
+    registerActive: useSelector((state) => state.registerActive),
   });
 
   // Event handlers
   const handleClickSignIn = () => {
     setState({
       loginActive: true,
-      registerActive: false
+      registerActive: false,
     });
   };
   const handleClickSignUp = () => {
     setState({
       registerActive: true,
-      loginActive: false
+      loginActive: false,
     });
   };
 
@@ -34,18 +34,19 @@ export default function AuthButtonGroup() {
     if (window.location.pathname === ("/login" || "/")) {
       setState({
         loginActive: true,
-        registerActive: false
+        registerActive: false,
       });
     } else if (window.location.pathname === "/register") {
       setState({
         registerActive: true,
-        loginActive: false
+        loginActive: false,
       });
     }
   }, []);
 
   return (
     <Box width={1} display="flex" justifyContent="stretch">
+      <div id="my_container" class="fatsecret_container"></div>
       <Link
         to="/login"
         className={
@@ -78,7 +79,7 @@ const useStyles = makeStyles({
     borderRadius: 0,
     backgroundColor: "#fff",
     color: "#1E1E21",
-    flexGrow: 1
+    flexGrow: 1,
   },
   btnLightOutline: {
     padding: "0.5rem 1rem",
@@ -87,6 +88,6 @@ const useStyles = makeStyles({
     color: "#fff",
     borderWidth: 2,
     borderStyle: "solid",
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 });
